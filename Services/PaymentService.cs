@@ -1,0 +1,169 @@
+﻿using BOs.Models;
+using DAOs;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Repos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace Services
+{
+    public class PaymentService : IPaymentService
+    {
+        private readonly IOrderService _orderService;
+        private readonly IOrderDetailService _orderDetailService;
+        private readonly IPaymentRepo _paymentRepo;
+        private readonly IPaymentHistoryService _paymentHistoryService;
+        private readonly string _checksumKey;
+        private Timer _timer;
+        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly ILogger<PaymentService> _logger;
+
+        public PaymentService(
+            IOrderService orderService,
+            IOrderDetailService orderDetailService,
+            IPaymentRepo paymentRepo,
+            IConfiguration configuration,
+            IPaymentHistoryService paymentHistoryService,
+            IServiceScopeFactory scopeFactory,
+            ILogger<PaymentService> logger)
+        {
+            _orderService = orderService;
+            _orderDetailService = orderDetailService;
+            _paymentRepo = paymentRepo;
+            _paymentHistoryService = paymentHistoryService;
+            _checksumKey = configuration["Environment:PAYOS_CHECKSUM_KEY"];
+            _scopeFactory = scopeFactory;
+            _logger = logger;
+        }
+
+        public async Task<bool> HandlePaymentWebhookAsync(PayOSWebhookRequest request)
+        {
+            try
+            {
+                long orderCode = request.data.orderCode;
+                _logger.LogInformation($"🔄 Processing payment webhook for OrderCode {orderCode}");
+
+                var order = await _orderService.GetOrderByOrderCodeAsync(orderCode);
+                if (order == null)
+                {
+                    _logger.LogError($"❌ Order with OrderCode {orderCode} not found.");
+                    return false;
+                }
+
+                var payment = await _paymentRepo.GetPaymentByOrderIdAsync(order.OrderID);
+                if (payment == null)
+                {
+                    payment = new Payment
+                    {
+                        OrderID = order.OrderID,
+                        Amount = request.data.amount,
+                        PaymentDate = DateTime.UtcNow,
+                        PaymentMethod = "PayOS",
+                        Status = request.data.code == "00" ? "Completed" : "Failed"
+                    };
+
+                    await _paymentRepo.UpdatePaymentAsync(payment);
+                    _logger.LogInformation($"✅ New payment record created for Order {order.OrderID}");
+                }
+                else
+                {
+                    if (payment.Status == "Completed" && request.data.code == "00")
+                    {
+                        _logger.LogWarning($"⚠️ Payment for Order {order.OrderID} is already completed. Skipping update.");
+                        return true;
+                    }
+
+                    payment.Status = request.data.code == "00" ? "Completed" : "Failed";
+                    await _paymentRepo.UpdatePaymentAsync(payment);
+                    _logger.LogInformation($"✅ Payment record updated for Order {order.OrderID}");
+                }
+
+                await _paymentHistoryService.AddPaymentHistoryAsync(payment);
+                _logger.LogInformation($"📜 Payment history recorded for Payment {payment.PaymentID}");
+
+                order.Status = request.data.code == "00" ? "Completed" : "Failed";
+                _logger.LogInformation($"✅ Order {order.OrderID} status updated to '{order.Status}'");
+
+                await _orderService.UpdateOrderAsync(order);
+
+                if (order.Status == "Completed")
+                {
+                    using var scope = _scopeFactory.CreateScope();
+
+                    var orderDetailService = scope.ServiceProvider.GetRequiredService<IOrderDetailService>();
+                    var orderDetails = await orderDetailService.GetOrderDetailsByOrderIdAsync(order.OrderID);
+                    var firstDetail = orderDetails.FirstOrDefault();
+                    if (firstDetail != null && firstDetail.Package != null)
+                    {
+                        int packageDuration = firstDetail.Package.Duration;
+
+                        var schoolChannelDao = scope.ServiceProvider.GetRequiredService<SchoolChannelDAO>();
+                        var schoolChannel = await schoolChannelDao.GetByIdAsync(order.AccountID);
+                        if (schoolChannel != null)
+                        {
+                            schoolChannel.TotalDuration = (schoolChannel.TotalDuration ?? 0) + packageDuration;
+                            await schoolChannelDao.UpdateAsync(schoolChannel);
+                            _logger.LogInformation($"🕒 Updated SchoolChannel {schoolChannel.SchoolChannelID} TotalDuration to {schoolChannel.TotalDuration}");
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"❌ Error processing payment webhook: {ex.Message}");
+                return false;
+            }
+        }
+
+        public bool VerifySignature(PayOSWebhookRequest request)
+        {
+            try
+            {
+                _logger.LogInformation($"🔍 Verifying Signature for Order {request.data.orderCode}...");
+
+                var sortedData = new SortedDictionary<string, string>();
+                var dataProperties = request.data.GetType().GetProperties();
+                foreach (var prop in dataProperties)
+                {
+                    var value = prop.GetValue(request.data, null)?.ToString() ?? "";
+                    if (value.StartsWith("[") || value.StartsWith("{"))
+                    {
+                        value = JsonSerializer.Serialize(value);
+                    }
+                    sortedData[prop.Name] = value;
+                }
+
+                string dataString = string.Join("&", sortedData.Select(kv => $"{kv.Key}={kv.Value}"));
+                _logger.LogInformation($"📝 Data String for Signature: {dataString}");
+
+                using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(_checksumKey.Trim()));
+                byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(dataString));
+                string computedSignature = BitConverter.ToString(hash).Replace("-", "").ToLower();
+
+                string receivedSignature = request.signature?.Trim().ToLower();
+                bool isValid = computedSignature == receivedSignature;
+
+                _logger.LogInformation($"🔐 Computed Signature: {computedSignature}");
+                _logger.LogInformation($"📩 Received Signature: {receivedSignature}");
+                _logger.LogInformation($"✅ Signature Match: {isValid}");
+
+                return isValid;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"❌ Signature Verification Error: {ex.Message}");
+                return false;
+            }
+        }
+    }
+}
