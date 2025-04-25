@@ -53,6 +53,7 @@ namespace BLL.Services.LiveStream.Implements
                 var adService = scope.ServiceProvider.GetRequiredService<IAdScheduleService>();
                 var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
                 var videoRepo = scope.ServiceProvider.GetRequiredService<IVideoHistoryRepo>();
+                var liveStreamService = scope.ServiceProvider.GetRequiredService<ILiveStreamService>();
 
                 try
                 {
@@ -366,6 +367,9 @@ namespace BLL.Services.LiveStream.Implements
                         _logger.LogInformation("[Expire] Uploaded video {VideoID} marked as inactive.", video.VideoHistoryID);
                     }
                     await repository.SaveChangesAsync();
+
+/*                    await MonitorAndStopExpiredLivestreamsAsync(liveStreamService, packageService, accountPackageService);
+                    await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);*/
                 }
                 catch (Exception ex)
                 {
@@ -415,6 +419,44 @@ namespace BLL.Services.LiveStream.Implements
                     }
 
                     _logger.LogInformation("[Auto-End] Schedule {ScheduleID} marked as EndedEarly (no stream detected).", schedule.ScheduleID);
+                }
+            }
+        }
+
+        private async Task MonitorAndStopExpiredLivestreamsAsync(
+            ILiveStreamService liveStreamService, 
+            IPackageService packageService,
+            IAccountPackageService accountPackageService
+        )
+        {
+            var activeStreams = await liveStreamService.GetActiveLiveStreamsAsync();
+
+            foreach (var stream in activeStreams)
+            {
+                if (stream.ProgramID == null || stream.StreamAt == null || string.IsNullOrEmpty(stream.CloudflareStreamId))
+                    continue;
+
+                var accountPackage = await packageService.GetCurrentPackageAndDurationByProgramIdAsync(stream.ProgramID.Value);
+                if (accountPackage == null || accountPackage.RemainingHours <= 0)
+                    continue;
+
+                var streamStart = stream.StreamAt.Value;
+                var allowedEnd = streamStart.AddHours(accountPackage.RemainingHours);
+                var now = DateTime.UtcNow;
+
+                if (now >= allowedEnd)
+                {
+                    _logger.LogWarning($"Stream {stream.VideoHistoryID} exceeded package. Stopping...");
+
+                    await liveStreamService.EndLiveStreamAsync(stream);
+                    await liveStreamService.EndStreamAndReturnLinksAsync(stream);
+
+                    stream.Duration = (allowedEnd - streamStart).TotalHours;
+
+                    accountPackage.HoursUsed += stream.Duration.Value;
+                    accountPackage.RemainingHours = 0;
+
+                    await accountPackageService.UpdateAccountPackageAsync(accountPackage);
                 }
             }
         }

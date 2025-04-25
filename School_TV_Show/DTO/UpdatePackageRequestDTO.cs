@@ -18,6 +18,9 @@ namespace School_TV_Show.DTO
         [Required(ErrorMessage = "Duration is required.")]
         public int Duration { get; set; }
 
+        [Required(ErrorMessage = "TimeDuration is required.")]
+        public int TimeDuration { get; set; }
+
         [Required(ErrorMessage = "Status is required.")]
         public bool Status { get; set; }
     }

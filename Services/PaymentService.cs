@@ -20,25 +20,32 @@ namespace Services
         private readonly IOrderService _orderService;
         private readonly IOrderDetailService _orderDetailService;
         private readonly IPaymentRepo _paymentRepo;
+        private readonly IAccountPackageRepo _accountPackageRepo;
         private readonly IPaymentHistoryService _paymentHistoryService;
+        private readonly IPackageService _packageService;
         private readonly string _checksumKey;
         private Timer _timer;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<PaymentService> _logger;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public PaymentService(
             IOrderService orderService,
             IOrderDetailService orderDetailService,
             IPaymentRepo paymentRepo,
+            IAccountPackageRepo accountPackageRepo,
             IConfiguration configuration,
             IPaymentHistoryService paymentHistoryService,
+            IPackageService packageService,
             IServiceScopeFactory scopeFactory,
             ILogger<PaymentService> logger)
         {
             _orderService = orderService;
             _orderDetailService = orderDetailService;
             _paymentRepo = paymentRepo;
+            _accountPackageRepo = accountPackageRepo;
             _paymentHistoryService = paymentHistoryService;
+            _packageService = packageService;
             _checksumKey = configuration["Environment:PAYOS_CHECKSUM_KEY"];
             _scopeFactory = scopeFactory;
             _logger = logger;
@@ -70,7 +77,27 @@ namespace Services
                         Status = request.data.code == "00" ? "Completed" : "Failed"
                     };
 
-                    await _paymentRepo.UpdatePaymentAsync(payment);
+                    var paymentUpdated = await _paymentRepo.UpdatePaymentAsync(payment);
+
+                    if (paymentUpdated != null && paymentUpdated.Status == "Completed")
+                    {
+                        var package = await _packageService.GetCurrentPackageAndDurationByAccountIdAsync(order.AccountID);
+
+                        if(package.HasValue && package.Value.Item1 != null)
+                        {
+                            await _accountPackageRepo.CreateAccountPackageAsync(new AccountPackage
+                            {
+                                AccountPackageID = 0,
+                                AccountID = order.AccountID,
+                                PackageID = package.Value.Item1.PackageID,
+                                TotalHoursAllowed = package.Value.Item1.Duration,
+                                HoursUsed = 0,
+                                RemainingHours = package.Value.Item1.Duration,
+                                StartDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                                ExpiredAt = null
+                            });
+                        }
+                    }
                     _logger.LogInformation($"✅ New payment record created for Order {order.OrderID}");
                 }
                 else
