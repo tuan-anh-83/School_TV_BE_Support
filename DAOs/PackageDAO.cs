@@ -75,6 +75,7 @@ namespace DAOs
             existingPackage.Description = package.Description;
             existingPackage.Price = package.Price;
             existingPackage.Duration = package.Duration;
+            existingPackage.TimeDuration = package.TimeDuration;
             existingPackage.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
             return true;
@@ -117,7 +118,7 @@ namespace DAOs
             return rankedPackages.Cast<object>().ToList();
         }
 
-        public async Task<(Package?, int?)?> GetCurrentPackageAndDurationByAccountIdAsync(int accountId)
+        public async Task<(Package?, double?)?> GetCurrentPackageAndDurationByAccountIdAsync(int accountId)
         {
             Console.WriteLine($"[DEBUG] Start fetching current package for AccountID: {accountId}");
 
@@ -153,18 +154,41 @@ namespace DAOs
 
             Console.WriteLine($"[DEBUG] Package loaded: Name = {packageDetail.Package.Name}, Duration = {packageDetail.Package.Duration}");
 
-            var schoolChannel = await _context.SchoolChannels
-                .FirstOrDefaultAsync(sc => sc.AccountID == accountId);
+            var accountPackage = await _context.AccountPackages
+                .FirstOrDefaultAsync(ap => ap.AccountID == accountId);
 
-            if (schoolChannel == null)
+            if (accountPackage == null)
             {
-                Console.WriteLine("[DEBUG] No SchoolChannel found for account.");
+                Console.WriteLine("[DEBUG] No account package found for account.");
                 return null;
             }
 
-            Console.WriteLine($"[DEBUG] SchoolChannel found: TotalDuration = {schoolChannel.TotalDuration}");
+            Console.WriteLine($"[DEBUG] AccountPackage found: RemainingHours = {accountPackage.RemainingHours}");
 
-            return (packageDetail.Package, schoolChannel.TotalDuration);
+            return (packageDetail.Package, accountPackage.RemainingHours);
+        }
+
+        public async Task<AccountPackage?> GetCurrentPackageAndDurationByProgramIdAsync(int programId)
+        {
+            Console.WriteLine($"[DEBUG] Start fetching current package for ProgramID: {programId}");
+
+            var schoolChannel = await _context.Programs
+                .Include(p => p.SchoolChannel)
+                .Where(p => p.ProgramID == programId)
+                .Select(p => p.SchoolChannel)
+                .FirstOrDefaultAsync();
+
+            if(schoolChannel == null)
+            {
+                Console.WriteLine("[DEBUG] No school channel found for program.");
+                return null;
+            }
+
+            var accountPackage = await _context.AccountPackages
+                .Where(ap => ap.AccountID == schoolChannel.AccountID)
+                .FirstOrDefaultAsync();
+
+            return accountPackage;
         }
     }
 }

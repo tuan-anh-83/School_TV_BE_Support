@@ -81,6 +81,7 @@ namespace School_TV_Show.Controllers
                 Description = request.Description,
                 Price = request.Price,
                 Duration = request.Duration,
+                TimeDuration = request.TimeDuration,
                 Status = "Active",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
@@ -114,6 +115,7 @@ namespace School_TV_Show.Controllers
                 existingPackage.Description = request.Description;
                 existingPackage.Price = request.Price;
                 existingPackage.Duration = request.Duration;
+                existingPackage.TimeDuration = request.TimeDuration;
                 existingPackage.UpdatedAt = DateTime.UtcNow;
 
                 bool isUpdated = await _packageService.UpdatePackageAsync(existingPackage);
@@ -162,6 +164,7 @@ namespace School_TV_Show.Controllers
                     Description = p.Description,
                     Price = p.Price,
                     Duration = p.Duration,
+                    TimeDuration = p.TimeDuration,
                     Status = p.Status,
                     CreatedAt = p.CreatedAt,
                     UpdatedAt = p.UpdatedAt
@@ -213,6 +216,7 @@ namespace School_TV_Show.Controllers
                     PackageID = package.PackageID,
                     PackageName = package.Name,
                     Duration = package.Duration,
+                    TimeDuration = package.TimeDuration,
                     Price = package.Price,
                     RemainingDuration = remainingDuration
                 };

@@ -5,6 +5,8 @@ using BOs.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using School_TV_Show.DTO;
+using System.Text.Json;
+using System.Collections.Concurrent;
 
 namespace School_TV_Show.Controllers
 {
@@ -14,15 +16,23 @@ namespace School_TV_Show.Controllers
     {
         private readonly ILiveStreamService _liveStreamService;
         private readonly IVideoHistoryService _videoHistoryService;
+        private readonly IPackageService _packageService;
+        private readonly IAccountPackageService _accountPackageService;
         private readonly ILogger<LiveStreamController> _logger;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+        private static readonly ConcurrentDictionary<string, SemaphoreSlim> _webhookLocks = new();
 
         public LiveStreamController(
             ILiveStreamService liveStreamService,
             IVideoHistoryService videoHistoryService,
+            IPackageService packageService,
+            IAccountPackageService accountPackageService,
             ILogger<LiveStreamController> logger)
         {
             _liveStreamService = liveStreamService;
             _videoHistoryService = videoHistoryService;
+            _packageService = packageService;
+            _accountPackageService = accountPackageService;
             _logger = logger;
         }
 
@@ -199,6 +209,104 @@ namespace School_TV_Show.Controllers
 
             var result = await _liveStreamService.AddShareAsync(share);
             return result ? Ok(new { message = "Share recorded successfully." }) : StatusCode(500, "Failed to record share.");
+        }
+
+        [HttpPost("webhook")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ReceiveCloudflareWebhook([FromBody] JsonElement payload)
+        {
+
+            try
+            {
+                string jsonPayload = JsonSerializer.Serialize(payload);
+                _logger.LogInformation($"Received Cloudflare webhook: {jsonPayload}");
+
+                // Extract necessary fields from the payload
+                if (payload.TryGetProperty("liveInput", out JsonElement liveInputElement))
+                {
+                    string? liveInputId = liveInputElement.GetString();
+                    _logger.LogInformation($"Processing stream with UID: {liveInputId}");
+
+                    // Get the stream status if available
+                    string? state = "unknown";
+                    if (payload.TryGetProperty("status", out JsonElement statusElement) &&
+                        statusElement.TryGetProperty("state", out JsonElement stateElement))
+                    {
+                        state = stateElement.GetString();
+                    }
+
+                    if(state != "ready")
+                    {
+                        return BadRequest();
+                    }
+
+                    // Get stream duration if available
+                    double? streamDuration = null;
+                    if (payload.TryGetProperty("duration", out JsonElement durationElement))
+                    {
+                        streamDuration = durationElement.GetDouble();
+                    }
+                    if (!string.IsNullOrEmpty(liveInputId))
+                    {
+                        // Fetch the stream from database
+                        await ExecuteWebhookWithLockAsync(liveInputId, async () =>
+                        {
+
+                            var stream = await _liveStreamService.GetLiveStreamByCloudflareUIDAsync(liveInputId);
+                            if (stream == null || stream.ProgramID == null)
+                                return;
+
+                            // Always mark status as false to end stream
+                            stream.Status = false;
+
+                            // If Cloudflare duration is available, use it directly
+                            if (streamDuration.HasValue)
+                            {
+                                stream.Duration = streamDuration.Value / 3600.0; // Convert seconds to hours
+
+                                _logger.LogInformation($"Stream duration from Cloudflare: {stream.Duration} hours");
+
+                                await _liveStreamService.UpdateLiveStreamAsync(stream);
+
+                                // Update account package with hours used
+                                var accountPackage = await _packageService.GetCurrentPackageAndDurationByProgramIdAsync(stream.ProgramID.Value);
+                                if (accountPackage != null && stream.Duration.HasValue)
+                                {
+                                    accountPackage.HoursUsed += stream.Duration.Value;
+                                    accountPackage.RemainingHours = accountPackage.TotalHoursAllowed - accountPackage.HoursUsed;
+                                    await _accountPackageService.UpdateAccountPackageAsync(accountPackage);
+
+                                    _logger.LogInformation($"Updated account package - Hours used: {accountPackage.HoursUsed}, Remaining: {accountPackage.RemainingHours}");
+                                }
+                            }
+                        });
+                    }
+
+                    return Ok(new { success = true });
+                }
+
+                return BadRequest(new { error = "Invalid payload format" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing Cloudflare webhook");
+                return StatusCode(500, new { error = "Failed to process webhook" });
+            }
+        }
+
+        private async Task ExecuteWebhookWithLockAsync(string key, Func<Task> action)
+        {
+            var semaphore = _webhookLocks.GetOrAdd(key, _ => new SemaphoreSlim(1, 1));
+
+            await semaphore.WaitAsync();
+            try
+            {
+                await action();
+            }
+            finally
+            {
+                semaphore.Release();
+            }
         }
 
         private int GetUserIdFromToken()

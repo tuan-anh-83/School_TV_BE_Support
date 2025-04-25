@@ -45,6 +45,7 @@ namespace BOs.Data
         public DbSet<SchoolChannelFollow> SchoolChannelFollows { get; set; }
         public DbSet<CategoryNews> CategoryNews { get; set; }
         public DbSet<ProgramFollow> ProgramFollows { get; set; }
+        public DbSet<AccountPackage> AccountPackages { get; set; }  
 
 
         public DbSet<PaymentHistory> PaymentHistories { get; set; }
@@ -85,6 +86,33 @@ namespace BOs.Data
                       .OnDelete(DeleteBehavior.Restrict);
             });
             #endregion
+
+            #region AccountPackage
+            modelBuilder.Entity<AccountPackage>(entity =>
+            {
+                entity.ToTable("AccountPackage");
+                entity.HasKey(e => e.AccountPackageID);
+                entity.Property(e => e.AccountPackageID).ValueGeneratedOnAdd();
+                entity.Property(e => e.AccountID).IsRequired();
+                entity.Property(e => e.PackageID).IsRequired();
+                entity.Property(e => e.TotalHoursAllowed).IsRequired();
+                entity.Property(e => e.HoursUsed).IsRequired();
+                entity.Property(e => e.RemainingHours).IsRequired();
+                entity.Property(e => e.StartDate).HasDefaultValueSql("GETDATE()");
+                entity.Property(e => e.ExpiredAt).HasDefaultValueSql("GETDATE()");
+
+                entity.HasOne(e => e.Package)
+                      .WithMany()
+                      .HasForeignKey(e => e.PackageID)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.Account)
+                    .WithMany()
+                    .HasForeignKey(e => e.AccountID)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+            #endregion
+
 
             #region Role
             modelBuilder.Entity<Role>(entity =>
@@ -431,6 +459,7 @@ namespace BOs.Data
                       .HasColumnType("decimal(18,2)")
                       .IsRequired();
                 entity.Property(e => e.Duration).IsRequired();
+                entity.Property(e => e.TimeDuration).IsRequired();
                 entity.Property(e => e.Status)
                       .IsRequired()
                       .HasDefaultValue(true);

@@ -3,6 +3,7 @@ using School_TV_Show.DTO;
 using BOs.Models;
 using Services;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace School_TV_Show.Controllers
 {
@@ -13,11 +14,17 @@ namespace School_TV_Show.Controllers
     {
         private readonly IProgramService _programService;
         private readonly ISchoolChannelService _schoolChannelService;
+        private readonly IPackageService _packageService;
 
-        public ProgramController(IProgramService programService, ISchoolChannelService schoolChannelService)
+        public ProgramController(
+            IProgramService programService, 
+            ISchoolChannelService schoolChannelService,
+            IPackageService packageService
+        )
         {
             _programService = programService;
             _schoolChannelService = schoolChannelService;
+            _packageService = packageService;
         }
 
         [HttpGet("with-videos")]
@@ -96,6 +103,20 @@ namespace School_TV_Show.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input", ModelState));
+
+            var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                return Unauthorized("Invalid account");
+
+            var currentPackage = await _packageService.GetCurrentPackageAndDurationByAccountIdAsync(accountId);
+
+            if (currentPackage == null)
+                return NotFound("No active package found.");
+
+            var (package, remainingDuration) = currentPackage.Value;
+
+            if (remainingDuration == null || remainingDuration <= 0)
+                return BadRequest("Your package was expired.");
 
             var program = new BOs.Models.Program
             {

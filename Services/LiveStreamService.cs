@@ -72,7 +72,15 @@ namespace Services
                 meta = new { name = stream.Description },
                 recording = new { mode = "automatic" },
                 mode = "push",
-                playback_policy = new[] { "public" }
+                playback_policy = new[] { "public" },
+                events = new
+                {
+                    webhook = new
+                    {
+                        url = "https://unique-helpful-filly.ngrok-free.app/api/livestreams/webhook",
+                        events = new[] { "live_input.connected", "live_input.disconnected" }
+                    }
+                }
             };
 
             var jsonPayload = JsonSerializer.Serialize(payload);
@@ -212,6 +220,10 @@ namespace Services
         public async Task<bool> CreateScheduleAsync(Schedule schedule) => await _repository.CreateScheduleAsync(schedule);
         public async Task<IEnumerable<Schedule>> GetSchedulesBySchoolChannelIdAsync(int schoolChannelId) => await _repository.GetSchedulesBySchoolChannelIdAsync(schoolChannelId);
         public async Task<bool> CreateProgramAsync(Program program) => await _repository.CreateProgramAsync(program);
+
+        public async Task<VideoHistory?> GetLiveStreamByCloudflareUIDAsync(string uid) => await _repository.GetVideoHistoryByStreamIdAsync(uid);
+
+        public async Task<bool> UpdateLiveStreamAsync(VideoHistory stream) => await _repository.UpdateVideoHistoryAsync(stream);
 
         #region Cloudflare Models
         private class CloudflareVideoListResponse { public List<CloudflareVideoResult> Result { get; set; } }
