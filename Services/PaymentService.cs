@@ -85,17 +85,31 @@ namespace Services
 
                         if(package.HasValue && package.Value.Item1 != null)
                         {
-                            await _accountPackageRepo.CreateAccountPackageAsync(new AccountPackage
+                            var currentPackage = await _accountPackageRepo.GetActiveAccountPackageAsync(order.AccountID);
+
+                            if (currentPackage != null)
                             {
-                                AccountPackageID = 0,
-                                AccountID = order.AccountID,
-                                PackageID = package.Value.Item1.PackageID,
-                                TotalHoursAllowed = package.Value.Item1.Duration,
-                                HoursUsed = 0,
-                                RemainingHours = package.Value.Item1.Duration,
-                                StartDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
-                                ExpiredAt = null
-                            });
+                                // Update remaining time
+                                currentPackage.RemainingHours = package.Value.Item1.Duration;
+                                currentPackage.TotalHoursAllowed += package.Value.Item1.Duration;
+
+                                await _accountPackageRepo.UpdateAccountPackageAsync(currentPackage);
+                            }
+                            else
+                            {
+                                await _accountPackageRepo.CreateAccountPackageAsync(new AccountPackage
+                                {
+                                    AccountPackageID = 0,
+                                    AccountID = order.AccountID,
+                                    PackageID = package.Value.Item1.PackageID,
+                                    TotalHoursAllowed = package.Value.Item1.Duration,
+                                    HoursUsed = 0,
+                                    RemainingHours = package.Value.Item1.Duration,
+                                    StartDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                                    ExpiredAt = null
+                                });
+                            }
+                            
                         }
                     }
                     _logger.LogInformation($"✅ New payment record created for Order {order.OrderID}");
