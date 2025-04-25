@@ -93,6 +93,58 @@ namespace BOs.Migrations
                     b.ToTable("Account", (string)null);
                 });
 
+            modelBuilder.Entity("BOs.Models.AccountPackage", b =>
+                {
+                    b.Property<int>("AccountPackageID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountPackageID"));
+
+                    b.Property<int>("AccountID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AccountID1")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ExpiredAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<double>("HoursUsed")
+                        .HasColumnType("float");
+
+                    b.Property<int>("PackageID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PackageID1")
+                        .HasColumnType("int");
+
+                    b.Property<double>("RemainingHours")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("StartDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<double>("TotalHoursAllowed")
+                        .HasColumnType("float");
+
+                    b.HasKey("AccountPackageID");
+
+                    b.HasIndex("AccountID");
+
+                    b.HasIndex("AccountID1");
+
+                    b.HasIndex("PackageID");
+
+                    b.HasIndex("PackageID1");
+
+                    b.ToTable("AccountPackage", (string)null);
+                });
+
             modelBuilder.Entity("BOs.Models.AdSchedule", b =>
                 {
                     b.Property<int>("AdScheduleID")
@@ -414,6 +466,9 @@ namespace BOs.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("True");
+
+                    b.Property<int>("TimeDuration")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
@@ -955,6 +1010,33 @@ namespace BOs.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("BOs.Models.AccountPackage", b =>
+                {
+                    b.HasOne("BOs.Models.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BOs.Models.Account", null)
+                        .WithMany("AccountPackages")
+                        .HasForeignKey("AccountID1");
+
+                    b.HasOne("BOs.Models.Package", "Package")
+                        .WithMany()
+                        .HasForeignKey("PackageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BOs.Models.Package", null)
+                        .WithMany("AccountPackages")
+                        .HasForeignKey("PackageID1");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Package");
+                });
+
             modelBuilder.Entity("BOs.Models.Comment", b =>
                 {
                     b.HasOne("BOs.Models.VideoHistory", "VideoHistory")
@@ -1197,6 +1279,8 @@ namespace BOs.Migrations
 
             modelBuilder.Entity("BOs.Models.Account", b =>
                 {
+                    b.Navigation("AccountPackages");
+
                     b.Navigation("Follows");
 
                     b.Navigation("PasswordResetTokens");
@@ -1219,6 +1303,11 @@ namespace BOs.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("BOs.Models.Package", b =>
+                {
+                    b.Navigation("AccountPackages");
                 });
 
             modelBuilder.Entity("BOs.Models.Payment", b =>

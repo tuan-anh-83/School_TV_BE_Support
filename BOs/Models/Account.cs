@@ -26,5 +26,6 @@ namespace BOs.Models
         public ICollection<PasswordResetToken> PasswordResetTokens { get; set; } = new List<PasswordResetToken>();
         public ICollection<SchoolChannelFollow> Follows { get; set; }
         public ICollection<ProgramFollow> ProgramFollows { get; set; }
+        public ICollection<AccountPackage> AccountPackages { get; set; }
     }
 }

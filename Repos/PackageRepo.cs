@@ -1,5 +1,6 @@
 ﻿using BOs.Models;
 using DAOs;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +32,14 @@ namespace Repos
             return PackageDAO.Instance.GetAllPackagesAsync();
         }
 
-        public async Task<(Package?, int?)?> GetCurrentPackageAndDurationByAccountIdAsync(int accountId)
+        public async Task<(Package?, double?)?> GetCurrentPackageAndDurationByAccountIdAsync(int accountId)
         {
             return await PackageDAO.Instance.GetCurrentPackageAndDurationByAccountIdAsync(accountId);   
+        }
+
+        public async Task<AccountPackage?> GetCurrentPackageAndDurationByProgramIdAsync(int programId)
+        {
+            return await PackageDAO.Instance.GetCurrentPackageAndDurationByProgramIdAsync(programId);
         }
 
         public async Task<Package?> GetPackageByIdAsync(int packageId)
