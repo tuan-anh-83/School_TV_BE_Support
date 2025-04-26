@@ -118,8 +118,14 @@ namespace BOs.Data
                     .HasForeignKey(e => e.AccountID)
                     .HasConstraintName("FK_AccountPackage_Account_AccountID")
                     .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.Package)
+                    .WithMany(p => p.AccountPackages) // CHỈ RÕ phía ngược lại
+                    .HasForeignKey(e => e.PackageID)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
             #endregion
+
 
 
             #region Role

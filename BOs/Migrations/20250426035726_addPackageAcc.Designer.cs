@@ -4,6 +4,7 @@ using BOs.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BOs.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250426035726_addPackageAcc")]
+    partial class addPackageAcc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1006,17 +1009,13 @@ namespace BOs.Migrations
                         .WithMany("AccountPackages")
                         .HasForeignKey("AccountID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_AccountPackage_Account_AccountID");
-
+                        .IsRequired();
 
                     b.HasOne("BOs.Models.Package", "Package")
                         .WithMany("AccountPackages")
                         .HasForeignKey("PackageID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_AccountPackage_Package_PackageID");
-
+                        .IsRequired();
 
                     b.Navigation("Account");
 
