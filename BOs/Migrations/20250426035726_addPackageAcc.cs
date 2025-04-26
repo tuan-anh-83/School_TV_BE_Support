@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BOs.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateAll : Migration
+    public partial class addPackageAcc : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,6 +74,7 @@ namespace BOs.Migrations
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
+                    TimeDuration = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "True"),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "GETDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "GETDATE()")
@@ -124,6 +125,37 @@ namespace BOs.Migrations
                         principalTable: "Role",
                         principalColumn: "RoleID",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountPackage",
+                columns: table => new
+                {
+                    AccountPackageID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountID = table.Column<int>(type: "int", nullable: false),
+                    PackageID = table.Column<int>(type: "int", nullable: false),
+                    TotalHoursAllowed = table.Column<double>(type: "float", nullable: false),
+                    HoursUsed = table.Column<double>(type: "float", nullable: false),
+                    RemainingHours = table.Column<double>(type: "float", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    ExpiredAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountPackage", x => x.AccountPackageID);
+                    table.ForeignKey(
+                        name: "FK_AccountPackage_Account_AccountID",
+                        column: x => x.AccountID,
+                        principalTable: "Account",
+                        principalColumn: "AccountID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountPackage_Package_PackageID",
+                        column: x => x.PackageID,
+                        principalTable: "Package",
+                        principalColumn: "PackageID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -591,6 +623,16 @@ namespace BOs.Migrations
                 column: "RoleID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AccountPackage_AccountID",
+                table: "AccountPackage",
+                column: "AccountID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountPackage_PackageID",
+                table: "AccountPackage",
+                column: "PackageID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comment_VideoHistoryID",
                 table: "Comment",
                 column: "VideoHistoryID");
@@ -715,6 +757,9 @@ namespace BOs.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AccountPackage");
+
             migrationBuilder.DropTable(
                 name: "AdSchedule");
 

@@ -101,17 +101,18 @@ namespace BOs.Data
                 entity.Property(e => e.StartDate).HasDefaultValueSql("GETDATE()");
                 entity.Property(e => e.ExpiredAt).HasDefaultValueSql("GETDATE()");
 
-                entity.HasOne(e => e.Package)
-                      .WithMany()
-                      .HasForeignKey(e => e.PackageID)
-                      .OnDelete(DeleteBehavior.Cascade);
-
                 entity.HasOne(e => e.Account)
-                    .WithMany()
+                    .WithMany(a => a.AccountPackages) // CHỈ RÕ phía ngược lại
                     .HasForeignKey(e => e.AccountID)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.Package)
+                    .WithMany(p => p.AccountPackages) // CHỈ RÕ phía ngược lại
+                    .HasForeignKey(e => e.PackageID)
                     .OnDelete(DeleteBehavior.Cascade);
             });
             #endregion
+
 
 
             #region Role

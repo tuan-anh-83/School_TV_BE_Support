@@ -104,9 +104,6 @@ namespace BOs.Migrations
                     b.Property<int>("AccountID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AccountID1")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("ExpiredAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -116,9 +113,6 @@ namespace BOs.Migrations
                         .HasColumnType("float");
 
                     b.Property<int>("PackageID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PackageID1")
                         .HasColumnType("int");
 
                     b.Property<double>("RemainingHours")
@@ -136,11 +130,7 @@ namespace BOs.Migrations
 
                     b.HasIndex("AccountID");
 
-                    b.HasIndex("AccountID1");
-
                     b.HasIndex("PackageID");
-
-                    b.HasIndex("PackageID1");
 
                     b.ToTable("AccountPackage", (string)null);
                 });
@@ -1013,24 +1003,16 @@ namespace BOs.Migrations
             modelBuilder.Entity("BOs.Models.AccountPackage", b =>
                 {
                     b.HasOne("BOs.Models.Account", "Account")
-                        .WithMany()
+                        .WithMany("AccountPackages")
                         .HasForeignKey("AccountID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BOs.Models.Account", null)
-                        .WithMany("AccountPackages")
-                        .HasForeignKey("AccountID1");
-
                     b.HasOne("BOs.Models.Package", "Package")
-                        .WithMany()
+                        .WithMany("AccountPackages")
                         .HasForeignKey("PackageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("BOs.Models.Package", null)
-                        .WithMany("AccountPackages")
-                        .HasForeignKey("PackageID1");
 
                     b.Navigation("Account");
 
