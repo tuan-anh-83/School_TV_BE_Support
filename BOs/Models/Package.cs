@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace BOs.Models
         public DateTime UpdatedAt { get; set; }
         //public ICollection<OrderDetail> OrderDetails { get; set; } 
 
-        public ICollection<AccountPackage> AccountPackages { get; set; } 
+        [InverseProperty("Package")]
+        public virtual ICollection<AccountPackage> AccountPackages { get; set; } = new List<AccountPackage>();
+
     }
 }

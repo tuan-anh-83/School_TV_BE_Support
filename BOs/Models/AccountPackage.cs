@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,12 @@ namespace BOs.Models
         public DateTime StartDate { get; set; }
         public DateTime? ExpiredAt { get; set; }
 
-        public Package Package { get; set; } = null!;
-        public Account Account { get; set; } = null!;
+        [ForeignKey("PackageID")]
+        [InverseProperty("AccountPackages")]
+        public virtual Package? Package { get; set; } = null!;
+
+        [ForeignKey("AccountID")]
+        [InverseProperty("AccountPackages")]
+        public virtual Account? Account { get; set; } = null!;
     }
 }

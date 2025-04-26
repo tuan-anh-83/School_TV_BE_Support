@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BOs.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250424005346_UpdatePackage")]
-    partial class UpdatePackage
+    [Migration("20250426065656_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,48 @@ namespace BOs.Migrations
                     b.HasIndex("RoleID");
 
                     b.ToTable("Account", (string)null);
+                });
+
+            modelBuilder.Entity("BOs.Models.AccountPackage", b =>
+                {
+                    b.Property<int>("AccountPackageID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountPackageID"));
+
+                    b.Property<int>("AccountID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ExpiredAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<double>("HoursUsed")
+                        .HasColumnType("float");
+
+                    b.Property<int>("PackageID")
+                        .HasColumnType("int");
+
+                    b.Property<double>("RemainingHours")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("StartDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<double>("TotalHoursAllowed")
+                        .HasColumnType("float");
+
+                    b.HasKey("AccountPackageID");
+
+                    b.HasIndex("AccountID");
+
+                    b.HasIndex("PackageID");
+
+                    b.ToTable("AccountPackage", (string)null);
                 });
 
             modelBuilder.Entity("BOs.Models.AdSchedule", b =>
@@ -961,6 +1003,27 @@ namespace BOs.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("BOs.Models.AccountPackage", b =>
+                {
+                    b.HasOne("BOs.Models.Account", "Account")
+                        .WithMany("AccountPackages")
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_AccountPackage_Account_AccountID");
+
+                    b.HasOne("BOs.Models.Package", "Package")
+                        .WithMany("AccountPackages")
+                        .HasForeignKey("PackageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_AccountPackage_Package_PackageID");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Package");
+                });
+
             modelBuilder.Entity("BOs.Models.Comment", b =>
                 {
                     b.HasOne("BOs.Models.VideoHistory", "VideoHistory")
@@ -1203,6 +1266,8 @@ namespace BOs.Migrations
 
             modelBuilder.Entity("BOs.Models.Account", b =>
                 {
+                    b.Navigation("AccountPackages");
+
                     b.Navigation("Follows");
 
                     b.Navigation("PasswordResetTokens");
@@ -1225,6 +1290,11 @@ namespace BOs.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("BOs.Models.Package", b =>
+                {
+                    b.Navigation("AccountPackages");
                 });
 
             modelBuilder.Entity("BOs.Models.Payment", b =>
