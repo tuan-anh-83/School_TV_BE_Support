@@ -11,5 +11,6 @@ namespace Repos
     {
         Task<bool> UpdateAccountPackageAsync(AccountPackage accountPackage);
         Task<bool> CreateAccountPackageAsync(AccountPackage accountPackage);
+        Task<AccountPackage?> GetActiveAccountPackageAsync(int accountId);
     }
 }
