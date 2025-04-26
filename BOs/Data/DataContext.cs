@@ -84,6 +84,12 @@ namespace BOs.Data
                       .WithMany()
                       .HasForeignKey(e => e.RoleID)
                       .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(p => p.AccountPackages)  
+                      .WithOne(ap => ap.Account)
+                      .HasForeignKey(ap => ap.AccountID)
+                      .HasConstraintName("FK_AccountPackage_Account_AccountID")
+                      .OnDelete(DeleteBehavior.Cascade);
             });
             #endregion
 
@@ -101,9 +107,16 @@ namespace BOs.Data
                 entity.Property(e => e.StartDate).HasDefaultValueSql("GETDATE()");
                 entity.Property(e => e.ExpiredAt).HasDefaultValueSql("GETDATE()");
 
+                entity.HasOne(e => e.Package)
+                      .WithMany(p => p.AccountPackages)
+                      .HasForeignKey(e => e.PackageID)
+                      .HasConstraintName("FK_AccountPackage_Package_PackageID")
+                      .OnDelete(DeleteBehavior.Cascade);
+
                 entity.HasOne(e => e.Account)
-                    .WithMany(a => a.AccountPackages) // CHỈ RÕ phía ngược lại
+                    .WithMany(a => a.AccountPackages)
                     .HasForeignKey(e => e.AccountID)
+                    .HasConstraintName("FK_AccountPackage_Account_AccountID")
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Package)
@@ -471,6 +484,12 @@ namespace BOs.Data
                       .HasColumnType("datetime")
                       .HasDefaultValueSql("GETDATE()")
                       .ValueGeneratedOnUpdate();
+                entity.HasMany(p => p.AccountPackages)
+                  .WithOne(ap => ap.Package)
+                  .HasForeignKey(ap => ap.PackageID)
+                  .HasConstraintName("FK_AccountPackage_Package_PackageID")
+                  .OnDelete(DeleteBehavior.Cascade);
+
             });
             #endregion
 
