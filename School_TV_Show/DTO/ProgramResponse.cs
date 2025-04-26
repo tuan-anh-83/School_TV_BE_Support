@@ -10,8 +10,8 @@
         public DateTime UpdatedAt { get; set; }
 
         public int SchoolChannelID { get; set; }
-        public SchoolChannelResponse SchoolChannel { get; set; }
+        public SchoolChannelResponse? SchoolChannel { get; set; }
 
-        public List<ScheduleResponse> Schedules { get; set; }
+        public List<ScheduleResponse>? Schedules { get; set; }
     }
 }

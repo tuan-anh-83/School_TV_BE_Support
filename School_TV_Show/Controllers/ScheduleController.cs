@@ -8,6 +8,7 @@ using Repos;
 using School_TV_Show.DTO;
 using Services;
 using Services.Hubs;
+using System.Globalization;
 
 
 namespace School_TV_Show.Controllers
@@ -48,6 +49,9 @@ namespace School_TV_Show.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSchedule([FromBody] CreateScheduleRequest request)
         {
+            DateTime startDate = DateTime.ParseExact(request.StartTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            DateTime endDate = DateTime.ParseExact(request.EndTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input", ModelState));
 
@@ -55,15 +59,15 @@ namespace School_TV_Show.Controllers
             if (program == null)
                 return NotFound(new ApiResponse(false, "Program not found"));
 
-            bool isOverlap = await _scheduleService.IsScheduleOverlappingAsync(program.SchoolChannelID, request.StartTime, request.EndTime);
+            bool isOverlap = await _scheduleService.IsScheduleOverlappingAsync(program.SchoolChannelID, startDate, endDate);
             if (isOverlap)
                 return Conflict(new ApiResponse(false, "Schedule time overlaps with another program on the same school channel."));
 
             var schedule = new Schedule
             {
                 ProgramID = request.ProgramID,
-                StartTime = request.StartTime,
-                EndTime = request.EndTime,
+                StartTime = startDate,
+                EndTime = endDate,
                 IsReplay = request.IsReplay,
                 Status = "Pending"
             };

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -24,8 +25,11 @@ namespace BOs.Models
         public string? ExternalProvider { get; set; }
         public string? ExternalProviderKey { get; set; }
         public ICollection<PasswordResetToken> PasswordResetTokens { get; set; } = new List<PasswordResetToken>();
-        public ICollection<SchoolChannelFollow> Follows { get; set; }
-        public ICollection<ProgramFollow> ProgramFollows { get; set; }
-        public ICollection<AccountPackage> AccountPackages { get; set; }
+        public ICollection<SchoolChannelFollow> Follows { get; set; } = new List<SchoolChannelFollow>();
+        public ICollection<ProgramFollow> ProgramFollows { get; set; } = new List<ProgramFollow>();
+
+        [InverseProperty("Account")]
+        public virtual ICollection<AccountPackage> AccountPackages { get; set; } = new List<AccountPackage>();
+
     }
 }
