@@ -20,5 +20,10 @@ namespace Repos
         {
             return await AccountPackageDAO.Instance.CreateAccountPackageAsync(accountPackage);
         }
+
+        public async Task<AccountPackage?> GetActiveAccountPackageAsync(int accountId)
+        {
+            return await AccountPackageDAO.Instance.GetAccountPackageByAccountIdAsync(accountId);
+        }
     }
 }
