@@ -92,6 +92,9 @@ namespace Services
                                 // Update remaining time
                                 currentPackage.RemainingHours = package.Value.Item1.Duration;
                                 currentPackage.TotalHoursAllowed += package.Value.Item1.Duration;
+                                currentPackage.ExpiredAt = currentPackage.ExpiredAt != null ? 
+                                    currentPackage.ExpiredAt.Value.AddDays(package.Value.Item1.Duration) :
+                                    TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(package.Value.Item1.Duration);
 
                                 await _accountPackageRepo.UpdateAccountPackageAsync(currentPackage);
                             }
@@ -106,7 +109,7 @@ namespace Services
                                     HoursUsed = 0,
                                     RemainingHours = package.Value.Item1.Duration,
                                     StartDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
-                                    ExpiredAt = null
+                                    ExpiredAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(package.Value.Item1.Duration)
                                 });
                             }
                             

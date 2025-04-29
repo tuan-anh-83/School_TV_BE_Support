@@ -1,5 +1,7 @@
-﻿using BOs.Models;
+﻿using Azure.Core;
+using BOs.Models;
 using Microsoft.AspNetCore.Mvc;
+using School_TV_Show.Helpers;
 using Services;
 
 namespace School_TV_Show.Controllers
@@ -32,6 +34,13 @@ namespace School_TV_Show.Controllers
         [HttpPost]
         public async Task<ActionResult<CategoryNews>> Create([FromBody] CategoryNews categoryNews)
         {
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(categoryNews);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+
+            }
             if (categoryNews == null)
                 return BadRequest("CategoryNews data is required.");
 
@@ -49,6 +58,13 @@ namespace School_TV_Show.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, CategoryNews categoryNews)
         {
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(categoryNews);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             categoryNews.CategoryNewsID = id;
             var success = await _categoryNewsService.UpdateAsync(categoryNews);
             if (!success) return NotFound();

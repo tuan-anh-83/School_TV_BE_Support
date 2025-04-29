@@ -4,6 +4,7 @@ using BOs.Models;
 using Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using School_TV_Show.Helpers;
 
 namespace School_TV_Show.Controllers
 {
@@ -15,6 +16,7 @@ namespace School_TV_Show.Controllers
         private readonly IProgramService _programService;
         private readonly ISchoolChannelService _schoolChannelService;
         private readonly IPackageService _packageService;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public ProgramController(
             IProgramService programService, 
@@ -104,6 +106,13 @@ namespace School_TV_Show.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input", ModelState));
 
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
                 return Unauthorized("Invalid account");
@@ -111,12 +120,12 @@ namespace School_TV_Show.Controllers
             var currentPackage = await _packageService.GetCurrentPackageAndDurationByAccountIdAsync(accountId);
 
             if (currentPackage == null)
-                return NotFound("No active package found.");
+                return NotFound(new { error = "No active package found." });
 
-            var (package, remainingDuration) = currentPackage.Value;
+            var (package, remainingDuration, expiredAt) = currentPackage.Value;
 
-            if (remainingDuration == null || remainingDuration <= 0)
-                return BadRequest("Your package was expired.");
+            if (remainingDuration == null || remainingDuration <= 0 || expiredAt < TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone))
+                return BadRequest(new { error = "Your package was expired." });
 
             var program = new BOs.Models.Program
             {
@@ -137,6 +146,14 @@ namespace School_TV_Show.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input", ModelState));
+
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
 
             var program = await _programService.GetProgramByIdAsync(id);
             if (program == null)

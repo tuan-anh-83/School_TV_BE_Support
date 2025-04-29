@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 using Repos;
 using School_TV_Show.DTO;
+using School_TV_Show.Helpers;
 using Services;
 using Services.Hubs;
 using System.Globalization;
@@ -25,6 +27,8 @@ namespace School_TV_Show.Controllers
         private readonly IProgramFollowRepo _programFollowRepository;
         private readonly ISchoolChannelFollowRepo _schoolChannelFollowRepository;
         private readonly INotificationService _notificationService;
+        private readonly IPackageService _packageService;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public ScheduleController(
             IScheduleService scheduleService,
@@ -34,6 +38,7 @@ namespace School_TV_Show.Controllers
             IProgramFollowRepo programFollowRepository,
             ISchoolChannelFollowRepo schoolChannelFollowRepository,
             INotificationService notificationService,
+            IPackageService packageService,
             IOptions<CloudflareSettings> cloudflareOptions)
         {
             _scheduleService = scheduleService;
@@ -43,6 +48,7 @@ namespace School_TV_Show.Controllers
             _programFollowRepository = programFollowRepository;
             _schoolChannelFollowRepository = schoolChannelFollowRepository;
             _notificationService = notificationService;
+            _packageService = packageService;
             _cloudflareSettings = cloudflareOptions.Value;
         }
 
@@ -54,6 +60,21 @@ namespace School_TV_Show.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input", ModelState));
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
+            var currentPackage = await _packageService.GetCurrentPackageAndDurationByProgramIdAsync(request.ProgramID);
+
+            if (currentPackage == null)
+                return NotFound(new { error = "No active package found." });
+
+            if (currentPackage.RemainingHours <= 0 || currentPackage.ExpiredAt < TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone))
+                return BadRequest(new { error = "Your package was expired." });
 
             var program = await _programService.GetProgramByIdAsync(request.ProgramID);
             if (program == null)
@@ -114,6 +135,13 @@ namespace School_TV_Show.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input"));
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
 
             var video = await _videoHistoryService.GetVideoByIdAsync(request.VideoHistoryId);
             if (video == null || video.ProgramID == null)
@@ -207,6 +235,13 @@ namespace School_TV_Show.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input"));
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
 
             var existingSchedule = await _scheduleService.GetScheduleByIdAsync(id);
             if (existingSchedule == null)

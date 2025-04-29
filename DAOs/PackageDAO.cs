@@ -118,7 +118,7 @@ namespace DAOs
             return rankedPackages.Cast<object>().ToList();
         }
 
-        public async Task<(Package?, double?)?> GetCurrentPackageAndDurationByAccountIdAsync(int accountId)
+        public async Task<(Package?, double?, DateTime?)?> GetCurrentPackageAndDurationByAccountIdAsync(int accountId)
         {
             Console.WriteLine($"[DEBUG] Start fetching current package for AccountID: {accountId}");
 
@@ -165,7 +165,7 @@ namespace DAOs
 
             Console.WriteLine($"[DEBUG] AccountPackage found: RemainingHours = {accountPackage.RemainingHours}");
 
-            return (packageDetail.Package, accountPackage.RemainingHours);
+            return (packageDetail.Package, accountPackage.RemainingHours, accountPackage.ExpiredAt);
         }
 
         public async Task<AccountPackage?> GetCurrentPackageAndDurationByProgramIdAsync(int programId)

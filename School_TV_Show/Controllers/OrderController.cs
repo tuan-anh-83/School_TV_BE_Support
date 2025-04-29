@@ -8,6 +8,7 @@ using School_TV_Show.DTO;
 using Services;
 using System.Security.Claims;
 using System.Text.Json;
+using School_TV_Show.Helpers;
 
 namespace School_TV_Show.Controllers
 {
@@ -217,6 +218,13 @@ namespace School_TV_Show.Controllers
             if (request == null || string.IsNullOrEmpty(request.Status))
             {
                 return BadRequest(new { message = "Status is required." });
+            }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
             }
 
             try

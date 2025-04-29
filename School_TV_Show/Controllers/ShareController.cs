@@ -6,6 +6,7 @@ using Services.Hubs;
 using Services;
 using System.Security.Claims;
 using School_TV_Show.DTO;
+using School_TV_Show.Helpers;
 
 namespace School_TV_Show.Controllers
 {
@@ -107,6 +108,13 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { errors });
             }
 
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
                 return Unauthorized("Invalid user.");
@@ -149,6 +157,13 @@ namespace School_TV_Show.Controllers
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
                 return BadRequest(new { errors });
+            }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
             }
 
             var share = await _shareService.GetShareByIdAsync(id);

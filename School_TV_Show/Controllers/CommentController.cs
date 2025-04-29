@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using School_TV_Show.DTO;
+using School_TV_Show.Helpers;
 using Services;
 using Services.Hubs;
 using System.Security.Claims;
@@ -130,6 +131,13 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { errors });
             }
 
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
                 return Unauthorized("Invalid account identifier.");
@@ -181,6 +189,13 @@ namespace School_TV_Show.Controllers
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
                 return BadRequest(new { errors });
+            }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
             }
 
             var comment = await _commentService.GetCommentByIdAsync(id);
