@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using Repos;
 using School_TV_Show.DTO;
+using School_TV_Show.Helpers;
 using Services;
 using Services.Hubs;
 
@@ -99,6 +100,13 @@ namespace School_TV_Show.Controllers
             if (request.VideoFile == null || request.VideoFile.Length == 0)
                 return BadRequest(new { message = "No video file provided." });
 
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var videoHistory = new VideoHistory
             {
                 ProgramID = request.ProgramID,
@@ -181,6 +189,13 @@ namespace School_TV_Show.Controllers
         [Authorize(Roles = "SchoolOwner")]
         public async Task<IActionResult> UpdateVideo(int id, [FromBody] UpdateVideoHistoryRequestDTO request)
         {
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var videoHistory = await _videoService.GetVideoByIdAsync(id);
             if (videoHistory == null)
                 return NotFound(new { message = "Video history not found" });

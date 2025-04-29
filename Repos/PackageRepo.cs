@@ -32,7 +32,7 @@ namespace Repos
             return PackageDAO.Instance.GetAllPackagesAsync();
         }
 
-        public async Task<(Package?, double?)?> GetCurrentPackageAndDurationByAccountIdAsync(int accountId)
+        public async Task<(Package?, double?, DateTime?)?> GetCurrentPackageAndDurationByAccountIdAsync(int accountId)
         {
             return await PackageDAO.Instance.GetCurrentPackageAndDurationByAccountIdAsync(accountId);   
         }

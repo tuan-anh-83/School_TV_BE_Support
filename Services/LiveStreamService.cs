@@ -77,7 +77,7 @@ namespace Services
                 {
                     webhook = new
                     {
-                        url = "https://schooltv.azurewebsites.net/api/livestreams/webhook",
+                        url = "https://unique-helpful-filly.ngrok-free.app/api/livestreams/webhook",
                         events = new[] { "live_input.connected", "live_input.disconnected" }
                     }
                 }

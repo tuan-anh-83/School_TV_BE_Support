@@ -1,6 +1,7 @@
 ﻿using BOs.Models;
 using Microsoft.AspNetCore.Mvc;
 using School_TV_Show.DTO;
+using School_TV_Show.Helpers;
 using Services;
 
 namespace School_TV_Show.Controllers
@@ -48,6 +49,13 @@ namespace School_TV_Show.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateAdScheduleRequestDTO request)
         {
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var ad = new AdSchedule
             {
                 Title = request.Title,
@@ -68,6 +76,13 @@ namespace School_TV_Show.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateAdScheduleRequestDTO request)
         {
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+
+            }
             var existing = await _service.GetAdScheduleByIdAsync(id);
             if (existing == null)
                 return NotFound(new ApiResponse(false, "Ad schedule not found"));

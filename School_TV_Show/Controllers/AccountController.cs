@@ -1,4 +1,5 @@
-﻿using BOs.Models;
+﻿using Azure.Core;
+using BOs.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using School_TV_Show.DTO;
+using School_TV_Show.Helpers;
 using Services;
 using Services.Email;
 using Services.Token;
@@ -55,6 +57,13 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { errors });
             }
 
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(accountRequest);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var account = new Account
             {
                 Username = accountRequest.Username,
@@ -94,6 +103,13 @@ namespace School_TV_Show.Controllers
                                               .Select(e => e.ErrorMessage)
                                               .ToList();
                 return BadRequest(new { errors });
+            }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
             }
 
             if (request.Password != request.ConfirmPassword)
@@ -157,6 +173,14 @@ namespace School_TV_Show.Controllers
                                               .ToList();
                 return BadRequest(new { errors });
             }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             if (request.Password != request.ConfirmPassword)
                 return BadRequest(new { error = "Password and Confirm Password do not match." });
 
@@ -211,6 +235,14 @@ namespace School_TV_Show.Controllers
                                               .ToList();
                 return BadRequest(new { errors });
             }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             if (request.Password != request.ConfirmPassword)
                 return BadRequest(new { error = "Password and Confirm Password do not match." });
 
@@ -265,6 +297,14 @@ namespace School_TV_Show.Controllers
                                               .ToList();
                 return BadRequest(new { errors });
             }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var account = await _accountService.GetAccountByEmailAsync(request.Email);
             if (account == null)
                 return NotFound("Account not found.");
@@ -295,6 +335,14 @@ namespace School_TV_Show.Controllers
                                               .ToList();
                 return BadRequest(new { errors });
             }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var account = await _accountService.GetAccountByEmailAsync(request.Email);
             if (account == null)
                 return NotFound("Account not found.");
@@ -324,6 +372,13 @@ namespace School_TV_Show.Controllers
                                               .Select(e => e.ErrorMessage)
                                               .ToList();
                 return BadRequest(new { errors });
+            }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
             }
 
             var account = await _accountService.GetAccountByEmailAsync(request.Email);
@@ -373,6 +428,14 @@ namespace School_TV_Show.Controllers
                                               .ToList();
                 return BadRequest(new { errors });
             }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(loginRequest);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var account = await _accountService.Login(loginRequest.Email, loginRequest.Password);
             if (account == null || !account.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
                 return Unauthorized("Invalid login information or account is inactive.");
@@ -600,6 +663,13 @@ namespace School_TV_Show.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var account = await _accountService.GetAccountByEmailAsync(request.Email);
             if (account == null)
             {
@@ -621,6 +691,14 @@ namespace School_TV_Show.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var account = await _accountService.GetAccountByEmailAsync(request.Email);
             if (account == null)
                 return BadRequest("Invalid request.");

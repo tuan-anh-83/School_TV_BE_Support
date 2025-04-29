@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using School_TV_Show.DTO;
+using School_TV_Show.Helpers;
 using Services;
 using System.Security.Claims;
 
@@ -30,6 +31,13 @@ namespace School_TV_Show.Controllers
             if (request == null || request.ImageFiles == null || request.ImageFiles.Count == 0)
             {
                 return BadRequest("Request data or image files are missing.");
+            }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
             }
 
             try
@@ -79,6 +87,13 @@ namespace School_TV_Show.Controllers
             if (request == null)
             {
                 return BadRequest("Request data is missing.");
+            }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
             }
 
             try

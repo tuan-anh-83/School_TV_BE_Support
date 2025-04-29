@@ -7,6 +7,9 @@ using System.Security.Claims;
 using School_TV_Show.DTO;
 using System.Text.Json;
 using System.Collections.Concurrent;
+using School_TV_Show.Helpers;
+using Azure.Core;
+using Microsoft.Identity.Client;
 
 namespace School_TV_Show.Controllers
 {
@@ -43,6 +46,15 @@ namespace School_TV_Show.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
+            var currentPackage = await _packageService.GetCurrentPackageAndDurationByProgramIdAsync(request.ProgramID);
+
             var stream = new VideoHistory
             {
                 ProgramID = request.ProgramID,
@@ -53,6 +65,20 @@ namespace School_TV_Show.Controllers
                 UpdatedAt = DateTime.UtcNow,
                 StreamAt = DateTime.UtcNow
             };
+
+            if (currentPackage == null)
+            {
+                await _liveStreamService.EndLiveStreamAsync(stream);
+                await _liveStreamService.EndStreamAndReturnLinksAsync(stream);
+                return NotFound(new { error = "No active package found." });
+            }
+
+            if (currentPackage.RemainingHours <= 0 || currentPackage.ExpiredAt < TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone))
+            {
+                await _liveStreamService.EndLiveStreamAsync(stream);
+                await _liveStreamService.EndStreamAndReturnLinksAsync(stream);
+                return BadRequest(new { error = "Your package was expired." });
+            }
 
             var success = await _liveStreamService.StartLiveStreamAsync(stream);
 
