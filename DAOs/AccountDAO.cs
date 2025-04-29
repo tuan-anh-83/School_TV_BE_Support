@@ -128,6 +128,7 @@ namespace DAOs
         public async Task<Account?> Login(string email, string password)
         {
             var account = await _context.Accounts
+                                        .AsNoTracking()
                                         .Include(a => a.Role)
                                         .FirstOrDefaultAsync(a => a.Email == email && a.RoleID != 0);
             if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password) || !account.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
