@@ -54,7 +54,7 @@ namespace Services
             return await _packageRepo.GetTopPurchasedPackagesAsync();
         }
 
-        public async Task<(Package?, double?)?> GetCurrentPackageAndDurationByAccountIdAsync(int accountId)
+        public async Task<(Package?, double?, DateTime?)?> GetCurrentPackageAndDurationByAccountIdAsync(int accountId)
         {
             return await _packageRepo.GetCurrentPackageAndDurationByAccountIdAsync(accountId);
         }

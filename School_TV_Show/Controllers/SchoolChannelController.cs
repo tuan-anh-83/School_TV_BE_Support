@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using School_TV_Show.DTO;
+using School_TV_Show.Helpers;
 using Services;
 using System.Security.Claims;
 
@@ -97,6 +98,13 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { errors });
             }
 
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.Description))
                 return BadRequest("Name and Description are required.");
 
@@ -143,6 +151,13 @@ namespace School_TV_Show.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSchoolChannel(int id, [FromBody] UpdateSchoolChannelRequestDTO request)
         {
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
             var accountId = GetAuthenticatedUserId();
             if (accountId == null)
                 return Unauthorized("User is not authenticated.");
