@@ -15,6 +15,11 @@ namespace Repos
             return await OrderDetailDAO.Instance.CreateOrderDetailAsync(orderDetail);   
         }
 
+        public async Task<OrderDetail?> GetOrderDetailByOrderIdAsync(int orderId)
+        {
+            return await OrderDetailDAO.Instance.GetOrderDetailByOrderIdAsync(orderId);
+        }
+
         public async Task<IEnumerable<OrderDetail>> GetOrderDetailsByOrderIdAsync(int orderId)
         {
             return await OrderDetailDAO.Instance.GetOrderDetailsByOrderIdAsync(orderId);

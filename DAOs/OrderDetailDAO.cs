@@ -45,5 +45,11 @@ namespace DAOs
                 .ToListAsync();
         }
 
+        public async Task<OrderDetail?> GetOrderDetailByOrderIdAsync(int orderId)
+        {
+            return await _context.OrderDetails.AsNoTracking()
+                .Include(od => od.Package)
+                .FirstOrDefaultAsync(od => od.OrderID == orderId);
+        }
     }
 }

@@ -81,9 +81,9 @@ namespace Services
 
                     if (paymentUpdated != null && paymentUpdated.Status == "Completed")
                     {
-                        var package = await _packageService.GetCurrentPackageAndDurationByAccountIdAsync(order.AccountID);
+                        var orderDetail = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.OrderID);
 
-                        if(package.HasValue && package.Value.Item1 != null)
+                        if(orderDetail != null)
                         {
                             var currentPackage = await _accountPackageRepo.GetActiveAccountPackageAsync(order.AccountID);
 
@@ -95,14 +95,14 @@ namespace Services
                                 {
                                     AccountPackageID = currentPackage.AccountPackageID,
                                     AccountID = currentPackage.AccountID,
-                                    PackageID = package.Value.Item1.PackageID,
-                                    TotalHoursAllowed = currentPackage.TotalHoursAllowed + package.Value.Item1.Duration,
+                                    PackageID = orderDetail.PackageID,
+                                    TotalHoursAllowed = currentPackage.TotalHoursAllowed + orderDetail.Package.TimeDuration,
                                     HoursUsed = currentPackage.HoursUsed,
-                                    RemainingHours = currentPackage.RemainingHours + package.Value.Item1.Duration,
+                                    RemainingHours = currentPackage.RemainingHours + orderDetail.Package.TimeDuration,
                                     StartDate = currentPackage.StartDate,
                                     ExpiredAt = currentPackage.ExpiredAt != null ?
-                                    currentPackage.ExpiredAt.Value.AddDays(package.Value.Item1.Duration) :
-                                    TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(package.Value.Item1.Duration)
+                                    currentPackage.ExpiredAt.Value.AddDays(orderDetail.Package.TimeDuration) :
+                                    TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(orderDetail.Package.Duration)
                                 });
 
                                 _logger.LogInformation($"Updated Account Package.");
@@ -115,12 +115,12 @@ namespace Services
                                 {
                                     AccountPackageID = 0,
                                     AccountID = order.AccountID,
-                                    PackageID = package.Value.Item1.PackageID,
-                                    TotalHoursAllowed = package.Value.Item1.Duration,
+                                    PackageID = orderDetail.PackageID,
+                                    TotalHoursAllowed = orderDetail.Package.TimeDuration,
                                     HoursUsed = 0,
-                                    RemainingHours = package.Value.Item1.Duration,
+                                    RemainingHours = orderDetail.Package.TimeDuration,
                                     StartDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
-                                    ExpiredAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(package.Value.Item1.Duration)
+                                    ExpiredAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(orderDetail.Package.Duration)
                                 });
                             }
                             

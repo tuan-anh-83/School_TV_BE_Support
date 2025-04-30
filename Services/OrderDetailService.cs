@@ -21,6 +21,11 @@ namespace Services
             return await _orderDetailRepo.CreateOrderDetailAsync(orderDetail);
         }
 
+        public async Task<OrderDetail?> GetOrderDetailByOrderIdAsync(int orderId)
+        {
+            return await _orderDetailRepo.GetOrderDetailByOrderIdAsync(orderId);
+        }
+
         public async Task<IEnumerable<OrderDetail>> GetOrderDetailsByOrderIdAsync(int orderId)
         {
             return await _orderDetailRepo.GetOrderDetailsByOrderIdAsync(orderId);

@@ -11,5 +11,6 @@ namespace Repos
     {
         Task<OrderDetail> CreateOrderDetailAsync(OrderDetail orderDetail);
         Task<IEnumerable<OrderDetail>> GetOrderDetailsByOrderIdAsync(int orderId);
+        Task<OrderDetail?> GetOrderDetailByOrderIdAsync(int orderId);
     }
 }
