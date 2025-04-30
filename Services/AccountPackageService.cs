@@ -25,6 +25,11 @@ namespace Services
             return await _accountPackageRepo.CreateAccountPackageAsync(accountPackage); 
         }
 
+        public async Task<AccountPackage?> GetActiveAccountPackageAsync(int accountID)
+        {
+            return await _accountPackageRepo.GetActiveAccountPackageAsync(accountID);
+        }
+
         public async Task<bool> UpdateAccountPackageAsync(AccountPackage accountPackage)
         {
             return await _accountPackageRepo.UpdateAccountPackageAsync(accountPackage);

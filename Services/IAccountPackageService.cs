@@ -11,5 +11,6 @@ namespace Services
     {
         Task<bool> UpdateAccountPackageAsync(AccountPackage accountPackage);
         Task<bool> CreateAccountPackageAsync(AccountPackage accountPackage);
+        Task<AccountPackage?> GetActiveAccountPackageAsync(int accountID);
     }
 }

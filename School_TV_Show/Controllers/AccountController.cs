@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,7 @@ namespace School_TV_Show.Controllers
         private readonly IPasswordHasher<Account> _passwordHasher;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AccountController> _logger;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public AccountController(
             IAccountService accountService,
@@ -148,7 +150,24 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { message });
             }
 
-            bool result = await _accountPackageService.UpdateAccountPackageAsync(accountRequest);
+            var currentPackage = await _accountPackageService.GetActiveAccountPackageAsync(accountRequest.AccountID);
+
+            if (currentPackage == null)
+                return Conflict("Exists.");
+
+            var result = await _accountPackageService.UpdateAccountPackageAsync(new AccountPackage
+            {
+                AccountPackageID = currentPackage.AccountPackageID,
+                AccountID = currentPackage.AccountID,
+                PackageID = accountRequest.PackageID,
+                TotalHoursAllowed = currentPackage.TotalHoursAllowed + 10,
+                HoursUsed = currentPackage.HoursUsed,
+                RemainingHours = currentPackage.RemainingHours + 10,
+                StartDate = currentPackage.StartDate,
+                ExpiredAt = currentPackage.ExpiredAt != null ?
+                    currentPackage.ExpiredAt.Value.AddDays(10) :
+                    TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(10)
+            });
 
             if (!result)
                 return Conflict("Exists.");

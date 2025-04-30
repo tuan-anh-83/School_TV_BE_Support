@@ -91,14 +91,21 @@ namespace Services
                             {
                                 _logger.LogInformation($"Updating Account Package.");
                                 // Update remaining time
-                                currentPackage.PackageID = package.Value.Item1.PackageID;
-                                currentPackage.RemainingHours = package.Value.Item1.Duration;
-                                currentPackage.TotalHoursAllowed += package.Value.Item1.Duration;
-                                currentPackage.ExpiredAt = currentPackage.ExpiredAt != null ? 
+                                await _accountPackageRepo.UpdateAccountPackageAsync(new AccountPackage
+                                {
+                                    AccountPackageID = currentPackage.AccountPackageID,
+                                    AccountID = currentPackage.AccountID,
+                                    PackageID = package.Value.Item1.PackageID,
+                                    TotalHoursAllowed = currentPackage.TotalHoursAllowed + package.Value.Item1.Duration,
+                                    HoursUsed = currentPackage.HoursUsed,
+                                    RemainingHours = currentPackage.RemainingHours + package.Value.Item1.Duration,
+                                    StartDate = currentPackage.StartDate,
+                                    ExpiredAt = currentPackage.ExpiredAt != null ?
                                     currentPackage.ExpiredAt.Value.AddDays(package.Value.Item1.Duration) :
-                                    TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(package.Value.Item1.Duration);
+                                    TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(package.Value.Item1.Duration)
+                                });
 
-                                await _accountPackageRepo.UpdateAccountPackageAsync(currentPackage);
+                                _logger.LogInformation($"Updated Account Package.");
                             }
                             else
                             {

@@ -156,3 +156,19 @@ Error Number:547,State:0,Class:16
 [2025-04-30 19:09:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 04/30/2025 19:09:03
 [2025-04-30 19:09:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
 [2025-04-30 19:09:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-04-30 19:29:45] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-04-30 19:29:47] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-04-30 19:29:47] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-04-30 19:29:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-04-30 19:29:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 04/30/2025 19:29:47
+[2025-04-30 19:29:48] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-04-30 19:29:48] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-04-30 19:29:48] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-04-30 19:29:48] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-04-30 19:29:48] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-04-30 19:29:48] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-04-30 19:29:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-04-30 19:29:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-04-30 19:30:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 04/30/2025 19:30:18
+[2025-04-30 19:30:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-04-30 19:30:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
