@@ -402,3 +402,6 @@ FodyWeavers.xsd
 # Bỏ qua thư mục build và output
 bin/
 obj/
+
+!wwwroot/logs/
+!wwwroot/logs/.gitkeep
