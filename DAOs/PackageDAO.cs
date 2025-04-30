@@ -33,7 +33,7 @@ namespace DAOs
 
         public async Task<List<Package>> GetAllPackagesAsync()
         {
-            return await _context.Packages
+            return await _context.Packages.AsNoTracking()
                 .Where(p => p.Status == "Active")
                 .ToListAsync();
         }
@@ -45,12 +45,10 @@ namespace DAOs
 
         public async Task<Package?> GetPackageByIdAsync(int packageId)
         {
-            return await _context.Packages
                 .FirstOrDefaultAsync(p => p.PackageID == packageId && p.Status == "Active");
         }
         public async Task<List<Package>> SearchPackagesByNameAsync(string name)
         {
-            return await _context.Packages
                 .Where(p => EF.Functions.Like(p.Name, $"%{name}%"))
                 .ToListAsync();
         }
@@ -94,7 +92,6 @@ namespace DAOs
         }
         public async Task<List<object>> GetTopPurchasedPackagesAsync()
         {
-            var result = await _context.OrderDetails
                 .GroupBy(od => od.PackageID)
                 .Select(g => new
                 {
@@ -122,7 +119,6 @@ namespace DAOs
         {
             Console.WriteLine($"[DEBUG] Start fetching current package for AccountID: {accountId}");
 
-            var latestPaidOrder = await _context.Orders
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Package)
                 .Where(o => o.AccountID == accountId && o.Status == "Completed")
@@ -154,7 +150,6 @@ namespace DAOs
 
             Console.WriteLine($"[DEBUG] Package loaded: Name = {packageDetail.Package.Name}, Duration = {packageDetail.Package.Duration}");
 
-            var accountPackage = await _context.AccountPackages
                 .FirstOrDefaultAsync(ap => ap.AccountID == accountId);
 
             if (accountPackage == null)
@@ -172,7 +167,6 @@ namespace DAOs
         {
             Console.WriteLine($"[DEBUG] Start fetching current package for ProgramID: {programId}");
 
-            var schoolChannel = await _context.Programs
                 .Include(p => p.SchoolChannel)
                 .Where(p => p.ProgramID == programId)
                 .Select(p => p.SchoolChannel)
@@ -184,7 +178,6 @@ namespace DAOs
                 return null;
             }
 
-            var accountPackage = await _context.AccountPackages
                 .Where(ap => ap.AccountID == schoolChannel.AccountID)
                 .FirstOrDefaultAsync();
 

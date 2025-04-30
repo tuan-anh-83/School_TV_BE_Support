@@ -33,12 +33,11 @@ namespace DAOs
 
         public async Task<AccountPackage?> GetAccountPackageByIdAsync(int accountPackageId)
         {
-            return await _context.AccountPackages.FirstOrDefaultAsync(a => a.AccountPackageID == accountPackageId);
+            return await _context.AccountPackages.AsNoTracking().FirstOrDefaultAsync(a => a.AccountPackageID == accountPackageId);
         }
 
         public async Task<AccountPackage?> GetAccountPackageByAccountIdAsync(int accountId)
         {
-            return await _context.AccountPackages.FirstOrDefaultAsync(a => a.AccountID == accountId);
         }
 
         public async Task<bool> UpdateAccountPackageAsync(AccountPackage accountPackage)

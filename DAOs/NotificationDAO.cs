@@ -33,7 +33,7 @@ namespace DAOs
 
         public async Task<List<Notification>> GetByAccountIdAsync(int accountId)
         {
-            return await _context.Notifications
+            return await _context.Notifications.AsNoTracking()
                 .Where(n => n.AccountID == accountId)
                 .OrderByDescending(n => n.CreatedAt)
                 .ToListAsync();

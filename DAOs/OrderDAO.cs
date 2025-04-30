@@ -41,7 +41,7 @@ namespace DAOs
         }
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
-            return await _context.Orders
+            return await _context.Orders.AsNoTracking()
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Package)
                 .FirstOrDefaultAsync(o => o.OrderID == orderId);
@@ -49,7 +49,6 @@ namespace DAOs
 
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
-            return await _context.Orders
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Package)
                 .ToListAsync();
@@ -63,7 +62,6 @@ namespace DAOs
         }
         public async Task<IEnumerable<Order>> GetOrdersByAccountIdAsync(int accountId)
         {
-            return await _context.Orders
                 .Where(o => o.AccountID == accountId)
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Package)
@@ -123,7 +121,6 @@ namespace DAOs
 
         public async Task<Order> GetOrderByOrderCodeAsync(long orderCode)
         {
-            return await _context.Orders
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Package)
                 .FirstOrDefaultAsync(o => o.OrderCode == orderCode);
@@ -136,7 +133,6 @@ namespace DAOs
         public async Task<IEnumerable<Order>> GetPendingOrdersOlderThanAsync(TimeSpan timeSpan)
         {
             var thresholdTime = DateTime.UtcNow - timeSpan;
-            return await _context.Orders
                 .Where(o => o.Status == "Pending" && o.CreatedAt <= thresholdTime)
                 .ToListAsync();
         }

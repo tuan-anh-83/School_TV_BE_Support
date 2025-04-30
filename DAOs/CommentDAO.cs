@@ -33,14 +33,13 @@ namespace DAOs
 
         public async Task<List<Comment>> GetAllCommentsAsync()
         {
-            return await _context.Comments
+            return await _context.Comments.AsNoTracking()
                 .Include(c => c.VideoHistory)
                 .ToListAsync();
         }
 
         public async Task<List<Comment>> GetAllActiveCommentsAsync()
         {
-            return await _context.Comments
                 .Include(c => c.VideoHistory)
                 .Where(c => c.Quantity > 0)
                 .ToListAsync();
@@ -48,18 +47,15 @@ namespace DAOs
 
         public async Task<Comment?> GetCommentByIdAsync(int commentId)
         {
-            return await _context.Comments
                 .Include(c => c.VideoHistory)
                 .FirstOrDefaultAsync(c => c.CommentID == commentId);
         }
 
         public async Task<bool> AddCommentAsync(Comment comment)
         {
-            bool vhExists = await _context.VideoHistories
                 .AnyAsync(v => v.VideoHistoryID == comment.VideoHistoryID);
             if (!vhExists) return false;
 
-            bool accountExists = await _context.Accounts
                 .AnyAsync(a => a.AccountID == comment.AccountID);
             if (!accountExists) return false;
 
@@ -93,7 +89,6 @@ namespace DAOs
 
         public async Task<List<Comment>> GetCommentsWithAccountByVideoHistoryIdAsync(int videoHistoryId)
         {
-            return await _context.Comments
                 .Where(c => c.VideoHistoryID == videoHistoryId && c.Quantity > 0)
                 .Include(c => c.VideoHistory)
                 .ToListAsync();
@@ -101,7 +96,6 @@ namespace DAOs
 
         public async Task<int> GetTotalCommentsForVideoAsync(int videoHistoryId)
         {
-            return await _context.Comments
                 .Where(c => c.VideoHistoryID == videoHistoryId && c.Quantity > 0)
                 .SumAsync(c => c.Quantity);
         }

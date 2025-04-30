@@ -34,7 +34,7 @@ namespace DAOs
 
         public async Task<List<Program>> GetProgramsByChannelIdWithIncludesAsync(int channelId)
         {
-            return await _context.Programs
+            return await _context.Programs.AsNoTracking()
                 .Where(p => p.SchoolChannelID == channelId)
                 .Include(p => p.SchoolChannel)
                 .Include(p => p.VideoHistories)
@@ -46,28 +46,24 @@ namespace DAOs
 
         public async Task<List<Program>> GetProgramsWithVideoHistoryAsync()
         {
-            return await _context.Programs
                 .Where(p => p.VideoHistories.Any())
                 .ToListAsync();
         }
 
         public async Task<List<Program>> GetProgramsWithoutVideoHistoryAsync()
         {
-            return await _context.Programs
                 .Where(p => !p.VideoHistories.Any())
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Program>> GetProgramsByChannelIdAsync(int channelId)
         {
-            return await _context.Programs
                 .Where(p => p.SchoolChannelID == channelId)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Program>> GetAllProgramsAsync()
         {
-            return await _context.Programs
                 .Include(p => p.SchoolChannel)
                 .Include(p => p.Schedules)
                 .Include(p => p.VideoHistories)
@@ -80,7 +76,6 @@ namespace DAOs
             if (programId <= 0)
                 throw new ArgumentException("Program ID must be greater than zero.");
 
-            return await _context.Programs
                 .Include(p => p.SchoolChannel)
                 .Include(p => p.Schedules)
                 .Include(p => p.VideoHistories)
@@ -93,7 +88,6 @@ namespace DAOs
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Program name cannot be null or empty.");
 
-            return await _context.Programs
                 .Include(p => p.SchoolChannel)
                 .Include(p => p.Schedules)
                 .Include(p => p.VideoHistories)
@@ -124,7 +118,6 @@ namespace DAOs
             if (program == null || program.ProgramID <= 0)
                 throw new ArgumentException("Invalid Program data.");
 
-            var existingProgram = await _context.Programs
                                         .Include(p => p.Schedules)
                                         .FirstOrDefaultAsync(p => p.ProgramID == program.ProgramID);
             if (existingProgram == null)
@@ -152,7 +145,6 @@ namespace DAOs
             if (programId <= 0)
                 throw new ArgumentException("Program ID must be greater than zero.");
 
-            var program = await _context.Programs
                               .Include(p => p.Schedules)
                               .FirstOrDefaultAsync(p => p.ProgramID == programId);
             if (program == null)
@@ -175,7 +167,6 @@ namespace DAOs
 
         public async Task<int> CountProgramsAsync()
         {
-            return await _context.Programs.CountAsync();
         }
 
         public async Task<int> CountProgramsByStatusAsync(string status)
@@ -183,7 +174,6 @@ namespace DAOs
             if (string.IsNullOrWhiteSpace(status))
                 throw new ArgumentException("Status cannot be null or empty.");
 
-            return await _context.Programs.CountAsync(p => p.Status.Equals(status, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task<int> CountProgramsByScheduleAsync(int scheduleId)
@@ -191,7 +181,6 @@ namespace DAOs
             if (scheduleId <= 0)
                 throw new ArgumentException("Schedule ID must be greater than zero.");
 
-            return await _context.Programs
                 .Include(p => p.Schedules)
                 .Where(p => p.Schedules.Any(s => s.ScheduleID == scheduleId))
                 .CountAsync();

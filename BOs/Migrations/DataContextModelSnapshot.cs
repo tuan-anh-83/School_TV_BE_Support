@@ -1009,14 +1009,12 @@ namespace BOs.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_AccountPackage_Account_AccountID");
 
-
                     b.HasOne("BOs.Models.Package", "Package")
                         .WithMany("AccountPackages")
                         .HasForeignKey("PackageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_AccountPackage_Package_PackageID");
-
 
                     b.Navigation("Account");
 
