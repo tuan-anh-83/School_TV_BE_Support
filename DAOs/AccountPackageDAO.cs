@@ -43,6 +43,15 @@ namespace DAOs
 
         public async Task<bool> UpdateAccountPackageAsync(AccountPackage accountPackage)
         {
+            var tracked = _context.ChangeTracker.Entries<AccountPackage>()
+              .FirstOrDefault(e => e.Entity.AccountPackageID == accountPackage.AccountPackageID);
+
+            if (tracked != null)
+            {
+                _context.Entry(tracked.Entity).State = EntityState.Detached;
+            }
+
+            _context.AccountPackages.Update(accountPackage);
             return await _context.SaveChangesAsync() > 0;
         }
 

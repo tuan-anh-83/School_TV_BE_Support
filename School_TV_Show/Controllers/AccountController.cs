@@ -129,6 +129,37 @@ namespace School_TV_Show.Controllers
             });
         }
 
+        [HttpPost("update-account-package")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdateAccountPackage([FromBody] AccountPackage accountRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage)
+                                              .ToList();
+                return BadRequest(new { errors });
+            }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(accountRequest);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
+            bool result = await _accountPackageService.UpdateAccountPackageAsync(accountRequest);
+
+            if (!result)
+                return Conflict("Exists.");
+
+            return Ok(new
+            {
+                message = "Account successfully registered.",
+                package = accountRequest
+            });
+        }
+
         [HttpPost("schoolowner/signup")]
         public async Task<IActionResult> SchoolOwnerSignUp([FromBody] SchoolOwnerSignUpRequestDTO request)
         {
