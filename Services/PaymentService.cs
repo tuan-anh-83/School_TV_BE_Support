@@ -89,6 +89,7 @@ namespace Services
 
                             if (currentPackage != null)
                             {
+                                _logger.LogInformation($"Updating Account Package.");
                                 // Update remaining time
                                 currentPackage.RemainingHours = package.Value.Item1.Duration;
                                 currentPackage.TotalHoursAllowed += package.Value.Item1.Duration;
@@ -100,6 +101,8 @@ namespace Services
                             }
                             else
                             {
+                                _logger.LogInformation($"Creating Account Package.");
+
                                 await _accountPackageRepo.CreateAccountPackageAsync(new AccountPackage
                                 {
                                     AccountPackageID = 0,

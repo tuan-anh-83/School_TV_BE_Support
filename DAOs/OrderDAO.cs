@@ -57,6 +57,14 @@ namespace DAOs
 
         public async Task<Order> UpdateOrderAsync(Order order)
         {
+            var tracked = _context.ChangeTracker.Entries<Order>()
+                          .FirstOrDefault(e => e.Entity.OrderID == order.OrderID);
+
+            if (tracked != null)
+            {
+                _context.Entry(tracked.Entity).State = EntityState.Detached;
+            }
+
             _context.Orders.Update(order);
             await _context.SaveChangesAsync();
             return order;
