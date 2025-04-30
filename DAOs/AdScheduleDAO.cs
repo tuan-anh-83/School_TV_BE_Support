@@ -33,7 +33,7 @@ namespace DAOs
 
         public async Task<IEnumerable<AdSchedule>> GetAllAsync()
         {
-            return await _context.AdSchedules.ToListAsync();
+            return await _context.AdSchedules.AsNoTracking().ToListAsync();
         }
 
         public async Task<AdSchedule> GetByIdAsync(int id)
@@ -57,7 +57,7 @@ namespace DAOs
         }
         public async Task<IEnumerable<AdSchedule>> FilterByDateRangeAsync(DateTime startTime, DateTime endTime)
         {
-            return await _context.AdSchedules
+            return await _context.AdSchedules.AsNoTracking()
                 .Where(ad => ad.StartTime >= startTime && ad.EndTime <= endTime)
                 .ToListAsync();
         }

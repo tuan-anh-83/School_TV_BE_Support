@@ -36,6 +36,7 @@ namespace DAOs
         public async Task<Account?> GetAccountByUsernameAsync(string username)
         {
             return await _context.Accounts
+                                 .AsNoTracking()
                                  .Include(a => a.Role)
                                  .FirstOrDefaultAsync(a => a.Username == username);
         }
@@ -43,23 +44,24 @@ namespace DAOs
         public async Task<Account?> GetAccountByEmailAsync(string email)
         {
             return await _context.Accounts
+                                 .AsNoTracking()
                                  .Include(a => a.Role)
                                  .FirstOrDefaultAsync(a => a.Email == email);
         }
 
         public async Task<Role?> GetRoleByIdAsync(int roleId)
         {
-            return await _context.Roles.FirstOrDefaultAsync(r => r.RoleID == roleId);
+            return await _context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleID == roleId);
         }
 
         public async Task<List<Account>> GetAllAccountsAsync()
         {
-            return await _context.Accounts.Include(a => a.Role).ToListAsync();
+            return await _context.Accounts.AsNoTracking().Include(a => a.Role).ToListAsync();
         }
 
         public async Task<Account?> GetAccountByIdAsync(int accountId)
         {
-            return await _context.Accounts.Include(a => a.Role)
+            return await _context.Accounts.AsNoTracking().Include(a => a.Role)
                                           .FirstOrDefaultAsync(a => a.AccountID == accountId);
         }
 
@@ -75,7 +77,7 @@ namespace DAOs
 
         public async Task<bool> SignUpAsync(Account account)
         {
-            var existingAccount = await _context.Accounts
+            var existingAccount = await _context.Accounts.AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Username == account.Username || a.Email == account.Email);
 
             if (existingAccount != null)
@@ -138,13 +140,13 @@ namespace DAOs
 
         public async Task<Account?> SearchAccountByIdAsync(int accountId)
         {
-            return await _context.Accounts.Include(a => a.Role)
+            return await _context.Accounts.AsNoTracking().Include(a => a.Role)
                                           .FirstOrDefaultAsync(a => a.AccountID == accountId);
         }
 
         public async Task<List<Account>> SearchAccountsByNameAsync(string searchTerm)
         {
-            return await _context.Accounts
+            return await _context.Accounts.AsNoTracking()
                 .Include(a => a.Role)
                 .Where(a => EF.Functions.Like(a.Fullname, $"%{searchTerm}%"))
                 .ToListAsync();
@@ -191,7 +193,7 @@ namespace DAOs
 
         public async Task<bool> VerifyPasswordResetTokenAsync(int accountId, string token)
         {
-            var resetToken = await _context.PasswordResetTokens
+            var resetToken = await _context.PasswordResetTokens.AsNoTracking()
                 .FirstOrDefaultAsync(t => t.AccountID == accountId && t.Token == token);
 
             return resetToken != null && resetToken.Expiration >= DateTime.UtcNow;
@@ -199,7 +201,7 @@ namespace DAOs
 
         public async Task InvalidatePasswordResetTokenAsync(int accountId, string token)
         {
-            var resetToken = await _context.PasswordResetTokens
+            var resetToken = await _context.PasswordResetTokens.AsNoTracking()
                 .FirstOrDefaultAsync(t => t.AccountID == accountId && t.Token == token);
 
             if (resetToken != null)
@@ -210,7 +212,7 @@ namespace DAOs
         }
         public async Task<List<Account>> GetAllPendingSchoolOwnerAsync()
         {
-            return await _context.Accounts
+            return await _context.Accounts.AsNoTracking()
                 .Include(a => a.Role)
                 .Where(a => a.RoleID == 2 && a.Status.ToLower() == "pending") 
                 .ToListAsync();
@@ -230,7 +232,7 @@ namespace DAOs
         }
         public async Task<List<Account>> GetPendingAccountsOlderThanAsync(DateTime threshold)
         {
-            return await _context.Accounts
+            return await _context.Accounts.AsNoTracking()
                 .Where(a => a.Status == "Pending" && a.CreatedAt < threshold)
                 .ToListAsync();
         }

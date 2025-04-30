@@ -33,14 +33,14 @@ namespace DAOs
 
         public async Task<List<Share>> GetAllSharesAsync()
         {
-            return await _context.Shares
+            return await _context.Shares.AsNoTracking()
                 .Include(s => s.VideoHistory)
                 .ToListAsync();
         }
 
         public async Task<List<Share>> GetAllActiveSharesAsync()
         {
-            return await _context.Shares
+            return await _context.Shares.AsNoTracking()
                 .Include(s => s.VideoHistory)
                 .Where(s => s.Quantity > 0)
                 .ToListAsync();
@@ -48,7 +48,7 @@ namespace DAOs
 
         public async Task<Share?> GetShareByIdAsync(int shareId)
         {
-            return await _context.Shares
+            return await _context.Shares.AsNoTracking()
                 .Include(s => s.VideoHistory)
                 .FirstOrDefaultAsync(s => s.ShareID == shareId);
         }
@@ -56,10 +56,10 @@ namespace DAOs
         public async Task<bool> AddShareAsync(Share share)
         {
 
-            bool vhExists = await _context.VideoHistories.AnyAsync(v => v.VideoHistoryID == share.VideoHistoryID);
+            bool vhExists = await _context.VideoHistories.AsNoTracking().AnyAsync(v => v.VideoHistoryID == share.VideoHistoryID);
             if (!vhExists) return false;
 
-            bool accountExists = await _context.Accounts.AnyAsync(a => a.AccountID == share.AccountID);
+            bool accountExists = await _context.Accounts.AsNoTracking().AnyAsync(a => a.AccountID == share.AccountID);
             if (!accountExists) return false;
 
             share.Quantity = 1;
@@ -91,21 +91,21 @@ namespace DAOs
 
         public async Task<int> GetTotalSharesForVideoAsync(int videoHistoryId)
         {
-            return await _context.Shares
+            return await _context.Shares.AsNoTracking()
                 .Where(s => s.VideoHistoryID == videoHistoryId && s.Quantity > 0)
                 .SumAsync(s => s.Quantity);
         }
 
         public async Task<int> GetTotalSharesAsync()
         {
-            return await _context.Shares
+            return await _context.Shares.AsNoTracking()
                  .Where(s => s.Quantity > 0)
                  .SumAsync(s => s.Quantity);
         }
 
         public async Task<Dictionary<int, int>> GetSharesPerVideoAsync()
         {
-            return await _context.Shares
+            return await _context.Shares.AsNoTracking()
                 .Where(s => s.Quantity > 0)
                 .GroupBy(s => s.VideoHistoryID)
                 .Select(g => new

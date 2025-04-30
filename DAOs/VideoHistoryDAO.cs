@@ -33,7 +33,7 @@ namespace DAOs
 
         public async Task<List<VideoHistory>> GetVideosByProgramIdAsync(int programId)
         {
-            return await _context.VideoHistories
+            return await _context.VideoHistories.AsNoTracking()
                 .Where(v => v.ProgramID == programId && v.Status)
                 .OrderByDescending(v => v.CreatedAt)
                 .ToListAsync();
@@ -41,7 +41,7 @@ namespace DAOs
 
         public async Task<List<VideoHistory>> GetExpiredUploadedVideosAsync(DateTime currentTime)
         {
-            return await _context.VideoHistories
+            return await _context.VideoHistories.AsNoTracking()
                 .Where(v =>
                     v.Type != "Live" &&
                     v.Status == true &&
@@ -54,7 +54,7 @@ namespace DAOs
 
         public async Task<List<VideoHistory>> GetAllVideosAsync()
         {
-            return await _context.VideoHistories
+            return await _context.VideoHistories.AsNoTracking()
                 .Where(v => v.Status)
                 .Include(v => v.Program)
                 .ThenInclude(p => p.SchoolChannel)
@@ -64,7 +64,7 @@ namespace DAOs
 
         public async Task<VideoHistory?> GetVideoByIdAsync(int id)
         {
-            return await _context.VideoHistories
+            return await _context.VideoHistories.AsNoTracking()
                 .Include(v => v.Program)
                 .ThenInclude(p => p.SchoolChannel)
                 .FirstOrDefaultAsync(v => v.VideoHistoryID == id);
@@ -72,7 +72,7 @@ namespace DAOs
 
         public async Task<VideoHistory?> GetLatestLiveStreamByProgramIdAsync(int programId)
         {
-            return await _context.VideoHistories
+            return await _context.VideoHistories.AsNoTracking()
                 .Where(v => v.ProgramID == programId && v.Type == "Live" && v.Status)
                 .OrderByDescending(v => v.CreatedAt)
                 .FirstOrDefaultAsync();
@@ -102,7 +102,7 @@ namespace DAOs
 
         public async Task<List<VideoHistory>> GetAllVideoHistoriesAsync()
         {
-            return await _context.VideoHistories
+            return await _context.VideoHistories.AsNoTracking()
                 .Include(v => v.Program)
                 .ThenInclude(p => p.SchoolChannel)
                 .AsNoTracking()
@@ -121,14 +121,14 @@ namespace DAOs
 
         public async Task<(int, int)> GetTotalViewsAndLikesAsync()
         {
-            int views = await _context.VideoViews.CountAsync();
-            int likes = await _context.VideoLikes.CountAsync();
+            int views = await _context.VideoViews.AsNoTracking().CountAsync();
+            int likes = await _context.VideoLikes.AsNoTracking().CountAsync();
             return (views, likes);
         }
 
         public async Task<int> CountByDateRangeAsync(DateTime start, DateTime end)
         {
-            return await _context.VideoHistories
+            return await _context.VideoHistories.AsNoTracking()
                 .CountAsync(v => v.CreatedAt >= start && v.CreatedAt <= end);
         }
 
@@ -136,7 +136,7 @@ namespace DAOs
         {
             var start = date.Date;
             var end = start.AddDays(1);
-            return await _context.VideoHistories
+            return await _context.VideoHistories.AsNoTracking()
                 .Include(v => v.Program)
                 .Where(v => v.CreatedAt >= start && v.CreatedAt < end)
                 .ToListAsync();
@@ -144,7 +144,7 @@ namespace DAOs
 
         public async Task<VideoHistory?> GetReplayVideoByProgramAndTimeAsync(int programId, DateTime start, DateTime end)
         {
-            return await _context.VideoHistories
+            return await _context.VideoHistories.AsNoTracking()
                 .Where(v =>
                     v.ProgramID == programId &&
                     v.Status == true &&
@@ -161,7 +161,7 @@ namespace DAOs
         }
         public async Task<List<VideoHistory>> GetVideosUploadedAfterAsync(DateTime timestamp)
         {
-            return await _context.VideoHistories
+            return await _context.VideoHistories.AsNoTracking()
                 .Include(v => v.Program)
                 .Where(v => v.CreatedAt >= timestamp && v.Duration != null)
                 .ToListAsync();

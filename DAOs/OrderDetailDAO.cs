@@ -40,7 +40,7 @@ namespace DAOs
 
         public async Task<IEnumerable<OrderDetail>> GetOrderDetailsByOrderIdAsync(int orderId)
         {
-            return await _context.OrderDetails
+            return await _context.OrderDetails.AsNoTracking()
                 .Where(od => od.OrderID == orderId)
                 .ToListAsync();
         }

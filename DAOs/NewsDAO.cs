@@ -109,20 +109,20 @@ namespace DAOs
 
         public async Task<bool> ValidateSchoolChannelOwnershipAsync(int schoolChannelId, int accountId)
         {
-            return await _context.SchoolChannels
+            return await _context.SchoolChannels.AsNoTracking()
                 .AnyAsync(sc => sc.SchoolChannelID == schoolChannelId && sc.AccountID == accountId);
         }
 
         public async Task<List<News>> GetNewsByChannelIdAsync(int schoolChannelId)
         {
-            return await _context.News
+            return await _context.News.AsNoTracking()
                 .Where(n => n.SchoolChannelID == schoolChannelId && n.Status)
                 .ToListAsync();
         }
 
         public async Task<News> GetNewsByIdAsync(int id)
         {
-            return await _context.News
+            return await _context.News.AsNoTracking()
                 .Include(n => n.NewsPictures)
                 .Include(n => n.SchoolChannel)
                 .FirstOrDefaultAsync(n => n.NewsID == id && n.Status);
@@ -141,7 +141,7 @@ namespace DAOs
 
         public async Task<IEnumerable<News>> GetAllNewsAsync(bool? active)
         {
-            var query = _context.News
+            var query = _context.News.AsNoTracking()
                 .Include(n => n.NewsPictures)
                 .Include(n => n.SchoolChannel)
                 .AsQueryable();
@@ -153,7 +153,7 @@ namespace DAOs
         }
         public async Task<IEnumerable<News>> GetNewsBySchoolChannelAsync(int schoolChannelId, int? accountId, bool isFollowing)
         {
-            var query = _context.News
+            var query = _context.News.AsNoTracking()
                 .Include(n => n.NewsPictures)
                 .Include(n => n.SchoolChannel)
                 .Where(n => n.SchoolChannelID == schoolChannelId && n.Status == true)
@@ -165,7 +165,7 @@ namespace DAOs
         }
         public async Task<IEnumerable<News>> GetActiveNewsWithFollowCheckAndWithoutFollowingAsync(int? accountId)
         {
-            var query = _context.News
+            var query = _context.News.AsNoTracking()
                 .Include(n => n.NewsPictures)
                 .Include(n => n.SchoolChannel)
                 .Where(n => n.Status)
@@ -173,7 +173,7 @@ namespace DAOs
 
             if (accountId != null)
             {
-                var followedChannels = _context.Follows
+                var followedChannels = _context.Follows.AsNoTracking()
                     .Where(f => f.AccountID == accountId && f.Status == "Followed")
                     .Select(f => f.SchoolChannelID);
 
@@ -189,7 +189,7 @@ namespace DAOs
 
         public async Task<Dictionary<DateTime, int>> GetDailyNewsStatisticsAsync()
         {
-            return await _context.News
+            return await _context.News.AsNoTracking()
                 .Where(n => n.Status)
                 .GroupBy(n => n.CreatedAt.Date)
                 .Select(g => new { Date = g.Key, Count = g.Count() })

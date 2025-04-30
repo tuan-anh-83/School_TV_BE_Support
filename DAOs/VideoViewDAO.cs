@@ -33,25 +33,25 @@ namespace DAOs
 
         public async Task<List<VideoView>> GetAllVideoViewsAsync()
         {
-            return await _context.VideoViews
+            return await _context.VideoViews.AsNoTracking()
                 .Include(v => v.VideoHistory)
                 .ToListAsync();
         }
 
         public async Task<VideoView?> GetVideoViewByIdAsync(int videoViewId)
         {
-            return await _context.VideoViews
+            return await _context.VideoViews.AsNoTracking()
                 .Include(v => v.VideoHistory)
                 .FirstOrDefaultAsync(v => v.ViewID == videoViewId);
         }
 
         public async Task<bool> AddVideoViewAsync(VideoView videoView)
         {
-            bool vhExists = await _context.VideoHistories
+            bool vhExists = await _context.VideoHistories.AsNoTracking()
                 .AnyAsync(v => v.VideoHistoryID == videoView.VideoHistoryID);
             if (!vhExists) return false;
 
-            bool accountExists = await _context.Accounts
+            bool accountExists = await _context.Accounts.AsNoTracking()
                 .AnyAsync(a => a.AccountID == videoView.AccountID);
             if (!accountExists) return false;
 
@@ -84,21 +84,21 @@ namespace DAOs
 
         public async Task<int> GetTotalViewsForVideoAsync(int videoHistoryId)
         {
-            return await _context.VideoViews
+            return await _context.VideoViews.AsNoTracking()
                  .Where(v => v.VideoHistoryID == videoHistoryId && v.Quantity > 0)
                  .SumAsync(v => v.Quantity);
         }
 
         public async Task<int> CountTotalViewsAsync()
         {
-            return await _context.VideoViews
+            return await _context.VideoViews.AsNoTracking()
                 .Where(v => v.Quantity > 0)
                 .SumAsync(v => v.Quantity);
         }
 
         public async Task<Dictionary<int, int>> GetViewsCountPerVideoAsync()
         {
-            return await _context.VideoViews
+            return await _context.VideoViews.AsNoTracking()
                 .Where(v => v.Quantity > 0)
                 .GroupBy(v => v.VideoHistoryID)
                 .Select(g => new { VideoId = g.Key, TotalViews = g.Sum(v => v.Quantity) })

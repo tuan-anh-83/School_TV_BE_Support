@@ -33,14 +33,14 @@ namespace DAOs
 
         public async Task<List<VideoLike>> GetAllVideoLikesAsync()
         {
-            return await _context.VideoLikes
+            return await _context.VideoLikes.AsNoTracking()
                 .Include(vl => vl.VideoHistory)
                 .ToListAsync();
         }
 
         public async Task<VideoLike?> GetVideoLikeByIdAsync(int videoLikeId)
         {
-            return await _context.VideoLikes
+            return await _context.VideoLikes.AsNoTracking()
                 .Include(vl => vl.VideoHistory)
                 .FirstOrDefaultAsync(vl => vl.LikeID == videoLikeId);
         }
@@ -48,11 +48,11 @@ namespace DAOs
         public async Task<bool> AddVideoLikeAsync(VideoLike videoLike)
         {
             videoLike.Quantity = 1;
-            bool vhExists = await _context.VideoHistories
+            bool vhExists = await _context.VideoHistories.AsNoTracking()
                 .AnyAsync(v => v.VideoHistoryID == videoLike.VideoHistoryID);
             if (!vhExists) return false;
 
-            bool accountExists = await _context.Accounts
+            bool accountExists = await _context.Accounts.AsNoTracking()
                 .AnyAsync(a => a.AccountID == videoLike.AccountID);
             if (!accountExists) return false;
 
@@ -86,28 +86,28 @@ namespace DAOs
 
         public async Task<int> GetTotalLikesForVideoAsync(int videoHistoryId)
         {
-            return await _context.VideoLikes
+            return await _context.VideoLikes.AsNoTracking()
                  .Where(s => s.VideoHistoryID == videoHistoryId && s.Quantity > 0)
                  .SumAsync(s => s.Quantity);
         }
 
         public async Task<int> CountTotalLikesAsync()
         {
-            return await _context.VideoLikes
+            return await _context.VideoLikes.AsNoTracking()
               .Where(v => v.Quantity > 0)
               .SumAsync(v => v.Quantity);
         }
 
         public async Task<int> CountLikesByVideoIdAsync(int videoHistoryId)
         {
-            return await _context.VideoLikes
+            return await _context.VideoLikes.AsNoTracking()
                 .Where(v => v.VideoHistoryID == videoHistoryId && v.Quantity > 0)
                 .SumAsync(v => v.Quantity);
         }
 
         public async Task<Dictionary<int, int>> GetLikesCountPerVideoAsync()
         {
-            return await _context.VideoLikes
+            return await _context.VideoLikes.AsNoTracking()
                 .Where(v => v.Quantity > 0)
                 .GroupBy(v => v.VideoHistoryID)
                 .ToDictionaryAsync(

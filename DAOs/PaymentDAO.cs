@@ -55,13 +55,13 @@ namespace DAOs
         // ✅ Retrieve payment by order ID
         public async Task<Payment> GetPaymentByOrderIdAsync(int orderId)
         {
-            return await _context.Payments.FirstOrDefaultAsync(p => p.OrderID == orderId);
+            return await _context.Payments.AsNoTracking().FirstOrDefaultAsync(p => p.OrderID == orderId);
         }
 
         // ✅ Update or insert payment record
         public async Task<Payment> UpdatePaymentAsync(Payment payment)
         {
-            var existingPayment = await _context.Payments.FirstOrDefaultAsync(p => p.OrderID == payment.OrderID);
+            var existingPayment = await _context.Payments.AsNoTracking().FirstOrDefaultAsync(p => p.OrderID == payment.OrderID);
 
             if (existingPayment == null)
             {
