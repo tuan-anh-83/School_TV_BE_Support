@@ -61,7 +61,7 @@ namespace DAOs
         // ✅ Update or insert payment record
         public async Task<Payment> UpdatePaymentAsync(Payment payment)
         {
-
+            var existingPayment = await _context.Payments.AsNoTracking().FirstOrDefaultAsync(p => p.OrderID == payment.OrderID);
             if (existingPayment == null)
             {
                 _context.Payments.Add(payment);  // ✅ Insert if not exists

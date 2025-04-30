@@ -45,11 +45,13 @@ namespace DAOs
 
         public async Task<Package?> GetPackageByIdAsync(int packageId)
         {
-                .FirstOrDefaultAsync(p => p.PackageID == packageId && p.Status == "Active");
+            return await _context.Packages.AsNoTracking()
+         .FirstOrDefaultAsync(p => p.PackageID == packageId && p.Status == "Active");
         }
         public async Task<List<Package>> SearchPackagesByNameAsync(string name)
         {
-                .Where(p => EF.Functions.Like(p.Name, $"%{name}%"))
+            return await _context.Packages.AsNoTracking()
+        .Where(p => EF.Functions.Like(p.Name, $"%{name}%"))
                 .ToListAsync();
         }
 
@@ -92,7 +94,8 @@ namespace DAOs
         }
         public async Task<List<object>> GetTopPurchasedPackagesAsync()
         {
-                .GroupBy(od => od.PackageID)
+            var result = await _context.OrderDetails.AsNoTracking()
+               .GroupBy(od => od.PackageID)
                 .Select(g => new
                 {
                     PackageID = g.Key,
@@ -119,7 +122,8 @@ namespace DAOs
         {
             Console.WriteLine($"[DEBUG] Start fetching current package for AccountID: {accountId}");
 
-                .Include(o => o.OrderDetails)
+            var latestPaidOrder = await _context.Orders.AsNoTracking()
+          .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Package)
                 .Where(o => o.AccountID == accountId && o.Status == "Completed")
                 .OrderByDescending(o => o.CreatedAt)
@@ -150,7 +154,9 @@ namespace DAOs
 
             Console.WriteLine($"[DEBUG] Package loaded: Name = {packageDetail.Package.Name}, Duration = {packageDetail.Package.Duration}");
 
-                .FirstOrDefaultAsync(ap => ap.AccountID == accountId);
+            var accountPackage = await _context.AccountPackages
+.AsNoTracking()
+    .FirstOrDefaultAsync(ap => ap.AccountID == accountId);
 
             if (accountPackage == null)
             {
@@ -166,19 +172,21 @@ namespace DAOs
         public async Task<AccountPackage?> GetCurrentPackageAndDurationByProgramIdAsync(int programId)
         {
             Console.WriteLine($"[DEBUG] Start fetching current package for ProgramID: {programId}");
-
-                .Include(p => p.SchoolChannel)
+            var schoolChannel = await _context.Programs
+.AsNoTracking()
+    .Include(p => p.SchoolChannel)
                 .Where(p => p.ProgramID == programId)
                 .Select(p => p.SchoolChannel)
                 .FirstOrDefaultAsync();
 
-            if(schoolChannel == null)
+            if (schoolChannel == null)
             {
                 Console.WriteLine("[DEBUG] No school channel found for program.");
                 return null;
             }
-
-                .Where(ap => ap.AccountID == schoolChannel.AccountID)
+            var accountPackage = await _context.AccountPackages
+.AsNoTracking()
+    .Where(ap => ap.AccountID == schoolChannel.AccountID)
                 .FirstOrDefaultAsync();
 
             return accountPackage;

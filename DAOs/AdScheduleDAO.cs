@@ -57,7 +57,8 @@ namespace DAOs
         }
         public async Task<IEnumerable<AdSchedule>> FilterByDateRangeAsync(DateTime startTime, DateTime endTime)
         {
-                .Where(ad => ad.StartTime >= startTime && ad.EndTime <= endTime)
+            return await _context.AdSchedules.AsNoTracking()
+        .Where(ad => ad.StartTime >= startTime && ad.EndTime <= endTime)
                 .ToListAsync();
         }
 

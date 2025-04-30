@@ -40,21 +40,26 @@ namespace DAOs
 
         public async Task<List<Share>> GetAllActiveSharesAsync()
         {
-                .Include(s => s.VideoHistory)
+            return await _context.Shares.AsNoTracking()
+        .Include(s => s.VideoHistory)
                 .Where(s => s.Quantity > 0)
                 .ToListAsync();
         }
 
         public async Task<Share?> GetShareByIdAsync(int shareId)
         {
-                .Include(s => s.VideoHistory)
+            return await _context.Shares.AsNoTracking()
+               .Include(s => s.VideoHistory)
                 .FirstOrDefaultAsync(s => s.ShareID == shareId);
         }
 
         public async Task<bool> AddShareAsync(Share share)
         {
+            bool vhExists = await _context.VideoHistories.AsNoTracking().AnyAsync(v => v.VideoHistoryID == share.VideoHistoryID);
 
             if (!vhExists) return false;
+
+            bool accountExists = await _context.Accounts.AsNoTracking().AnyAsync(a => a.AccountID == share.AccountID);
 
             if (!accountExists) return false;
 
@@ -87,19 +92,22 @@ namespace DAOs
 
         public async Task<int> GetTotalSharesForVideoAsync(int videoHistoryId)
         {
-                .Where(s => s.VideoHistoryID == videoHistoryId && s.Quantity > 0)
+            return await _context.Shares.AsNoTracking()
+    .Where(s => s.VideoHistoryID == videoHistoryId && s.Quantity > 0)
                 .SumAsync(s => s.Quantity);
         }
 
         public async Task<int> GetTotalSharesAsync()
         {
-                 .Where(s => s.Quantity > 0)
+            return await _context.Shares.AsNoTracking()
+         .Where(s => s.Quantity > 0)
                  .SumAsync(s => s.Quantity);
         }
 
         public async Task<Dictionary<int, int>> GetSharesPerVideoAsync()
         {
-                .Where(s => s.Quantity > 0)
+            return await _context.Shares.AsNoTracking()
+             .Where(s => s.Quantity > 0)
                 .GroupBy(s => s.VideoHistoryID)
                 .Select(g => new
                 {

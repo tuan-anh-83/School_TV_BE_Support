@@ -57,7 +57,8 @@ namespace DAOs
 
         public async Task<IEnumerable<SchoolChannel>> SearchAsync(string? keyword, string? address, int? accountId)
         {
-                                .Include(sc => sc.Account)
+            var query = _context.SchoolChannels.AsNoTracking()
+                          .Include(sc => sc.Account)
                                 .Where(sc => sc.Status == true)
                                 .AsQueryable();
 
@@ -100,6 +101,8 @@ namespace DAOs
 
         public async Task<bool> DeleteByNameAsync(string name)
         {
+            var schoolChannel = await _context.SchoolChannels.AsNoTracking().FirstOrDefaultAsync(s => s.Name == name);
+
             if (schoolChannel == null)
             {
                 return false;

@@ -40,22 +40,26 @@ namespace DAOs
 
         public async Task<List<Comment>> GetAllActiveCommentsAsync()
         {
-                .Include(c => c.VideoHistory)
+            return await _context.Comments.AsNoTracking()
+            .Include(c => c.VideoHistory)
                 .Where(c => c.Quantity > 0)
                 .ToListAsync();
         }
 
         public async Task<Comment?> GetCommentByIdAsync(int commentId)
         {
-                .Include(c => c.VideoHistory)
+            return await _context.Comments.AsNoTracking()
+             .Include(c => c.VideoHistory)
                 .FirstOrDefaultAsync(c => c.CommentID == commentId);
         }
 
         public async Task<bool> AddCommentAsync(Comment comment)
         {
-                .AnyAsync(v => v.VideoHistoryID == comment.VideoHistoryID);
+            bool vhExists = await _context.VideoHistories.AsNoTracking()
+            .AnyAsync(v => v.VideoHistoryID == comment.VideoHistoryID);
             if (!vhExists) return false;
 
+            bool accountExists = await _context.Accounts.AsNoTracking()
                 .AnyAsync(a => a.AccountID == comment.AccountID);
             if (!accountExists) return false;
 
@@ -89,14 +93,16 @@ namespace DAOs
 
         public async Task<List<Comment>> GetCommentsWithAccountByVideoHistoryIdAsync(int videoHistoryId)
         {
-                .Where(c => c.VideoHistoryID == videoHistoryId && c.Quantity > 0)
+            return await _context.Comments.AsNoTracking()
+       .Where(c => c.VideoHistoryID == videoHistoryId && c.Quantity > 0)
                 .Include(c => c.VideoHistory)
                 .ToListAsync();
         }
 
         public async Task<int> GetTotalCommentsForVideoAsync(int videoHistoryId)
         {
-                .Where(c => c.VideoHistoryID == videoHistoryId && c.Quantity > 0)
+            return await _context.Comments.AsNoTracking()
+              .Where(c => c.VideoHistoryID == videoHistoryId && c.Quantity > 0)
                 .SumAsync(c => c.Quantity);
         }
     }

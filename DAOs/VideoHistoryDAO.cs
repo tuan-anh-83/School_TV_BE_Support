@@ -41,7 +41,8 @@ namespace DAOs
 
         public async Task<List<VideoHistory>> GetExpiredUploadedVideosAsync(DateTime currentTime)
         {
-                .Where(v =>
+            return await _context.VideoHistories.AsNoTracking()
+            .Where(v =>
                     v.Type != "Live" &&
                     v.Status == true &&
                     v.StreamAt.HasValue &&
@@ -53,7 +54,8 @@ namespace DAOs
 
         public async Task<List<VideoHistory>> GetAllVideosAsync()
         {
-                .Where(v => v.Status)
+            return await _context.VideoHistories
+               .Where(v => v.Status)
                 .Include(v => v.Program)
                 .ThenInclude(p => p.SchoolChannel)
                 .AsNoTracking()
@@ -62,14 +64,16 @@ namespace DAOs
 
         public async Task<VideoHistory?> GetVideoByIdAsync(int id)
         {
-                .Include(v => v.Program)
+            return await _context.VideoHistories.AsNoTracking()
+           .Include(v => v.Program)
                 .ThenInclude(p => p.SchoolChannel)
                 .FirstOrDefaultAsync(v => v.VideoHistoryID == id);
         }
 
         public async Task<VideoHistory?> GetLatestLiveStreamByProgramIdAsync(int programId)
         {
-                .Where(v => v.ProgramID == programId && v.Type == "Live" && v.Status)
+            return await _context.VideoHistories.AsNoTracking()
+           .Where(v => v.ProgramID == programId && v.Type == "Live" && v.Status)
                 .OrderByDescending(v => v.CreatedAt)
                 .FirstOrDefaultAsync();
         }
@@ -98,7 +102,8 @@ namespace DAOs
 
         public async Task<List<VideoHistory>> GetAllVideoHistoriesAsync()
         {
-                .Include(v => v.Program)
+            return await _context.VideoHistories
+          .Include(v => v.Program)
                 .ThenInclude(p => p.SchoolChannel)
                 .AsNoTracking()
                 .ToListAsync();
@@ -116,11 +121,14 @@ namespace DAOs
 
         public async Task<(int, int)> GetTotalViewsAndLikesAsync()
         {
+            int views = await _context.VideoViews.AsNoTracking().CountAsync();
+            int likes = await _context.VideoLikes.AsNoTracking().CountAsync();
             return (views, likes);
         }
 
         public async Task<int> CountByDateRangeAsync(DateTime start, DateTime end)
         {
+            return await _context.VideoHistories.AsNoTracking()
                 .CountAsync(v => v.CreatedAt >= start && v.CreatedAt <= end);
         }
 
@@ -128,14 +136,16 @@ namespace DAOs
         {
             var start = date.Date;
             var end = start.AddDays(1);
-                .Include(v => v.Program)
+            return await _context.VideoHistories.AsNoTracking()
+        .Include(v => v.Program)
                 .Where(v => v.CreatedAt >= start && v.CreatedAt < end)
                 .ToListAsync();
         }
 
         public async Task<VideoHistory?> GetReplayVideoByProgramAndTimeAsync(int programId, DateTime start, DateTime end)
         {
-                .Where(v =>
+            return await _context.VideoHistories.AsNoTracking()
+           .Where(v =>
                     v.ProgramID == programId &&
                     v.Status == true &&
                     v.Type != "Live" &&
@@ -151,7 +161,8 @@ namespace DAOs
         }
         public async Task<List<VideoHistory>> GetVideosUploadedAfterAsync(DateTime timestamp)
         {
-                .Include(v => v.Program)
+            return await _context.VideoHistories.AsNoTracking()
+            .Include(v => v.Program)
                 .Where(v => v.CreatedAt >= timestamp && v.Duration != null)
                 .ToListAsync();
         }

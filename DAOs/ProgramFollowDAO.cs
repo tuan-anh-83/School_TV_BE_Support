@@ -43,7 +43,8 @@ namespace DAOs
 
         public async Task<List<ProgramFollow>> GetByAccountIdAsync(int accountId)
         {
-                .Where(f => f.AccountID == accountId)
+            return await _context.ProgramFollows.AsNoTracking()
+             .Where(f => f.AccountID == accountId)
                 .ToListAsync();
         }
 
@@ -70,10 +71,12 @@ namespace DAOs
 
         public async Task<int> CountByProgramAsync(int programId)
         {
+            return await _context.ProgramFollows.AsNoTracking().CountAsync(f => f.ProgramID == programId);
         }
 
         public async Task<ProgramFollow> GetByAccountAndProgramAsync(int accountId, int programId)
         {
+            return await _context.ProgramFollows.AsNoTracking()
                 .FirstOrDefaultAsync(f => f.AccountID == accountId && f.ProgramID == programId);
         }
 
@@ -93,12 +96,14 @@ namespace DAOs
 
         public async Task<List<ProgramFollow>> GetFollowersByProgramIdAsync(int programId)
         {
-                .Where(f => f.ProgramID == programId)
+            return await _context.ProgramFollows.AsNoTracking()
+              .Where(f => f.ProgramID == programId)
                 .ToListAsync();
         }
         public async Task<List<ProgramFollow>> GetByProgramIdAsync(int programId)
         {
-                .Where(f => f.ProgramID == programId)
+            return await _context.ProgramFollows.AsNoTracking()
+              .Where(f => f.ProgramID == programId)
                 .ToListAsync();
         }
     }

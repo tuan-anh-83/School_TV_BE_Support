@@ -46,25 +46,29 @@ namespace DAOs
 
         public async Task<List<Program>> GetProgramsWithVideoHistoryAsync()
         {
-                .Where(p => p.VideoHistories.Any())
+            return await _context.Programs.AsNoTracking()
+            .Where(p => p.VideoHistories.Any())
                 .ToListAsync();
         }
 
         public async Task<List<Program>> GetProgramsWithoutVideoHistoryAsync()
         {
-                .Where(p => !p.VideoHistories.Any())
+            return await _context.Programs.AsNoTracking()
+          .Where(p => !p.VideoHistories.Any())
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Program>> GetProgramsByChannelIdAsync(int channelId)
         {
-                .Where(p => p.SchoolChannelID == channelId)
+            return await _context.Programs.AsNoTracking()
+            .Where(p => p.SchoolChannelID == channelId)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Program>> GetAllProgramsAsync()
         {
-                .Include(p => p.SchoolChannel)
+            return await _context.Programs.AsNoTracking()
+              .Include(p => p.SchoolChannel)
                 .Include(p => p.Schedules)
                 .Include(p => p.VideoHistories)
                 .Include(p => p.ProgramFollows)
@@ -76,7 +80,8 @@ namespace DAOs
             if (programId <= 0)
                 throw new ArgumentException("Program ID must be greater than zero.");
 
-                .Include(p => p.SchoolChannel)
+            return await _context.Programs.AsNoTracking()
+             .Include(p => p.SchoolChannel)
                 .Include(p => p.Schedules)
                 .Include(p => p.VideoHistories)
                 .Include(p => p.ProgramFollows)
@@ -88,7 +93,8 @@ namespace DAOs
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Program name cannot be null or empty.");
 
-                .Include(p => p.SchoolChannel)
+            return await _context.Programs.AsNoTracking()
+               .Include(p => p.SchoolChannel)
                 .Include(p => p.Schedules)
                 .Include(p => p.VideoHistories)
                 .Include(p => p.ProgramFollows)
@@ -118,7 +124,8 @@ namespace DAOs
             if (program == null || program.ProgramID <= 0)
                 throw new ArgumentException("Invalid Program data.");
 
-                                        .Include(p => p.Schedules)
+            var existingProgram = await _context.Programs.AsNoTracking()
+                                    .Include(p => p.Schedules)
                                         .FirstOrDefaultAsync(p => p.ProgramID == program.ProgramID);
             if (existingProgram == null)
                 throw new InvalidOperationException("Program not found.");
@@ -145,7 +152,8 @@ namespace DAOs
             if (programId <= 0)
                 throw new ArgumentException("Program ID must be greater than zero.");
 
-                              .Include(p => p.Schedules)
+            var program = await _context.Programs.AsNoTracking()
+                             .Include(p => p.Schedules)
                               .FirstOrDefaultAsync(p => p.ProgramID == programId);
             if (program == null)
                 return false;
@@ -167,13 +175,14 @@ namespace DAOs
 
         public async Task<int> CountProgramsAsync()
         {
+            return await _context.Programs.AsNoTracking().CountAsync();
         }
 
         public async Task<int> CountProgramsByStatusAsync(string status)
         {
             if (string.IsNullOrWhiteSpace(status))
                 throw new ArgumentException("Status cannot be null or empty.");
-
+            return await _context.Programs.AsNoTracking().CountAsync(p => p.Status.Equals(status, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task<int> CountProgramsByScheduleAsync(int scheduleId)
@@ -181,7 +190,8 @@ namespace DAOs
             if (scheduleId <= 0)
                 throw new ArgumentException("Schedule ID must be greater than zero.");
 
-                .Include(p => p.Schedules)
+            return await _context.Programs.AsNoTracking()
+             .Include(p => p.Schedules)
                 .Where(p => p.Schedules.Any(s => s.ScheduleID == scheduleId))
                 .CountAsync();
         }

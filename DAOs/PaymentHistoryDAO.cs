@@ -60,13 +60,15 @@ namespace DAOs
         }
         public async Task<List<PaymentHistory>> GetAllPaymentHistoriesAsync()
         {
-                .OrderByDescending(ph => ph.Timestamp)
+            return await _context.PaymentHistories.AsNoTracking()
+            .OrderByDescending(ph => ph.Timestamp)
                 .ToListAsync();
         }
 
         public async Task<List<PaymentHistory>> GetPaymentHistoriesByUserIdAsync(int userId)
         {
-                .Where(ph => ph.Payment.Order.AccountID == userId)
+            return await _context.PaymentHistories.AsNoTracking()
+             .Where(ph => ph.Payment.Order.AccountID == userId)
                 .OrderByDescending(ph => ph.Timestamp)
                 .ToListAsync();
         }

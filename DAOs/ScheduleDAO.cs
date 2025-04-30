@@ -76,7 +76,8 @@ namespace DAOs
 
         public async Task<IEnumerable<Schedule>> GetAllSchedulesAsync()
         {
-                .Include(s => s.Program)
+            return await _context.Schedules
+              .Include(s => s.Program)
                 .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
                 .ToListAsync();
         }
@@ -112,7 +113,8 @@ namespace DAOs
 
         public async Task<IEnumerable<Schedule>> GetActiveSchedulesAsync()
         {
-                .Where(s => s.Status == "Active" || s.Status == "Ready" || s.Status == "Live")
+            return await _context.Schedules.AsNoTracking()
+          .Where(s => s.Status == "Active" || s.Status == "Ready" || s.Status == "Live")
                 .Include(s => s.Program)
                 .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
                 .ToListAsync();
@@ -120,7 +122,8 @@ namespace DAOs
 
         public async Task<IEnumerable<Schedule>> GetLiveNowSchedulesAsync()
         {
-                .Where(s => s.Status == "Live")
+            return await _context.Schedules.AsNoTracking()
+          .Where(s => s.Status == "Live")
                 .Include(s => s.Program)
                     .ThenInclude(p => p.SchoolChannel)
                 .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
@@ -129,7 +132,8 @@ namespace DAOs
 
         public async Task<IEnumerable<Schedule>> GetUpcomingSchedulesAsync()
         {
-                .Where(s => s.Status == "Pending" || s.Status == "Ready")
+            return await _context.Schedules.AsNoTracking()
+          .Where(s => s.Status == "Pending" || s.Status == "Ready")
                 .Include(s => s.Program)
                 .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
                 .ToListAsync();
@@ -140,7 +144,8 @@ namespace DAOs
             var start = date.Date;
             var end = start.AddDays(1);
 
-                .Where(s =>
+            return await _context.Schedules.AsNoTracking()
+          .Where(s =>
                     s.Program.SchoolChannelID == channelId &&
                     s.StartTime >= start &&
                     s.StartTime < end)
@@ -164,7 +169,8 @@ namespace DAOs
 
         public async Task<List<Schedule>> GetSchedulesByDateAsync(DateTime date)
         {
-                .Include(s => s.Program)
+            return await _context.Schedules
+          .Include(s => s.Program)
                     .ThenInclude(p => p.SchoolChannel)
                 .Where(s => s.StartTime.Date == date.Date)
                 .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
@@ -173,7 +179,8 @@ namespace DAOs
 
         public async Task<Program?> GetProgramByVideoHistoryIdAsync(int videoHistoryId)
         {
-                .Include(v => v.Program)
+            var video = await _context.VideoHistories
+          .Include(v => v.Program)
                 .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
                 .FirstOrDefaultAsync(v => v.VideoHistoryID == videoHistoryId);
 

@@ -40,16 +40,19 @@ namespace DAOs
 
         public async Task<VideoView?> GetVideoViewByIdAsync(int videoViewId)
         {
-                .Include(v => v.VideoHistory)
+            return await _context.VideoViews.AsNoTracking()
+       .Include(v => v.VideoHistory)
                 .FirstOrDefaultAsync(v => v.ViewID == videoViewId);
         }
 
         public async Task<bool> AddVideoViewAsync(VideoView videoView)
         {
-                .AnyAsync(v => v.VideoHistoryID == videoView.VideoHistoryID);
+            bool vhExists = await _context.VideoHistories.AsNoTracking()
+               .AnyAsync(v => v.VideoHistoryID == videoView.VideoHistoryID);
             if (!vhExists) return false;
 
-                .AnyAsync(a => a.AccountID == videoView.AccountID);
+            bool accountExists = await _context.Accounts.AsNoTracking()
+         .AnyAsync(a => a.AccountID == videoView.AccountID);
             if (!accountExists) return false;
 
             _context.VideoViews.Add(videoView);
@@ -81,19 +84,22 @@ namespace DAOs
 
         public async Task<int> GetTotalViewsForVideoAsync(int videoHistoryId)
         {
-                 .Where(v => v.VideoHistoryID == videoHistoryId && v.Quantity > 0)
+            return await _context.VideoViews.AsNoTracking()
+                .Where(v => v.VideoHistoryID == videoHistoryId && v.Quantity > 0)
                  .SumAsync(v => v.Quantity);
         }
 
         public async Task<int> CountTotalViewsAsync()
         {
-                .Where(v => v.Quantity > 0)
+            return await _context.VideoViews.AsNoTracking()
+         .Where(v => v.Quantity > 0)
                 .SumAsync(v => v.Quantity);
         }
 
         public async Task<Dictionary<int, int>> GetViewsCountPerVideoAsync()
         {
-                .Where(v => v.Quantity > 0)
+            return await _context.VideoViews.AsNoTracking()
+              .Where(v => v.Quantity > 0)
                 .GroupBy(v => v.VideoHistoryID)
                 .Select(g => new { VideoId = g.Key, TotalViews = g.Sum(v => v.Quantity) })
                 .ToDictionaryAsync(g => g.VideoId, g => g.TotalViews);

@@ -38,6 +38,7 @@ namespace DAOs
 
         public async Task<AccountPackage?> GetAccountPackageByAccountIdAsync(int accountId)
         {
+            return await _context.AccountPackages.AsNoTracking().FirstOrDefaultAsync(a => a.AccountID == accountId);
         }
 
         public async Task<bool> UpdateAccountPackageAsync(AccountPackage accountPackage)

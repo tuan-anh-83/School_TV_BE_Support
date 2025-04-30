@@ -38,6 +38,7 @@ namespace DAOs
 
         public async Task<CategoryNews?> GetByIdAsync(int id)
         {
+            return await _context.CategoryNews.AsNoTracking().Include(c => c.News).FirstOrDefaultAsync(c => c.CategoryNewsID == id);
         }
 
         public async Task<CategoryNews> AddAsync(CategoryNews categoryNews)
