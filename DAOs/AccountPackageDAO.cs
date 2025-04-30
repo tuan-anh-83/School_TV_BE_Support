@@ -43,11 +43,6 @@ namespace DAOs
 
         public async Task<bool> UpdateAccountPackageAsync(AccountPackage accountPackage)
         {
-            var existingAccountPackage = await GetAccountPackageByIdAsync(accountPackage.AccountPackageID);
-            if (existingAccountPackage == null)
-                return false;
-
-            _context.Entry(existingAccountPackage).CurrentValues.SetValues(accountPackage);
             return await _context.SaveChangesAsync() > 0;
         }
 

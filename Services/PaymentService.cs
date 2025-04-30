@@ -91,6 +91,7 @@ namespace Services
                             {
                                 _logger.LogInformation($"Updating Account Package.");
                                 // Update remaining time
+                                currentPackage.PackageID = package.Value.Item1.PackageID;
                                 currentPackage.RemainingHours = package.Value.Item1.Duration;
                                 currentPackage.TotalHoursAllowed += package.Value.Item1.Duration;
                                 currentPackage.ExpiredAt = currentPackage.ExpiredAt != null ? 
