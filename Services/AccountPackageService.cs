@@ -20,6 +20,11 @@ namespace Services
             _cache = cache;
         }
 
+        public async Task<bool> CreateAccountPackageAsync(AccountPackage accountPackage)
+        {
+            return await _accountPackageRepo.CreateAccountPackageAsync(accountPackage); 
+        }
+
         public async Task<bool> UpdateAccountPackageAsync(AccountPackage accountPackage)
         {
             return await _accountPackageRepo.UpdateAccountPackageAsync(accountPackage);

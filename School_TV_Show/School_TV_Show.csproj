@@ -27,6 +27,8 @@
 
   <ItemGroup>
     <Folder Include="Files\" />
+    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\logs\" />
   </ItemGroup>
 
 </Project>

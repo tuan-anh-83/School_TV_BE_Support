@@ -10,5 +10,6 @@ namespace Services
     public interface IAccountPackageService
     {
         Task<bool> UpdateAccountPackageAsync(AccountPackage accountPackage);
+        Task<bool> CreateAccountPackageAsync(AccountPackage accountPackage);
     }
 }

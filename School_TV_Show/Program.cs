@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Net.payOS;
 using Repos;
+using School_TV_Show;
 using Services;
 
 
@@ -20,6 +21,13 @@ using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var logPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "logs", "app.txt");
+if (!Directory.Exists(Path.GetDirectoryName(logPath)))
+    Directory.CreateDirectory(Path.GetDirectoryName(logPath)!);
+builder.Logging.ClearProviders(); // (tùy chọn) nếu bạn chỉ muốn log vào file
+builder.Logging.AddConsole();     // giữ lại log ra console nếu muốn
+builder.Logging.AddProvider(new FileLoggerProvider(logPath));
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -220,7 +228,7 @@ builder.Services.AddSingleton(new PayOS(clientId, apiKey, checksumKey));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
-
+app.UseStaticFiles();
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -231,4 +239,9 @@ app.UseAuthorization();
 app.MapHub<LiveStreamHub>("/hubs/livestream");
 app.MapHub<NotificationHub>("/hubs/notification");
 app.MapControllers();
+app.MapGet("/", (ILogger<Program> logger) =>
+{
+    logger.LogInformation("Trang chủ được truy cập lúc {Time}", DateTime.Now);
+    return "Hello World!";
+});
 app.Run();

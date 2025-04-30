@@ -24,6 +24,7 @@ namespace School_TV_Show.Controllers
         private readonly IAccountService _accountService;
         private readonly ITokenService _tokenService;
         private readonly IEmailService _emailService;
+        private readonly IAccountPackageService _accountPackageService;
         private readonly IPasswordHasher<Account> _passwordHasher;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AccountController> _logger;
@@ -32,6 +33,7 @@ namespace School_TV_Show.Controllers
             IAccountService accountService,
             ITokenService tokenService,
             IEmailService emailService,
+            IAccountPackageService accountPackageService,
             IPasswordHasher<Account> passwordHasher,
             ILogger<AccountController> logger,
             IConfiguration configuration)
@@ -39,6 +41,7 @@ namespace School_TV_Show.Controllers
             _accountService = accountService;
             _tokenService = tokenService;
             _emailService = emailService;
+            _accountPackageService = accountPackageService;
             _passwordHasher = passwordHasher;
             _logger = logger;
             _configuration = configuration;
@@ -94,6 +97,38 @@ namespace School_TV_Show.Controllers
                 }
             });
         }
+
+        [HttpPost("account-package")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateAccountPackage([FromBody] AccountPackage accountRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage)
+                                              .ToList();
+                return BadRequest(new { errors });
+            }
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(accountRequest);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { message });
+            }
+
+            bool result = await _accountPackageService.CreateAccountPackageAsync(accountRequest);
+
+            if (!result)
+                return Conflict("Exists.");
+
+            return Ok(new
+            {
+                message = "Account successfully registered.",
+                package = accountRequest
+            });
+        }
+
         [HttpPost("schoolowner/signup")]
         public async Task<IActionResult> SchoolOwnerSignUp([FromBody] SchoolOwnerSignUpRequestDTO request)
         {
