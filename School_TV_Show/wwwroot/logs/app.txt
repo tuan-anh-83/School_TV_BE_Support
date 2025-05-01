@@ -172,3 +172,877 @@ Error Number:547,State:0,Class:16
 [2025-04-30 19:30:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 04/30/2025 19:30:18
 [2025-04-30 19:30:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
 [2025-04-30 19:30:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:49:11] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-01 08:49:15] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-01 08:49:15] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-01 08:49:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-01 08:49:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:49:40
+[2025-05-01 08:50:02] [Error] Services.HostedServices.PendingAccountReminderService: Error while sending OTP reminders.
+Exception: System.InvalidOperationException: An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure' to the 'UseSqlServer' call.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The client was unable to establish a connection because of an error during connection initialization process before login. Possible causes include the following:  the client tried to connect to an unsupported version of SQL Server; the server was too busy to accept new connections; or there was a resource limitation (insufficient memory or maximum allowed connections) on the server. (provider: TCP Provider, error: 0 - An existing connection was forcibly closed by the remote host.)
+ ---> System.ComponentModel.Win32Exception (10054): An existing connection was forcibly closed by the remote host.
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.ThrowExceptionAndWarning(Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.SNIWritePacket(PacketHandle packet, UInt32& sniError, Boolean canAccumulate, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.WriteSni(Boolean canAccumulate)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.WritePacket(Byte flushMode, Boolean canAccumulate)
+   at Microsoft.Data.SqlClient.TdsParser.SendPreLoginHandshake(Byte[] instanceName, SqlConnectionEncryptOption encrypt, Boolean integratedSecurity, String serverCertificateFilename)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+ClientConnectionId:7873d8a2-1510-4d39-8f0b-5bb7737bdebd
+Error Number:10054,State:0,Class:20
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.AccountDAO.GetPendingAccountsOlderThanAsync(DateTime threshold) in F:\Workspace\School_TV_BE\DAOs\AccountDAO.cs:line 235
+   at Repos.AccountRepo.GetPendingAccountsOlderThanAsync(DateTime threshold) in F:\Workspace\School_TV_BE\Repos\AccountRepo.cs:line 50
+   at Services.AccountService.GetPendingAccountsAsync(DateTime threshold) in F:\Workspace\School_TV_BE\Services\AccountService.cs:line 74
+   at Services.HostedServices.PendingAccountReminderService.SendPendingAccountRemindersAsync() in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\PendingAccountReminderService.cs:line 58
+[2025-05-01 08:50:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:50:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:50:22] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-01 08:50:22] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-01 08:51:13] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-01 08:51:13] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-01 08:51:13] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-01 08:51:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:52:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:52:25
+[2025-05-01 08:52:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:52:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:52:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:52:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:52:56
+[2025-05-01 08:52:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:52:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:52:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:53:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:53:26
+[2025-05-01 08:53:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:53:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:53:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:53:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:53:57
+[2025-05-01 08:53:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:53:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:53:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:54:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:54:27
+[2025-05-01 08:54:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:54:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:54:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:54:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:54:58
+[2025-05-01 08:54:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:54:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:54:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:55:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:55:28
+[2025-05-01 08:55:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:55:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:55:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:55:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:55:58
+[2025-05-01 08:55:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:55:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:55:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:56:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:56:29
+[2025-05-01 08:56:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:56:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:56:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:56:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:56:59
+[2025-05-01 08:56:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:56:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:56:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:57:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:57:30
+[2025-05-01 08:57:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:57:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:57:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:58:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:58:00
+[2025-05-01 08:58:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:58:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:58:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:58:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:58:30
+[2025-05-01 08:58:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:58:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:58:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:59:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:59:01
+[2025-05-01 08:59:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:59:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:59:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 08:59:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 08:59:31
+[2025-05-01 08:59:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 08:59:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 08:59:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:00:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:00:02
+[2025-05-01 09:00:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:00:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:00:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:00:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:00:32
+[2025-05-01 09:00:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:00:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:00:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:01:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:01:02
+[2025-05-01 09:01:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:01:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:01:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:01:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:01:33
+[2025-05-01 09:01:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:01:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:01:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:02:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:02:03
+[2025-05-01 09:02:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:02:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:02:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:02:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:02:34
+[2025-05-01 09:02:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:02:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:02:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:03:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:03:04
+[2025-05-01 09:03:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:03:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:03:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:03:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:03:34
+[2025-05-01 09:03:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:03:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:03:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:04:05] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:04:05
+[2025-05-01 09:04:05] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:04:05] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:04:05] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:04:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:04:35
+[2025-05-01 09:04:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:04:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:04:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:05:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:05:06
+[2025-05-01 09:05:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:05:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:05:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:05:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:05:36
+[2025-05-01 09:05:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:05:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:05:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:06:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:06:07
+[2025-05-01 09:06:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:06:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:06:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:06:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:06:37
+[2025-05-01 09:06:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:06:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:06:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:07:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:07:07
+[2025-05-01 09:07:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:07:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:07:08] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:07:38] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:07:38
+[2025-05-01 09:07:38] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:07:38] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:07:38] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:08:08] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:08:08
+[2025-05-01 09:08:08] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:08:08] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:08:08] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:08:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:08:39
+[2025-05-01 09:08:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:08:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:08:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:09:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:09:09
+[2025-05-01 09:09:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:09:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:09:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:09:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:09:39
+[2025-05-01 09:09:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:09:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:09:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:10:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:10:10
+[2025-05-01 09:10:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:10:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:10:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:10:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:10:40
+[2025-05-01 09:10:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:10:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:10:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:11:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:11:11
+[2025-05-01 09:11:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:11:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:11:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:11:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:11:41
+[2025-05-01 09:11:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:11:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:11:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:12:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:12:11
+[2025-05-01 09:12:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:12:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:12:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:12:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:12:42
+[2025-05-01 09:12:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:12:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:12:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:13:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:13:12
+[2025-05-01 09:13:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:13:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:13:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:13:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:13:43
+[2025-05-01 09:13:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:13:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:13:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:14:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:14:13
+[2025-05-01 09:14:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:14:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:14:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:14:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:14:43
+[2025-05-01 09:14:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:14:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:14:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:15:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:15:14
+[2025-05-01 09:15:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:15:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:15:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:15:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:15:44
+[2025-05-01 09:15:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:15:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:15:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:16:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:16:15
+[2025-05-01 09:16:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:16:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:16:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:16:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:16:45
+[2025-05-01 09:16:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:16:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:16:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:17:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:17:16
+[2025-05-01 09:17:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:17:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:17:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:17:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:17:46
+[2025-05-01 09:17:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:17:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:17:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:18:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:18:17
+[2025-05-01 09:18:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:18:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:18:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:18:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:18:47
+[2025-05-01 09:18:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:18:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:18:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:19:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:19:17
+[2025-05-01 09:19:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:19:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:19:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:19:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:19:48
+[2025-05-01 09:19:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:19:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:19:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:20:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:20:18
+[2025-05-01 09:20:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:20:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:20:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:20:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:20:49
+[2025-05-01 09:20:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:20:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:20:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:21:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:21:19
+[2025-05-01 09:21:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:21:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:21:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:21:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:21:49
+[2025-05-01 09:21:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:21:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:21:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:22:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:22:20
+[2025-05-01 09:22:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:22:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:22:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:22:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:22:50
+[2025-05-01 09:22:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:22:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:22:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:23:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:23:21
+[2025-05-01 09:23:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:23:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:23:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:23:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:23:51
+[2025-05-01 09:23:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:23:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:23:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:24:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:24:21
+[2025-05-01 09:24:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:24:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:24:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:24:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:24:52
+[2025-05-01 09:24:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:24:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:24:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:25:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:25:22
+[2025-05-01 09:25:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:25:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:25:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:25:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:25:52
+[2025-05-01 09:25:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:25:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:25:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:26:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:26:23
+[2025-05-01 09:26:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:26:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:26:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:26:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:26:53
+[2025-05-01 09:26:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:26:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:26:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:27:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:27:24
+[2025-05-01 09:27:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:27:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:27:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:27:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:27:54
+[2025-05-01 09:27:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:27:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:27:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:28:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:28:25
+[2025-05-01 09:28:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:28:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:28:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:28:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:28:55
+[2025-05-01 09:28:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:28:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:28:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:29:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:29:25
+[2025-05-01 09:29:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:29:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:29:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:29:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:29:56
+[2025-05-01 09:29:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:29:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:29:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:30:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:30:26
+[2025-05-01 09:30:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:30:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:30:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:30:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:30:57
+[2025-05-01 09:30:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:30:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:30:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:31:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:31:27
+[2025-05-01 09:31:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:31:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:31:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:31:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:31:57
+[2025-05-01 09:31:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:31:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:31:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:32:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:32:28
+[2025-05-01 09:32:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:32:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:32:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:32:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:32:58
+[2025-05-01 09:32:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:32:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:32:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:33:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:33:29
+[2025-05-01 09:33:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:33:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:33:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:33:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:33:59
+[2025-05-01 09:33:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:33:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:33:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:34:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:34:29
+[2025-05-01 09:34:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:34:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:34:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:35:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:35:00
+[2025-05-01 09:35:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:35:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:35:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:35:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:35:30
+[2025-05-01 09:35:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:35:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:35:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:36:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:36:01
+[2025-05-01 09:36:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:36:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:36:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:36:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:36:31
+[2025-05-01 09:36:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:36:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:36:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:37:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:37:01
+[2025-05-01 09:37:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:37:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:37:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:37:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:37:32
+[2025-05-01 09:37:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:37:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:37:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:38:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:38:02
+[2025-05-01 09:38:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:38:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:38:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:38:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:38:32
+[2025-05-01 09:38:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:38:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:38:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:39:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:39:03
+[2025-05-01 09:39:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:39:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:39:03] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:39:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:39:33
+[2025-05-01 09:39:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:39:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:39:33] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:40:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:40:04
+[2025-05-01 09:40:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:40:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:40:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:40:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:40:34
+[2025-05-01 09:40:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:40:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:40:34] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:41:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:41:04
+[2025-05-01 09:41:05] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:41:05] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:41:05] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:41:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:41:35
+[2025-05-01 09:41:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:41:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:41:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:42:05] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:42:05
+[2025-05-01 09:42:05] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:42:05] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:42:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:42:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:42:36
+[2025-05-01 09:42:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:42:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:42:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:43:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:43:06
+[2025-05-01 09:43:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:43:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:43:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:43:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:43:37
+[2025-05-01 09:43:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:43:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:43:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:44:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:44:07
+[2025-05-01 09:44:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:44:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:44:07] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:44:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:44:37
+[2025-05-01 09:44:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:44:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:44:38] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:45:08] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:45:08
+[2025-05-01 09:45:08] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:45:08] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:45:08] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:45:08] [Error] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Error during LiveStreamScheduler tick
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.VideoHistoryDAO.GetExpiredUploadedVideosAsync(DateTime currentTime) in F:\Workspace\School_TV_BE\DAOs\VideoHistoryDAO.cs:line 44
+   at Repos.VideoHistoryRepo.GetExpiredUploadedVideosAsync(DateTime currentTime) in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 50
+   at BLL.Services.LiveStream.Implements.LiveStreamScheduler.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\LiveStreamScheduler.cs:line 362
+[2025-05-01 09:45:38] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:45:38
+[2025-05-01 09:45:38] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:45:38] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:45:38] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:46:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:46:09
+[2025-05-01 09:46:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:46:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:46:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:46:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:46:39
+[2025-05-01 09:46:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:46:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:46:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:47:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:47:09
+[2025-05-01 09:47:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:47:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:47:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:47:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:47:40
+[2025-05-01 09:47:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:47:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:47:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:48:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:48:10
+[2025-05-01 09:48:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:48:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:48:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:48:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:48:41
+[2025-05-01 09:48:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:48:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:48:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:49:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:49:11
+[2025-05-01 09:49:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:49:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:49:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:49:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:49:41
+[2025-05-01 09:49:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:49:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:49:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:50:02] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-01 09:50:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:50:12
+[2025-05-01 09:50:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:50:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:50:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:50:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:50:43
+[2025-05-01 09:50:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:50:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:50:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:51:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:51:13
+[2025-05-01 09:51:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:51:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:51:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:51:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:51:44
+[2025-05-01 09:51:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:51:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:51:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:52:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:52:14
+[2025-05-01 09:52:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:52:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:52:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:52:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:52:44
+[2025-05-01 09:52:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:52:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:52:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:53:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:53:15
+[2025-05-01 09:53:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:53:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:53:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:53:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:53:45
+[2025-05-01 09:53:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:53:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:53:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:54:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:54:16
+[2025-05-01 09:54:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:54:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:54:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:54:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:54:46
+[2025-05-01 09:54:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:54:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:54:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:55:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:55:16
+[2025-05-01 09:55:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:55:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:55:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:55:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:55:47
+[2025-05-01 09:55:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:55:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:55:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:56:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:56:17
+[2025-05-01 09:56:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:56:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:56:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:56:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:56:48
+[2025-05-01 09:56:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:56:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:56:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:57:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:57:18
+[2025-05-01 09:57:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:57:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:57:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:57:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:57:49
+[2025-05-01 09:57:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:57:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:57:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:58:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:58:19
+[2025-05-01 09:58:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:58:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:58:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:58:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:58:49
+[2025-05-01 09:58:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:58:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:58:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:59:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:59:20
+[2025-05-01 09:59:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:59:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:59:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 09:59:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 09:59:50
+[2025-05-01 09:59:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 09:59:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 09:59:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:00:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:00:21
+[2025-05-01 10:00:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:00:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:00:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:00:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:00:51
+[2025-05-01 10:00:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:00:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:00:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:01:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:01:21
+[2025-05-01 10:01:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:01:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:01:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:01:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:01:52
+[2025-05-01 10:01:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:01:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:01:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:02:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:02:22
+[2025-05-01 10:02:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:02:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:02:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:02:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:02:53
+[2025-05-01 10:02:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:02:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:02:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:03:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:03:23
+[2025-05-01 10:03:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:03:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:03:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:03:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:03:53
+[2025-05-01 10:03:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:03:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:03:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:04:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:04:24
+[2025-05-01 10:04:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:04:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:04:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:04:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:04:55
+[2025-05-01 10:04:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:04:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:04:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:05:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:05:25
+[2025-05-01 10:05:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:05:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:05:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:05:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:05:56
+[2025-05-01 10:05:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:05:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:05:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:06:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:06:26
+[2025-05-01 10:06:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:06:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:06:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:06:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:06:57
+[2025-05-01 10:06:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:06:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:06:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:07:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:07:27
+[2025-05-01 10:07:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:07:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:07:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:07:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:07:57
+[2025-05-01 10:07:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:07:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:07:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:08:17] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-01 10:08:18] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-01 10:08:18] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-01 10:08:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-01 10:08:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:08:26
+[2025-05-01 10:09:14] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-01 10:09:15] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-01 10:09:15] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-01 10:09:19] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-01 10:09:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:09:21
+[2025-05-01 10:09:33] [Error] Services.HostedServices.PendingAccountReminderService: Error while sending OTP reminders.
+Exception: System.InvalidOperationException: An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure' to the 'UseSqlServer' call.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The client was unable to establish a connection because of an error during connection initialization process before login. Possible causes include the following:  the client tried to connect to an unsupported version of SQL Server; the server was too busy to accept new connections; or there was a resource limitation (insufficient memory or maximum allowed connections) on the server. (provider: TCP Provider, error: 0 - An existing connection was forcibly closed by the remote host.)
+ ---> System.ComponentModel.Win32Exception (10054): An existing connection was forcibly closed by the remote host.
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.ThrowExceptionAndWarning(Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.SNIWritePacket(PacketHandle packet, UInt32& sniError, Boolean canAccumulate, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.WriteSni(Boolean canAccumulate)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.WritePacket(Byte flushMode, Boolean canAccumulate)
+   at Microsoft.Data.SqlClient.TdsParser.SendPreLoginHandshake(Byte[] instanceName, SqlConnectionEncryptOption encrypt, Boolean integratedSecurity, String serverCertificateFilename)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+ClientConnectionId:209938d2-c525-4fbd-820b-228974883b05
+Error Number:10054,State:0,Class:20
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.AccountDAO.GetPendingAccountsOlderThanAsync(DateTime threshold) in F:\Workspace\School_TV_BE\DAOs\AccountDAO.cs:line 235
+   at Repos.AccountRepo.GetPendingAccountsOlderThanAsync(DateTime threshold) in F:\Workspace\School_TV_BE\Repos\AccountRepo.cs:line 50
+   at Services.AccountService.GetPendingAccountsAsync(DateTime threshold) in F:\Workspace\School_TV_BE\Services\AccountService.cs:line 74
+   at Services.HostedServices.PendingAccountReminderService.SendPendingAccountRemindersAsync() in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\PendingAccountReminderService.cs:line 58
+[2025-05-01 10:09:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:09:43] [Warning] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Skip marking READY for ScheduleID 1 because it's already past StartTime: 04/30/2025 19:58:07
+[2025-05-01 10:09:47] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-01 10:09:47] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-01 10:09:47] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-01 10:09:47] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-01 10:09:47] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-01 10:09:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:10:55] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-01 10:10:56] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-01 10:10:56] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-01 10:10:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-01 10:10:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:10:56
+[2025-05-01 10:10:56] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-01 10:10:56] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-01 10:10:57] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-01 10:10:57] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-01 10:10:57] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-01 10:10:57] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-01 10:10:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-01 10:10:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:11:30] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-01 10:11:31] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-01 10:11:31] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-01 10:11:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-01 10:11:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:11:31
+[2025-05-01 10:11:35] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-01 10:11:35] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-01 10:11:36] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-01 10:11:36] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-01 10:11:36] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-01 10:11:36] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-01 10:11:38] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-01 10:14:56] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-01 10:14:57] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-01 10:14:57] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-01 10:14:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-01 10:14:58] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:14:58
+[2025-05-01 10:15:01] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-01 10:15:01] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-01 10:15:01] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-01 10:15:01] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-01 10:15:01] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-01 10:15:01] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-01 10:15:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-01 10:15:22] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-01 10:15:23] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-01 10:15:23] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-01 10:15:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-01 10:15:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:15:23
+[2025-05-01 10:15:43] [Error] Services.HostedServices.PendingAccountReminderService: Error while sending OTP reminders.
+Exception: System.InvalidOperationException: An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure' to the 'UseSqlServer' call.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The client was unable to establish a connection because of an error during connection initialization process before login. Possible causes include the following:  the client tried to connect to an unsupported version of SQL Server; the server was too busy to accept new connections; or there was a resource limitation (insufficient memory or maximum allowed connections) on the server. (provider: TCP Provider, error: 0 - An existing connection was forcibly closed by the remote host.)
+ ---> System.ComponentModel.Win32Exception (10054): An existing connection was forcibly closed by the remote host.
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.ThrowExceptionAndWarning(Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.SNIWritePacket(PacketHandle packet, UInt32& sniError, Boolean canAccumulate, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.WriteSni(Boolean canAccumulate)
+   at Microsoft.Data.SqlClient.TdsParserStateObject.WritePacket(Byte flushMode, Boolean canAccumulate)
+   at Microsoft.Data.SqlClient.TdsParser.SendPreLoginHandshake(Byte[] instanceName, SqlConnectionEncryptOption encrypt, Boolean integratedSecurity, String serverCertificateFilename)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+ClientConnectionId:bbdd249b-6b85-486e-b712-0020de10634c
+Error Number:10054,State:0,Class:20
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.AccountDAO.GetPendingAccountsOlderThanAsync(DateTime threshold) in F:\Workspace\School_TV_BE\DAOs\AccountDAO.cs:line 235
+   at Repos.AccountRepo.GetPendingAccountsOlderThanAsync(DateTime threshold) in F:\Workspace\School_TV_BE\Repos\AccountRepo.cs:line 50
+   at Services.AccountService.GetPendingAccountsAsync(DateTime threshold) in F:\Workspace\School_TV_BE\Services\AccountService.cs:line 74
+   at Services.HostedServices.PendingAccountReminderService.SendPendingAccountRemindersAsync() in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\PendingAccountReminderService.cs:line 58
+[2025-05-01 10:15:43] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-01 10:15:43] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-01 10:15:43] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-01 10:15:43] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-01 10:15:43] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-01 10:16:11] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-01 10:16:12] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-01 10:16:12] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-01 10:16:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-01 10:16:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:16:13
+[2025-05-01 10:16:16] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-01 10:16:16] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-01 10:16:16] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-01 10:16:16] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-01 10:16:16] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-01 10:16:16] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-01 10:16:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 1
+[2025-05-01 10:16:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedule 1 marked as READY.
+[2025-05-01 10:17:04] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: ✅ Saved READY schedules to database.
+[2025-05-01 10:17:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:17:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:17:44
+[2025-05-01 10:17:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-01 10:17:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:18:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:18:14
+[2025-05-01 10:18:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-01 10:18:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:18:34] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-01 10:18:35] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-01 10:18:35] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-01 10:18:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-01 10:18:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:18:35
+[2025-05-01 10:18:35] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-01 10:18:35] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-01 10:18:35] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-01 10:18:35] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-01 10:18:35] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-01 10:18:35] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-01 10:18:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-01 10:18:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:19:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:19:06
+[2025-05-01 10:19:06] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-01 10:19:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-01 10:20:11] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-01 10:20:12] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-01 10:20:12] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-01 10:20:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-01 10:20:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:20:12
+[2025-05-01 10:20:13] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-01 10:20:13] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-01 10:20:13] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-01 10:20:13] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-01 10:20:13] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-01 10:20:13] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-01 10:20:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-01 10:20:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 1
+[2025-05-01 10:20:55] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request POST https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs
+[2025-05-01 10:20:55] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request POST https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs
+[2025-05-01 10:20:56] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 1507.4422ms - 200
+[2025-05-01 10:20:56] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 3049.3427ms - 200
+[2025-05-01 10:21:05] [Warning] BLL.Services.LiveStream.Implements.LiveStreamScheduler: No email found for ScheduleID 1's streamer.
+[2025-05-01 10:21:05] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/7f641662439df5abf9ca1009c1df27ba/videos
+[2025-05-01 10:21:05] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/7f641662439df5abf9ca1009c1df27ba/videos
+[2025-05-01 10:21:05] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 305.9194ms - 200
+[2025-05-01 10:21:05] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 307.3752ms - 200
+[2025-05-01 10:21:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/01/2025 10:21:35
+[2025-05-01 10:21:35] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-01 10:21:36] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 1
+[2025-05-01 10:21:36] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/7f641662439df5abf9ca1009c1df27ba/videos
+[2025-05-01 10:21:36] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/7f641662439df5abf9ca1009c1df27ba/videos
+[2025-05-01 10:21:37] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 1177.0103ms - 200
+[2025-05-01 10:21:37] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 1178.6079ms - 200

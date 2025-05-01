@@ -72,15 +72,7 @@ namespace Services
                 meta = new { name = stream.Description },
                 recording = new { mode = "automatic" },
                 mode = "push",
-                playback_policy = new[] { "public" },
-                events = new
-                {
-                    webhook = new
-                    {
-                        url = "https://unique-helpful-filly.ngrok-free.app/api/livestreams/webhook",
-                        events = new[] { "live_input.connected", "live_input.disconnected" }
-                    }
-                }
+                playback_policy = new[] { "public" }
             };
 
             var jsonPayload = JsonSerializer.Serialize(payload);

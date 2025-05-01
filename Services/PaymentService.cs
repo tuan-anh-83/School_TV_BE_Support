@@ -101,7 +101,7 @@ namespace Services
                                     RemainingHours = currentPackage.RemainingHours + orderDetail.Package.TimeDuration,
                                     StartDate = currentPackage.StartDate,
                                     ExpiredAt = currentPackage.ExpiredAt != null ?
-                                    currentPackage.ExpiredAt.Value.AddDays(orderDetail.Package.TimeDuration) :
+                                    currentPackage.ExpiredAt.Value.AddDays(orderDetail.Package.Duration) :
                                     TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(orderDetail.Package.Duration)
                                 });
 
