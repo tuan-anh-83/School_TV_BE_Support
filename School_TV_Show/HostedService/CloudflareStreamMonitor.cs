@@ -91,7 +91,7 @@ namespace School_TV_Show.HostedService
                     _logger.LogError(ex, "🔥 Error in CloudflareStreamMonitor loop.");
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken); // check mỗi 30s
+                await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken); // check per 5ms
             }
         }
 
