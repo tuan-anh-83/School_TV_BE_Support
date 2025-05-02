@@ -129,17 +129,6 @@ namespace BLL.Services.LiveStream.Implements
                         _logger.LogInformation("✅ Saved READY schedules to database.");
                     }
 
-                    var lateSchedules = await repository.GetLateStartCandidatesAsync(localNow);
-                    foreach (var s in lateSchedules)
-                    {
-                        if (!s.LiveStreamStarted && s.Status == "Ready" && localNow >= s.StartTime.AddMinutes(5))
-                        {
-                            s.Status = "LateStart";
-                            repository.UpdateSchedule(s);
-                            _logger.LogWarning("Schedule {ScheduleID} marked as LateStart at {CurrentTime}.", s.ScheduleID, localNow);
-                        }
-                    }
-                    await repository.SaveChangesAsync();
                     var toStart = await repository.GetReadySchedulesAsync(localNow.AddMinutes(5));
                     _logger.LogInformation("Schedules to start: {Count}", toStart.Count);
 
@@ -196,7 +185,7 @@ namespace BLL.Services.LiveStream.Implements
                             continue;
                         }
 
-                        var existingVideo = await repository.GetVideoHistoryByProgramIdAsync(schedule.ProgramID);
+                        var existingVideo = await repository.GetReadyVideoHistoryByProgramIdAsync(schedule.ProgramID);
                         if (existingVideo == null)
                         {
                             var program = schedule.Program ?? await repository.GetProgramByIdAsync(schedule.ProgramID);
@@ -221,14 +210,14 @@ namespace BLL.Services.LiveStream.Implements
                                 UpdatedAt = localNow,
                                 StreamAt = schedule.StartTime,
                                 Status = true,
-                                Type = "Live",
+                                Type = "Ready",
                                 CloudflareStreamId = program.CloudflareStreamId
                             };
 
                             bool created = await streamService.StartLiveStreamAsync(video);
+                            _logger.LogInformation($"Is live input created for schedule: {created}.");
                             if (created)
                             {
-                                await repository.SaveChangesAsync();
                                 schedule.VideoHistoryID = video.VideoHistoryID;
                                 schedule.Status = schedule.Status != "LateStart" ? "Ready" : "LateStart";
                                 schedule.LiveStreamStarted = false;
@@ -239,7 +228,7 @@ namespace BLL.Services.LiveStream.Implements
                                     var schoolName = program.SchoolChannel?.Name ?? "School TV Show";
                                     await emailService.SendStreamKeyEmailAsync(
                                         streamerEmail,
-                                        video.URL,
+                                        video.URL ?? string.Empty,
                                         schedule.StartTime,
                                         schedule.EndTime,
                                         schoolName
@@ -257,32 +246,6 @@ namespace BLL.Services.LiveStream.Implements
                             {
                                 _logger.LogWarning("Failed to create stream URL for ScheduleID {ScheduleID}", schedule.ScheduleID);
                             }
-                        }
-                    }
-
-                    await repository.SaveChangesAsync();
-
-                    var waitingSchedules = await repository.GetWaitingToStartStreamsAsync();
-                    foreach (var schedule in waitingSchedules)
-                    {
-                        var videoHistory = await repository.GetVideoHistoryByProgramIdAsync(schedule.ProgramID);
-                        if (videoHistory == null) continue;
-
-                        bool streamerStarted = await streamService.CheckStreamerStartedAsync(videoHistory.CloudflareStreamId);
-                        if (streamerStarted && !schedule.LiveStreamStarted)
-                        {
-                            schedule.LiveStreamStarted = true;
-                            schedule.Status = "Live";
-                            repository.UpdateSchedule(schedule);
-                            _logger.LogInformation("Streamer started broadcasting, ScheduleID {ScheduleID} marked LIVE.", schedule.ScheduleID);
-
-                            await _hubContext.Clients.All.SendAsync("StreamStarted", new
-                            {
-                                scheduleId = schedule.ScheduleID,
-                                videoId = videoHistory.VideoHistoryID,
-                                url = videoHistory.URL,
-                                playbackUrl = videoHistory.PlaybackUrl
-                            });
                         }
                     }
 
@@ -309,7 +272,7 @@ namespace BLL.Services.LiveStream.Implements
                                 continue;
                             }
 
-                            if (localNow >= schedule.EndTime)
+                            /*if (localNow >= schedule.EndTime)
                             {
                                 var success = await streamService.EndStreamAndReturnLinksAsync(videoHistory);
                                 if (success)
@@ -337,12 +300,12 @@ namespace BLL.Services.LiveStream.Implements
                             else
                             {
                                 _logger.LogInformation("Skip ending ScheduleID {ScheduleID} early - stream not active, but still within scheduled time.", schedule.ScheduleID);
-                            }
+                            }*/
                         }
                     }
                     await repository.SaveChangesAsync();
 
-                    var overdueSchedules = await repository.GetOverdueSchedulesAsync(localNow);
+/*                    var overdueSchedules = await repository.GetOverdueSchedulesAsync(localNow);
                     foreach (var schedule in overdueSchedules)
                     {
                         if (schedule.LiveStreamStarted && !schedule.LiveStreamEnded)
@@ -373,8 +336,8 @@ namespace BLL.Services.LiveStream.Implements
                         }
                     }
 
-                    await CheckAndMarkEndedEarlySchedulesAsync(repository, streamService, localNow);
-                    await repository.SaveChangesAsync();
+*//*                    await CheckAndMarkEndedEarlySchedulesAsync(repository, streamService, localNow);*//*
+                    await repository.SaveChangesAsync();*/
 
                     var expiredVideos = await videoRepo.GetExpiredUploadedVideosAsync(localNow);
                     foreach (var video in expiredVideos)

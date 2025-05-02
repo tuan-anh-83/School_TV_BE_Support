@@ -166,5 +166,19 @@ namespace DAOs
                 .Where(v => v.CreatedAt >= timestamp && v.Duration != null)
                 .ToListAsync();
         }
+
+        public Task<List<VideoHistory>> GetActiveUnconfirmedStreamsAsync()
+        {
+            return _context.VideoHistories
+                .Where(v => v.Status && v.Type == "Ready" && v.CloudflareStreamId != null)
+                .ToListAsync();
+        }
+
+        public Task<List<VideoHistory>> GetActiveStreamsAsync()
+        {
+            return _context.VideoHistories
+                .Where(v => v.Status && v.Type == "Live" && v.CloudflareStreamId != null)
+                .ToListAsync();
+        }
     }
 }

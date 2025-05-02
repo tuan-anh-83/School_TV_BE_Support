@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DAOs
 {
@@ -55,7 +56,15 @@ namespace DAOs
 
         public async Task<bool> UpdateVideoHistoryAsync(VideoHistory stream)
         {
-            _context.VideoHistories.Update(stream);
+            var tracked = await _context.VideoHistories.FindAsync(stream.VideoHistoryID);
+            if (tracked != null)
+            {
+                _context.Entry(tracked).CurrentValues.SetValues(stream);
+            }
+            else
+            {
+                _context.VideoHistories.Update(stream); // fallback nếu chưa track
+            }
             return await _context.SaveChangesAsync() > 0;
         }
 
@@ -118,6 +127,12 @@ namespace DAOs
             .FirstOrDefaultAsync(v => v.CloudflareStreamId == cloudflareStreamId);
         }
 
+        public async Task<VideoHistory?> GetLiveVideoHistoryByStreamIdAsync(string cloudflareStreamId)
+        {
+            return await _context.VideoHistories.AsNoTracking()
+            .FirstOrDefaultAsync(v => v.CloudflareStreamId == cloudflareStreamId && v.Type == "Live");
+        }
+
         public async Task<VideoHistory> GetLiveStreamByIdAsync(int id)
         {
             return await _context.VideoHistories.AsNoTracking()
@@ -131,6 +146,13 @@ namespace DAOs
             return await _context.VideoHistories.AsNoTracking()
             .OrderByDescending(v => v.CreatedAt)
                 .FirstOrDefaultAsync(v => v.ProgramID == programId && v.Type == "Live");
+        }
+
+        public async Task<VideoHistory?> GetReadyVideoHistoryByProgramIdAsync(int programId)
+        {
+            return await _context.VideoHistories.AsNoTracking()
+            .OrderByDescending(v => v.CreatedAt)
+                .FirstOrDefaultAsync(v => v.ProgramID == programId && (v.Type == "Ready" || v.Type == "Live"));
         }
 
         public async Task<IEnumerable<VideoHistory>> GetActiveLiveStreamsAsync()

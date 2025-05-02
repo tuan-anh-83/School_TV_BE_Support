@@ -49,6 +49,15 @@ namespace DAOs
                 .ToListAsync();
         }
 
+        public async Task<Schedule?> GetScheduleByProgramIdAsync(int programId)
+        {
+            return await _context.Schedules
+                .AsNoTracking()
+                .Where(s => s.ProgramID == programId && !s.LiveStreamEnded)
+                .OrderByDescending(s => s.StartTime)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Schedule> CreateScheduleAsync(Schedule schedule)
         {
             if (schedule.StartTime >= schedule.EndTime)
@@ -94,6 +103,9 @@ namespace DAOs
             existingSchedule.StartTime = schedule.StartTime;
             existingSchedule.EndTime = schedule.EndTime;
             existingSchedule.Status = schedule.Status;
+            existingSchedule.LiveStreamStarted = schedule.LiveStreamStarted;
+            existingSchedule.LiveStreamEnded = schedule.LiveStreamEnded;
+            existingSchedule.VideoHistoryID = schedule.VideoHistoryID;
 
             _context.Schedules.Update(existingSchedule);
             return await _context.SaveChangesAsync() > 0;
@@ -118,6 +130,14 @@ namespace DAOs
                 .Include(s => s.Program)
                 .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
                 .ToListAsync();
+        }
+
+        public async Task<Schedule?> GetActiveScheduleByProgramIdAsync(int programId)
+        {
+            return await _context.Schedules.AsNoTracking()
+                .Where(s => s.Status == "Live" && !s.LiveStreamEnded)
+                .OrderByDescending(s => s.StartTime)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Schedule>> GetLiveNowSchedulesAsync()

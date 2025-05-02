@@ -15,17 +15,23 @@ namespace Services
     public class LiveStreamService : ILiveStreamService
     {
         private readonly ILiveStreamRepo _repository;
+        private readonly IPackageRepo _packageRepo;
+        private readonly IAccountPackageRepo _accountPackageRepo;
         private readonly HttpClient _httpClient;
         private readonly ILogger<LiveStreamService> _logger;
         private readonly CloudflareSettings _cloudflareSettings;
 
         public LiveStreamService(
             ILiveStreamRepo repository,
+            IPackageRepo packageRepo,
+            IAccountPackageRepo accountPackageRepo,
             HttpClient httpClient,
             ILogger<LiveStreamService> logger,
             IOptions<CloudflareSettings> cloudflareSettings)
         {
             _repository = repository;
+            _packageRepo = packageRepo;
+            _accountPackageRepo = accountPackageRepo;
             _httpClient = httpClient;
             _logger = logger;
             _cloudflareSettings = cloudflareSettings.Value;
@@ -57,7 +63,7 @@ namespace Services
                         stream.CloudflareStreamId = program.CloudflareStreamId;
                         stream.URL = $"{rtmps.Url}{rtmps.StreamKey}";
                         stream.PlaybackUrl = string.Empty;
-                        stream.CreatedAt = DateTime.UtcNow;
+                        stream.CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
                         stream.Status = true;
 
                         return await _repository.AddVideoHistoryAsync(stream);
@@ -93,7 +99,7 @@ namespace Services
 
             stream.URL = $"{cloudflareResponse.Result.Rtmps.Url}{cloudflareResponse.Result.Rtmps.StreamKey}";
             stream.PlaybackUrl = cloudflareResponse.Result.WebRTCPlayback?.Url ?? string.Empty;
-            stream.CreatedAt = DateTime.UtcNow;
+            stream.CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
             stream.Status = true;
 
             return await _repository.AddVideoHistoryAsync(stream);
@@ -143,7 +149,7 @@ namespace Services
         {
             stream.Status = false;
             stream.Type = "Recorded";
-            stream.UpdatedAt = DateTime.UtcNow;
+            stream.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
 
             var videosUrl = $"https://api.cloudflare.com/client/v4/accounts/{_cloudflareSettings.AccountId}/stream/live_inputs/{stream.CloudflareStreamId}/videos";
             var response = await _httpClient.GetAsync(videosUrl);
@@ -180,6 +186,20 @@ namespace Services
             }
 
             var updated = await _repository.UpdateVideoHistoryAsync(stream);
+
+            if(stream.ProgramID != null)
+            {
+                var accountPackage = await _packageRepo.GetCurrentPackageAndDurationByProgramIdAsync(stream.ProgramID.Value);
+                if(accountPackage != null && stream.Duration.HasValue)
+                {
+                    accountPackage.HoursUsed += (recorded.Duration / 3600.0);
+                    accountPackage.RemainingHours = accountPackage.TotalHoursAllowed - accountPackage.HoursUsed;
+                    await _accountPackageRepo.UpdateAccountPackageAsync(accountPackage);
+
+                    _logger.LogInformation($"Updated account package - Hours used: {accountPackage.HoursUsed}, Remaining: {accountPackage.RemainingHours}");
+                }
+            }
+
             await EndLiveStreamAsync(stream);
             return updated;
         }
@@ -216,6 +236,8 @@ namespace Services
         public async Task<VideoHistory?> GetLiveStreamByCloudflareUIDAsync(string uid) => await _repository.GetVideoHistoryByStreamIdAsync(uid);
 
         public async Task<bool> UpdateLiveStreamAsync(VideoHistory stream) => await _repository.UpdateVideoHistoryAsync(stream);
+
+        public async Task<VideoHistory?> GetActiveLiveStreamByCloudflareUIDAsync(string uid) => await _repository.GetLiveVideoHistoryByStreamIdAsync(uid);
 
         #region Cloudflare Models
         private class CloudflareVideoListResponse { public List<CloudflareVideoResult> Result { get; set; } }

@@ -22,6 +22,8 @@ namespace Repos
         Task<List<Schedule>> GetSchedulesByDateAsync(DateTime date);
         Task<Program?> GetProgramByVideoHistoryIdAsync(int videoHistoryId);
         Task<List<Schedule>> GetSchedulesByProgramIdAsync(int programId);
+        Task<Schedule?> GetScheduleByProgramIdAsync(int programId);
+        Task<Schedule?> GetActiveScheduleByProgramIdAsync(int programId);
         Task<bool> IsScheduleOverlappingAsync(int schoolChannelId, DateTime startTime, DateTime endTime);
        
     }

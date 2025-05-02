@@ -135,6 +135,11 @@ namespace Repos
            return await LiveStreamDAO.Instance.GetVideoHistoryByStreamIdAsync(cloudflareStreamId);
         }
 
+        public async Task<VideoHistory?> GetLiveVideoHistoryByStreamIdAsync(string cloudflareStreamId)
+        {
+            return await LiveStreamDAO.Instance.GetLiveVideoHistoryByStreamIdAsync(cloudflareStreamId);
+        }
+
         public async Task<List<Schedule>> GetWaitingToStartStreamsAsync()
         {
             return await LiveStreamDAO.Instance.GetWaitingToStartStreamsAsync();
@@ -163,6 +168,11 @@ namespace Repos
         public async Task<bool> UpdateVideoHistoryAsync(VideoHistory stream)
         {
             return await LiveStreamDAO.Instance.UpdateVideoHistoryAsync(stream);
+        }
+
+        public async Task<VideoHistory?> GetReadyVideoHistoryByProgramIdAsync(int programId)
+        {
+            return await LiveStreamDAO.Instance.GetReadyVideoHistoryByProgramIdAsync(programId);
         }
     }
 }

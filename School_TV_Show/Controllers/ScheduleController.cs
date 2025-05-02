@@ -274,6 +274,7 @@ namespace School_TV_Show.Controllers
                 ? Ok(new ApiResponse(true, "Schedule deleted successfully"))
                 : StatusCode(500, new ApiResponse(false, "Failed to delete schedule"));
         }
+
         [HttpGet("by-channel-and-date")]
         public async Task<IActionResult> GetSchedulesByChannelAndDate([FromQuery] int channelId, [FromQuery] DateTime date)
         {
@@ -285,61 +286,9 @@ namespace School_TV_Show.Controllers
 
             foreach (var schedule in schedules)
             {
-                string? iframeUrl = null;
-                string? playbackUrl = null;
-                string? mp4Url = null;
-                double? duration = null;
-                string? description = null;
-                int? videoHistoryId = null;
-
-                if (schedule.IsReplay)
-                {
-                    VideoHistory? video = null;
-                    if (schedule.VideoHistoryID.HasValue)
-                    {
-                        video = await _videoHistoryService.GetVideoByIdAsync(schedule.VideoHistoryID.Value);
-                    }
-                    else
-                    {
-                        video = await _videoHistoryService.GetReplayVideoByProgramAndTimeAsync(
-                            schedule.ProgramID, schedule.StartTime, schedule.EndTime);
-                    }
-
-                    if (video != null)
-                    {
-                        iframeUrl = !string.IsNullOrEmpty(video.CloudflareStreamId)
-                            ? $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{video.CloudflareStreamId}/iframe"
-                            : null;
-
-                        playbackUrl = video.PlaybackUrl;
-                        mp4Url = video.MP4Url;
-                        duration = video.Duration;
-                        description = video.Description;
-                        videoHistoryId = video.VideoHistoryID;
-                    }
-                }
-                else
-                {
-                    if (schedule.LiveStreamEnded && schedule.VideoHistoryID.HasValue)
-                    {
-                        var video = await _videoHistoryService.GetVideoByIdAsync(schedule.VideoHistoryID.Value);
-                        if (video != null && !string.IsNullOrEmpty(video.CloudflareStreamId))
-                        {
-                            iframeUrl = $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{video.CloudflareStreamId}/iframe";
-                            playbackUrl = video.PlaybackUrl;
-                            mp4Url = video.MP4Url;
-                            duration = video.Duration;
-                            description = video.Description;
-                            videoHistoryId = video.VideoHistoryID;
-                        }
-                    }
-                    else
-                    {
-                        iframeUrl = !string.IsNullOrEmpty(schedule.Program?.CloudflareStreamId)
-                            ? $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{schedule.Program.CloudflareStreamId}/iframe"
-                            : null;
-                    }
-                }
+                var videoInfo = schedule.IsReplay
+                    ? await GetReplayVideoInfoAsync(schedule)
+                    : await GetLiveVideoInfoAsync(schedule);
 
                 result.Add(new
                 {
@@ -352,11 +301,11 @@ namespace School_TV_Show.Controllers
                     schedule.LiveStreamEnded,
                     schedule.ProgramID,
                     videoHistoryIdFromSchedule = schedule.VideoHistoryID,
-                    videoHistoryId,
-                    iframeUrl,
-                    duration,
-                    description,
-                    mp4Url,
+                    videoHistoryId = videoInfo.VideoHistoryID,
+                    iframeUrl = videoInfo.IframeUrl,
+                    duration = videoInfo.Duration,
+                    description = videoInfo.Description,
+                    mp4Url = videoInfo.MP4Url,
                     program = new
                     {
                         schedule.Program?.ProgramID,
@@ -368,6 +317,56 @@ namespace School_TV_Show.Controllers
             }
 
             return Ok(new ApiResponse(true, "Schedules for channel and date", result));
+        }
+
+        private async Task<VideoInfo> GetReplayVideoInfoAsync(Schedule schedule)
+        {
+            var video = schedule.VideoHistoryID.HasValue
+                ? await _videoHistoryService.GetVideoByIdAsync(schedule.VideoHistoryID.Value)
+                : await _videoHistoryService.GetReplayVideoByProgramAndTimeAsync(schedule.ProgramID, schedule.StartTime, schedule.EndTime);
+
+            if (video == null) return new VideoInfo();
+
+            return new VideoInfo
+            {
+                IframeUrl = !string.IsNullOrEmpty(video.CloudflareStreamId)
+                    ? $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{video.CloudflareStreamId}/iframe"
+                    : null,
+                PlaybackUrl = video.PlaybackUrl,
+                MP4Url = video.MP4Url,
+                Duration = video.Duration,
+                Description = video.Description,
+                VideoHistoryID = video.VideoHistoryID
+            };
+        }
+
+        private async Task<VideoInfo> GetLiveVideoInfoAsync(Schedule schedule)
+        {
+            if (schedule.LiveStreamEnded && schedule.VideoHistoryID.HasValue)
+            {
+                var video = await _videoHistoryService.GetVideoByIdAsync(schedule.VideoHistoryID.Value);
+                if (video != null)
+                {
+                    return new VideoInfo
+                    {
+                        IframeUrl = !string.IsNullOrEmpty(video.CloudflareStreamId)
+                            ? $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{video.CloudflareStreamId}/iframe"
+                            : null,
+                        PlaybackUrl = video.PlaybackUrl,
+                        MP4Url = video.MP4Url,
+                        Duration = video.Duration,
+                        Description = video.Description,
+                        VideoHistoryID = video.VideoHistoryID
+                    };
+                }
+            }
+
+            return new VideoInfo
+            {
+                IframeUrl = !string.IsNullOrEmpty(schedule.Program?.CloudflareStreamId)
+                    ? $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{schedule.Program.CloudflareStreamId}/iframe"
+                    : null
+            };
         }
 
         [HttpGet("timeline")]

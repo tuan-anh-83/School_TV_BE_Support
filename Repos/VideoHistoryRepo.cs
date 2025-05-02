@@ -35,6 +35,16 @@ namespace Repos
             return await VideoHistoryDAO.Instance.DeleteVideoAsync(videoHistoryId);
         }
 
+        public async Task<List<VideoHistory>> GetActiveStreamsAsync()
+        {
+            return await VideoHistoryDAO.Instance.GetActiveStreamsAsync();
+        }
+
+        public async Task<List<VideoHistory>> GetActiveUnconfirmedStreamsAsync()
+        {
+            return await VideoHistoryDAO.Instance.GetActiveUnconfirmedStreamsAsync();
+        }
+
         public async Task<List<VideoHistory>> GetAllVideoHistoriesAsync()
         {
             return await VideoHistoryDAO.Instance.GetAllVideoHistoriesAsync();

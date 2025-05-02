@@ -26,5 +26,7 @@ namespace Repos
         Task<List<VideoHistory>> GetExpiredUploadedVideosAsync(DateTime currentTime);
         Task<List<VideoHistory>> GetVideosByProgramIdAsync(int programId);
         Task<List<VideoHistory>> GetVideosUploadedAfterAsync(DateTime timestamp);
+        Task<List<VideoHistory>> GetActiveUnconfirmedStreamsAsync();
+        Task<List<VideoHistory>> GetActiveStreamsAsync();
     }
 }

@@ -21,6 +21,7 @@ namespace School_TV_Show.Controllers
         private readonly IVideoHistoryService _videoHistoryService;
         private readonly IPackageService _packageService;
         private readonly IAccountPackageService _accountPackageService;
+        private readonly IScheduleService _scheduleService;
         private readonly ILogger<LiveStreamController> _logger;
         TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
         private static readonly ConcurrentDictionary<string, SemaphoreSlim> _webhookLocks = new();
@@ -30,17 +31,19 @@ namespace School_TV_Show.Controllers
             IVideoHistoryService videoHistoryService,
             IPackageService packageService,
             IAccountPackageService accountPackageService,
+            IScheduleService scheduleService,
             ILogger<LiveStreamController> logger)
         {
             _liveStreamService = liveStreamService;
             _videoHistoryService = videoHistoryService;
             _packageService = packageService;
             _accountPackageService = accountPackageService;
+            _scheduleService = scheduleService;
             _logger = logger;
         }
 
 
-        [HttpPost("start")]
+/*        [HttpPost("start")]
         public async Task<IActionResult> StartLiveStream([FromBody] LiveStreamStartRequestDTO request)
         {
             if (!ModelState.IsValid)
@@ -92,7 +95,7 @@ namespace School_TV_Show.Controllers
                 stream.URL,
                 stream.PlaybackUrl
             });
-        }
+        }*/
         [HttpPost("finalize/{id}")]
         public async Task<IActionResult> FinalizeStreamAndGetLinks(int id)
         {
@@ -272,18 +275,25 @@ namespace School_TV_Show.Controllers
                     {
                         streamDuration = durationElement.GetDouble();
                     }
+
+                    string? previewUrl = payload.GetProperty("preview").GetString();
+                    string? mp4Url = GetMp4UrlFromPreview(previewUrl);
+
                     if (!string.IsNullOrEmpty(liveInputId))
                     {
                         // Fetch the stream from database
                         await ExecuteWebhookWithLockAsync(liveInputId, async () =>
                         {
 
-                            var stream = await _liveStreamService.GetLiveStreamByCloudflareUIDAsync(liveInputId);
+                            var stream = await _liveStreamService.GetActiveLiveStreamByCloudflareUIDAsync(liveInputId);
                             if (stream == null || stream.ProgramID == null)
                                 return;
 
                             // Always mark status as false to end stream
                             stream.Status = false;
+                            stream.PlaybackUrl = previewUrl ?? string.Empty;
+                            stream.MP4Url = mp4Url ?? string.Empty;
+                            stream.Type = "Recorded";
 
                             // If Cloudflare duration is available, use it directly
                             if (streamDuration.HasValue)
@@ -293,6 +303,7 @@ namespace School_TV_Show.Controllers
                                 _logger.LogInformation($"Stream duration from Cloudflare: {stream.Duration} hours");
 
                                 await _liveStreamService.UpdateLiveStreamAsync(stream);
+                                await MarkScheduleAsEndedAsync(stream.ProgramID.Value, stream.VideoHistoryID);
 
                                 // Update account package with hours used
                                 var accountPackage = await _packageService.GetCurrentPackageAndDurationByProgramIdAsync(stream.ProgramID.Value);
@@ -317,6 +328,40 @@ namespace School_TV_Show.Controllers
             {
                 _logger.LogError(ex, "Error processing Cloudflare webhook");
                 return StatusCode(500, new { error = "Failed to process webhook" });
+            }
+        }
+
+        private string? GetMp4UrlFromPreview(string? previewUrl)
+        {
+            if (string.IsNullOrEmpty(previewUrl)) return null;
+
+            if (Uri.TryCreate(previewUrl, UriKind.Absolute, out var uri))
+            {
+                var host = uri.Host; // ex: customer-xxx.cloudflarestream.com
+                var segments = uri.Segments;
+                if (segments.Length > 1)
+                {
+                    var videoId = segments[1].Trim('/');
+                    return $"https://{host}/{videoId}/downloads/default.mp4";
+                }
+            }
+
+            return null;
+        }
+
+        private async Task MarkScheduleAsEndedAsync(int programId, int videoHistoryId)
+        {
+            var schedule = await _scheduleService.GetScheduleByProgramIdAsync(programId);
+
+            if (schedule != null && schedule.Status != "Ended")
+            {
+                schedule.Status = "EndedEarly";
+                schedule.LiveStreamEnded = true;
+                schedule.VideoHistoryID = videoHistoryId;
+
+                await _scheduleService.UpdateScheduleAsync(schedule);
+
+                _logger.LogInformation($"📺 ScheduleID {schedule.ScheduleID} marked as Ended from Cloudflare webhook.");
             }
         }
 

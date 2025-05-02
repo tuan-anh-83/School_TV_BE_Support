@@ -40,5 +40,7 @@ namespace Repos
         Task UpdateAsync(Schedule schedule);
         Task<VideoHistory?> GetVideoHistoryByProgramIdAsync(int programId);
         Task<SchoolChannel?> GetSchoolChannelByIdAsync(int schoolChannelId);
+        Task<VideoHistory?> GetLiveVideoHistoryByStreamIdAsync(string liveInputId);
+        Task<VideoHistory?> GetReadyVideoHistoryByProgramIdAsync(int programId);
     }
 }

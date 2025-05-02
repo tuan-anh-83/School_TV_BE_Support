@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Net.payOS;
 using Repos;
 using School_TV_Show;
+using School_TV_Show.HostedService;
 using Services;
 
 
@@ -121,6 +122,7 @@ builder.Services.AddScoped<IPaymentHistoryService, PaymentHistoryService>();
 builder.Services.AddHostedService<PendingAccountReminderService>();
 builder.Services.AddHostedService<ExpiredOrderCheckerService>();
 builder.Services.AddHostedService<DurationTrackingService>();
+builder.Services.AddHostedService<CloudflareStreamMonitor>();
 builder.Services.AddScoped<IAccountPackageService, AccountPackageService>();
 builder.Services.AddScoped<ISchoolChannelFollowService, SchoolChannelFollowsService>();
 
@@ -144,7 +146,6 @@ builder.Services.AddHttpClient<ICloudflareUploadService, CloudflareUploadService
 builder.Services.AddScoped<PaymentDAO>();
 
 
-builder.Services.AddSingleton<OrderTrackingService>();
 builder.Services.AddDistributedMemoryCache();
 
 // Register IConfiguration
@@ -167,8 +168,12 @@ builder.Services.AddDbContext<DataContext>(options =>
                 maxRetryDelay: TimeSpan.FromSeconds(5), // thời gian chờ giữa các lần
                 errorNumbersToAdd: null               // để mặc định
             );
-        }));
+        })
+    .EnableSensitiveDataLogging()
+    .EnableDetailedErrors()
+);
 
+builder.Logging.AddConsole().AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Information);
 
 // Cloudflare configuration
 builder.Services.Configure<CloudflareSettings>(builder.Configuration.GetSection("Cloudflare"));

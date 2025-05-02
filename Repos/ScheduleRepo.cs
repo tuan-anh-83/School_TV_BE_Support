@@ -21,6 +21,11 @@ namespace Repos
             return ScheduleDAO.Instance.DeleteScheduleAsync(scheduleId);
         }
 
+        public async Task<Schedule?> GetActiveScheduleByProgramIdAsync(int programId)
+        {
+            return await ScheduleDAO.Instance.GetActiveScheduleByProgramIdAsync(programId);
+        }
+
         public async Task<IEnumerable<Schedule>> GetActiveSchedulesAsync()
         {
             return await ScheduleDAO.Instance.GetActiveSchedulesAsync();    
@@ -46,6 +51,11 @@ namespace Repos
         public Task<Schedule> GetScheduleByIdAsync(int scheduleId)
         {
             return ScheduleDAO.Instance.GetScheduleByIdAsync(scheduleId);
+        }
+
+        public async Task<Schedule?> GetScheduleByProgramIdAsync(int programId)
+        {
+            return await ScheduleDAO.Instance.GetScheduleByProgramIdAsync(programId);
         }
 
         public async Task<IEnumerable<Schedule>> GetSchedulesByChannelAndDateAsync(int channelId, DateTime date)

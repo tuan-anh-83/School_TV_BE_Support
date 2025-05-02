@@ -25,6 +25,7 @@ namespace Services
         Task<bool> IsStreamLiveAsync(string cloudflareStreamId);
         Task<bool> CheckLiveInputExistsAsync(string streamId);
         Task<VideoHistory?> GetLiveStreamByCloudflareUIDAsync(string uid);
+        Task<VideoHistory?> GetActiveLiveStreamByCloudflareUIDAsync(string uid);
         Task<bool> UpdateLiveStreamAsync(VideoHistory stream);
     }
 }
