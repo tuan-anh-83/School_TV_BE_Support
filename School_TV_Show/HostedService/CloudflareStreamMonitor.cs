@@ -183,7 +183,7 @@ namespace School_TV_Show.HostedService
 
             if (schedule == null || schedule.LiveStreamEnded || schedule.EndTime > now) return;
 
-            var success = await liveStreamService.EndLiveStreamAsync(video);
+            var success = await liveStreamService.EndStreamAndReturnLinksAsync(video);
             if (success)
             {
                 schedule.LiveStreamEnded = true;
