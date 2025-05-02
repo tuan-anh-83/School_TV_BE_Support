@@ -232,6 +232,7 @@ namespace DAOs
         {
             return await _context.Schedules.AsNoTracking()
               .Include(s => s.Program)
+                .ThenInclude(p => p.SchoolChannel)
                 .Where(s => s.Status == "Ready" && !s.LiveStreamStarted && s.StartTime <= time)
                 .ToListAsync();
         }

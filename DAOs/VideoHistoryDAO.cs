@@ -55,7 +55,7 @@ namespace DAOs
         public async Task<List<VideoHistory>> GetAllVideosAsync()
         {
             return await _context.VideoHistories
-               .Where(v => v.Status)
+                .Where(v => v.Status)
                 .Include(v => v.Program)
                 .ThenInclude(p => p.SchoolChannel)
                 .AsNoTracking()

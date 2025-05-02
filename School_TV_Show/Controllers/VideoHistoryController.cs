@@ -78,7 +78,7 @@ namespace School_TV_Show.Controllers
         public async Task<IActionResult> GetAllActiveVideos()
         {
             var videos = await _videoService.GetAllVideosAsync();
-            var filteredVideos = videos.Where(video => video.Status);
+            var filteredVideos = videos.Where(video => video.Type == "Recorded");
             return Ok(filteredVideos);
         }
 
