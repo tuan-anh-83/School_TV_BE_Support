@@ -640,24 +640,31 @@ namespace School_TV_Show.Controllers
         [Authorize(Roles = "User,SchoolOwner,Admin")]
         public async Task<IActionResult> GetAccountInformation()
         {
-            var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
-                return Unauthorized("Invalid or missing token.");
-            var account = await _accountService.GetAccountByIdAsync(accountId);
-            if (account == null)
-                return NotFound("Account not found.");
-            if (!account.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
-                return Unauthorized("Account is not active.");
-            var accountInfo = new
+            try
             {
-                account.AccountID,
-                account.Username,
-                account.Email,
-                account.Fullname,
-                account.Address,
-                account.PhoneNumber
-            };
-            return Ok(accountInfo);
+                var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                    return Unauthorized("Invalid or missing token.");
+                var account = await _accountService.GetAccountByIdAsync(accountId);
+                if (account == null)
+                    return NotFound("Account not found.");
+                if (!account.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
+                    return Unauthorized("Account is not active.");
+                var accountInfo = new
+                {
+                    account.AccountID,
+                    account.Username,
+                    account.Email,
+                    account.Fullname,
+                    account.Address,
+                    account.PhoneNumber
+                };
+                return Ok(accountInfo);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         [HttpPatch("update")]

@@ -11517,3 +11517,884 @@ Exception: System.InvalidOperationException: A second operation was started on t
 [2025-05-03 14:05:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
 [2025-05-03 14:05:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
 [2025-05-03 14:05:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:14:39] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-03 14:14:41] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-03 14:14:41] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-03 14:14:42] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 📡 CloudflareStreamMonitor started.
+[2025-05-03 14:14:42] [Error] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔥 Error in CloudflareStreamMonitor loop.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Repos.VideoHistoryRepo.GetActiveUnconfirmedStreamsAsync() in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 45
+   at School_TV_Show.HostedService.CloudflareStreamMonitor.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\CloudflareStreamMonitor.cs:line 52
+[2025-05-03 14:14:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-03 14:14:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:14:42
+[2025-05-03 14:14:42] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-03 14:14:42] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-03 14:14:42] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-03 14:14:42] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-03 14:14:42] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-03 14:14:42] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-03 14:14:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:14:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:14:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:14:47] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:14:47] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:14:48] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 1056.2053ms - 200
+[2025-05-03 14:14:48] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 1070.4976ms - 200
+[2025-05-03 14:15:03] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:15:03] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:15:05] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 1617.2055ms - 200
+[2025-05-03 14:15:05] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 1641.8448ms - 200
+[2025-05-03 14:15:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:15:12
+[2025-05-03 14:15:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:15:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:15:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:15:20] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:15:20] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:15:21] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 843.3389ms - 200
+[2025-05-03 14:15:21] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 844.6823ms - 200
+[2025-05-03 14:15:36] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:15:36] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:15:37] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 815.1708ms - 200
+[2025-05-03 14:15:37] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 817.1431ms - 200
+[2025-05-03 14:15:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:15:42
+[2025-05-03 14:15:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:15:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:15:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:15:52] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:15:52] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:15:53] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 833.292ms - 200
+[2025-05-03 14:15:53] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 834.6908ms - 200
+[2025-05-03 14:16:08] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:16:08] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:16:08] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 780.074ms - 200
+[2025-05-03 14:16:08] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 781.9034ms - 200
+[2025-05-03 14:16:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:16:13
+[2025-05-03 14:16:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:16:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:16:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:16:24] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:16:24] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:16:25] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 964.2326ms - 200
+[2025-05-03 14:16:25] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 966.3755ms - 200
+[2025-05-03 14:16:40] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:16:40] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:16:40] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 806.7736ms - 200
+[2025-05-03 14:16:40] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 807.862ms - 200
+[2025-05-03 14:16:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:16:43
+[2025-05-03 14:16:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:16:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:16:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:16:56] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:16:56] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:16:56] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 951.6329ms - 200
+[2025-05-03 14:16:56] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 952.5756ms - 200
+[2025-05-03 14:17:12] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:17:12] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:17:12] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 771.5316ms - 200
+[2025-05-03 14:17:12] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 772.817ms - 200
+[2025-05-03 14:17:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:17:13
+[2025-05-03 14:17:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:17:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:17:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:17:27] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:17:27] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:17:28] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 761.4152ms - 200
+[2025-05-03 14:17:28] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 767.3599ms - 200
+[2025-05-03 14:17:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:17:43
+[2025-05-03 14:17:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:17:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:17:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:17:44] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:17:44] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:17:44] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 789.7485ms - 200
+[2025-05-03 14:17:44] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 791.1944ms - 200
+[2025-05-03 14:18:00] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:18:00] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:18:00] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 863.8142ms - 200
+[2025-05-03 14:18:00] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 866.6321ms - 200
+[2025-05-03 14:18:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:18:13
+[2025-05-03 14:18:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:18:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:18:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:18:16] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:18:16] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:18:16] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 800.0615ms - 200
+[2025-05-03 14:18:16] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 801.384ms - 200
+[2025-05-03 14:18:31] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:18:31] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:18:32] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 848.7564ms - 200
+[2025-05-03 14:18:32] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 850.1758ms - 200
+[2025-05-03 14:18:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:18:43
+[2025-05-03 14:18:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:18:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:18:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:18:47] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:18:47] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:18:48] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 760.4987ms - 200
+[2025-05-03 14:18:48] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 761.8368ms - 200
+[2025-05-03 14:19:03] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:19:03] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:19:04] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 993.8326ms - 200
+[2025-05-03 14:19:04] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 994.6999ms - 200
+[2025-05-03 14:19:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:19:13
+[2025-05-03 14:19:13] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:19:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:19:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:19:19] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:19:19] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:19:20] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 798.9551ms - 200
+[2025-05-03 14:19:20] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 801.9102ms - 200
+[2025-05-03 14:19:32] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at DAOs.AccountDAO.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\DAOs\AccountDAO.cs:line 64
+   at Repos.AccountRepo.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Repos\AccountRepo.cs:line 30
+   at Services.AccountService.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Services\AccountService.cs:line 41
+   at School_TV_Show.Controllers.AccountController.GetAccountInformation() in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\AccountController.cs:line 646
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-03 14:19:35] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:19:35] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:19:36] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 801.0165ms - 200
+[2025-05-03 14:19:36] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 802.4014ms - 200
+[2025-05-03 14:19:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:19:44
+[2025-05-03 14:19:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:19:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:19:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:19:51] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:19:51] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:19:52] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 819.9532ms - 200
+[2025-05-03 14:19:52] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 822.0031ms - 200
+[2025-05-03 14:20:07] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:20:07] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:20:08] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 829.0307ms - 200
+[2025-05-03 14:20:08] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 829.9865ms - 200
+[2025-05-03 14:20:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:20:14
+[2025-05-03 14:20:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:20:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:20:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:20:23] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:20:23] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:20:24] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 807.2583ms - 200
+[2025-05-03 14:20:24] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 808.4827ms - 200
+[2025-05-03 14:20:39] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:20:39] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:20:40] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 921.4583ms - 200
+[2025-05-03 14:20:40] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 923.4518ms - 200
+[2025-05-03 14:20:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:20:44
+[2025-05-03 14:20:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:20:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:20:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:20:55] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:20:55] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:20:56] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 848.4946ms - 200
+[2025-05-03 14:20:56] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 852.6326ms - 200
+[2025-05-03 14:21:11] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:21:11] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:21:12] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 900.3107ms - 200
+[2025-05-03 14:21:12] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 901.7301ms - 200
+[2025-05-03 14:21:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:21:14
+[2025-05-03 14:21:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:21:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:21:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:21:27] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:21:27] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:21:28] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 844.8651ms - 200
+[2025-05-03 14:21:28] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 845.7207ms - 200
+[2025-05-03 14:21:32] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at DAOs.AccountDAO.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\DAOs\AccountDAO.cs:line 64
+   at Repos.AccountRepo.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Repos\AccountRepo.cs:line 30
+   at Services.AccountService.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Services\AccountService.cs:line 41
+   at School_TV_Show.Controllers.AccountController.GetAccountInformation() in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\AccountController.cs:line 646
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-03 14:21:43] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:21:43] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:21:44] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 876.1291ms - 200
+[2025-05-03 14:21:44] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 877.5343ms - 200
+[2025-05-03 14:21:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:21:44
+[2025-05-03 14:21:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:21:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:21:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:21:59] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:21:59] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:22:00] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 851.2246ms - 200
+[2025-05-03 14:22:00] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 853.2931ms - 200
+[2025-05-03 14:22:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:22:14
+[2025-05-03 14:22:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:22:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:22:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:22:15] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:22:15] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:22:16] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 823.3698ms - 200
+[2025-05-03 14:22:16] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 824.3475ms - 200
+[2025-05-03 14:22:21] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at DAOs.AccountDAO.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\DAOs\AccountDAO.cs:line 64
+   at Repos.AccountRepo.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Repos\AccountRepo.cs:line 30
+   at Services.AccountService.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Services\AccountService.cs:line 41
+   at School_TV_Show.Controllers.AccountController.GetAccountInformation() in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\AccountController.cs:line 646
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-03 14:22:36] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:22:36] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:22:38] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 1276.5606ms - 200
+[2025-05-03 14:22:38] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 1296.8176ms - 200
+[2025-05-03 14:22:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:22:46
+[2025-05-03 14:22:46] [Error] Services.HostedServices.DurationTrackingService: Error in DurationTrackingService
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.VideoHistoryDAO.GetVideosUploadedAfterAsync(DateTime timestamp) in F:\Workspace\School_TV_BE\DAOs\VideoHistoryDAO.cs:line 164
+   at Repos.VideoHistoryRepo.GetVideosUploadedAfterAsync(DateTime timestamp) in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 100
+   at Services.HostedServices.DurationTrackingService.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\DurationTrackingService.cs:line 38
+[2025-05-03 14:22:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:22:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:22:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:22:56] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at DAOs.AccountDAO.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\DAOs\AccountDAO.cs:line 64
+   at Repos.AccountRepo.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Repos\AccountRepo.cs:line 30
+   at Services.AccountService.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Services\AccountService.cs:line 41
+   at School_TV_Show.Controllers.AccountController.GetAccountInformation() in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\AccountController.cs:line 646
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-03 14:22:56] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:22:56] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:22:57] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 887.0492ms - 200
+[2025-05-03 14:22:57] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 888.3129ms - 200
+[2025-05-03 14:23:12] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:23:12] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:23:13] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 971.6526ms - 200
+[2025-05-03 14:23:13] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 973.9347ms - 200
+[2025-05-03 14:23:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:23:16
+[2025-05-03 14:23:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:23:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:23:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:23:20] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.ScheduleDAO.GetLiveNowSchedulesAsync() in F:\Workspace\School_TV_BE\DAOs\ScheduleDAO.cs:line 145
+   at Repos.ScheduleRepo.GetLiveNowSchedulesAsync() in F:\Workspace\School_TV_BE\Repos\ScheduleRepo.cs:line 41
+   at Services.ScheduleService.GetLiveNowSchedulesAsync() in F:\Workspace\School_TV_BE\Services\ScheduleService.cs:line 101
+   at School_TV_Show.Controllers.ScheduleController.GetLiveNowSchedules() in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\ScheduleController.cs:line 185
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-03 14:23:27] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at DAOs.AccountDAO.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\DAOs\AccountDAO.cs:line 64
+   at Repos.AccountRepo.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Repos\AccountRepo.cs:line 30
+   at Services.AccountService.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Services\AccountService.cs:line 41
+   at School_TV_Show.Controllers.AccountController.GetAccountInformation() in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\AccountController.cs:line 646
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-03 14:23:28] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:23:28] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:23:29] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 907.2834ms - 200
+[2025-05-03 14:23:29] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 908.3205ms - 200
+[2025-05-03 14:23:45] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:23:45] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:23:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:23:48
+[2025-05-03 14:23:49] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 935.7481ms - 200
+[2025-05-03 14:23:49] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 3916.5565ms - 200
+[2025-05-03 14:23:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:23:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:23:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:24:13] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:24:13] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:24:13] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at DAOs.AccountDAO.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\DAOs\AccountDAO.cs:line 64
+   at Repos.AccountRepo.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Repos\AccountRepo.cs:line 30
+   at Services.AccountService.GetAccountByIdAsync(Int32 accountId) in F:\Workspace\School_TV_BE\Services\AccountService.cs:line 41
+   at School_TV_Show.Controllers.AccountController.GetAccountInformation() in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\AccountController.cs:line 646
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-03 14:24:14] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 872.9646ms - 200
+[2025-05-03 14:24:14] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 875.28ms - 200
+[2025-05-03 14:24:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:24:25
+[2025-05-03 14:24:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:24:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:24:25] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:24:29] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:24:29] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:24:30] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 903.6476ms - 200
+[2025-05-03 14:24:30] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 904.6389ms - 200
+[2025-05-03 14:24:59] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-03 14:25:00] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-03 14:25:00] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-03 14:25:00] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 📡 CloudflareStreamMonitor started.
+[2025-05-03 14:25:01] [Error] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔥 Error in CloudflareStreamMonitor loop.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Repos.VideoHistoryRepo.GetActiveUnconfirmedStreamsAsync() in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 45
+   at School_TV_Show.HostedService.CloudflareStreamMonitor.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\CloudflareStreamMonitor.cs:line 52
+[2025-05-03 14:25:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-03 14:25:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:25:01
+[2025-05-03 14:25:01] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-03 14:25:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:25:01] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-03 14:25:01] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-03 14:25:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:25:01] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-03 14:25:01] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-03 14:25:01] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-03 14:25:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:25:06] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:25:06] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:25:07] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 666.7074ms - 200
+[2025-05-03 14:25:07] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 678.9775ms - 200
+[2025-05-03 14:25:22] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:25:22] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:25:22] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 425.0923ms - 200
+[2025-05-03 14:25:22] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 426.3544ms - 200
+[2025-05-03 14:25:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:25:31
+[2025-05-03 14:25:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:25:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:25:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:25:37] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:25:37] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:25:38] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 483.6403ms - 200
+[2025-05-03 14:25:38] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 484.5535ms - 200
+[2025-05-03 14:25:53] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:25:53] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:25:53] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 413.3918ms - 200
+[2025-05-03 14:25:53] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 419.06ms - 200
+[2025-05-03 14:26:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:26:02
+[2025-05-03 14:26:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:26:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:26:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:26:08] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:26:08] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:26:09] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 500.9643ms - 200
+[2025-05-03 14:26:09] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 502.1574ms - 200
+[2025-05-03 14:26:15] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.InvalidOperationException: An attempt was made to use the context instance while it is being configured. A DbContext instance cannot be used inside 'OnConfiguring' since it is still being configured at this point. This can happen if a second operation is started on this context instance before a previous operation completed. Any instance members are not guaranteed to be thread safe.
+   at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+   at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.AsNoTracking[TEntity](IQueryable`1 source)
+   at DAOs.ScheduleDAO.GetLiveNowSchedulesAsync() in F:\Workspace\School_TV_BE\DAOs\ScheduleDAO.cs:line 145
+   at Repos.ScheduleRepo.GetLiveNowSchedulesAsync() in F:\Workspace\School_TV_BE\Repos\ScheduleRepo.cs:line 41
+   at Services.ScheduleService.GetLiveNowSchedulesAsync() in F:\Workspace\School_TV_BE\Services\ScheduleService.cs:line 101
+   at School_TV_Show.Controllers.ScheduleController.GetLiveNowSchedules() in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\ScheduleController.cs:line 185
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-03 14:26:16] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.ScheduleDAO.GetAllSchedulesAsync() in F:\Workspace\School_TV_BE\DAOs\ScheduleDAO.cs:line 88
+   at Services.ScheduleService.GetSchedulesGroupedTimelineAsync() in F:\Workspace\School_TV_BE\Services\ScheduleService.cs:line 84
+   at School_TV_Show.Controllers.ScheduleController.GetSchedulesTimeline() in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\ScheduleController.cs:line 375
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-03 14:28:48] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:28:48
+[2025-05-03 14:28:54] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:28:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:28:54] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:28:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:29:24] [Error] Services.HostedServices.DurationTrackingService: Error in DurationTrackingService
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.VideoHistoryDAO.GetVideosUploadedAfterAsync(DateTime timestamp) in F:\Workspace\School_TV_BE\DAOs\VideoHistoryDAO.cs:line 164
+   at Repos.VideoHistoryRepo.GetVideosUploadedAfterAsync(DateTime timestamp) in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 100
+   at Services.HostedServices.DurationTrackingService.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\DurationTrackingService.cs:line 38
+[2025-05-03 14:29:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:46:42] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-03 14:46:43] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-03 14:46:43] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-03 14:46:43] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 📡 CloudflareStreamMonitor started.
+[2025-05-03 14:46:43] [Error] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔥 Error in CloudflareStreamMonitor loop.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Repos.VideoHistoryRepo.GetActiveUnconfirmedStreamsAsync() in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 45
+   at School_TV_Show.HostedService.CloudflareStreamMonitor.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\CloudflareStreamMonitor.cs:line 52
+[2025-05-03 14:46:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-03 14:46:43] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:46:43
+[2025-05-03 14:46:43] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-03 14:46:43] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-03 14:46:43] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-03 14:46:43] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-03 14:46:43] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-03 14:46:43] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-03 14:46:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:46:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:46:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:46:48] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:46:48] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:46:49] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 1063.0128ms - 200
+[2025-05-03 14:46:49] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 1076.097ms - 200
+[2025-05-03 14:47:04] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:47:04] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:47:05] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 825.201ms - 200
+[2025-05-03 14:47:05] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 827.4739ms - 200
+[2025-05-03 14:47:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:47:14
+[2025-05-03 14:47:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:47:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:47:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:47:20] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:47:20] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:47:21] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 757.5412ms - 200
+[2025-05-03 14:47:21] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 758.7533ms - 200
+[2025-05-03 14:47:36] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:47:36] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:47:37] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 778.2657ms - 200
+[2025-05-03 14:47:37] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 779.2308ms - 200
+[2025-05-03 14:47:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:47:44
+[2025-05-03 14:47:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:47:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:47:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:47:52] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:47:52] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:47:53] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 897.1056ms - 200
+[2025-05-03 14:47:53] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 898.2237ms - 200
+[2025-05-03 14:48:08] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:48:08] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:48:09] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 909.964ms - 200
+[2025-05-03 14:48:09] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 911.2778ms - 200
+[2025-05-03 14:48:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:48:14
+[2025-05-03 14:48:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:48:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:48:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:48:24] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:48:24] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:48:25] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 802.6288ms - 200
+[2025-05-03 14:48:25] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 804.8518ms - 200
+[2025-05-03 14:48:40] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:48:40] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:48:41] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 796.4934ms - 200
+[2025-05-03 14:48:41] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 798.1366ms - 200
+[2025-05-03 14:48:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:48:44
+[2025-05-03 14:48:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:48:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:48:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:48:56] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:48:56] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:48:57] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 902.1449ms - 200
+[2025-05-03 14:48:57] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 903.7404ms - 200
+[2025-05-03 14:49:12] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:49:12] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:49:13] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 882.1122ms - 200
+[2025-05-03 14:49:13] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 883.9505ms - 200
+[2025-05-03 14:49:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:49:14
+[2025-05-03 14:49:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:49:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:49:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:49:28] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:49:28] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:49:29] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 813.355ms - 200
+[2025-05-03 14:49:29] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 814.8779ms - 200
+[2025-05-03 14:49:44] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:49:44] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:49:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:49:44
+[2025-05-03 14:49:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:49:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:49:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:49:45] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 791.5546ms - 200
+[2025-05-03 14:49:45] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 793.1347ms - 200
+[2025-05-03 14:50:00] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:50:00] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:50:01] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 849.9578ms - 200
+[2025-05-03 14:50:01] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 851.4832ms - 200
+[2025-05-03 14:50:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:50:14
+[2025-05-03 14:50:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:50:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:50:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:50:16] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:50:16] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:50:16] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 802.1087ms - 200
+[2025-05-03 14:50:16] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 803.4254ms - 200
+[2025-05-03 14:50:32] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:50:32] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:50:32] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 843.9079ms - 200
+[2025-05-03 14:50:32] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 845.2594ms - 200
+[2025-05-03 14:50:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:50:45
+[2025-05-03 14:50:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:50:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:50:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:50:48] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:50:48] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:50:48] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 850.3937ms - 200
+[2025-05-03 14:50:48] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 851.6441ms - 200
+[2025-05-03 14:51:18] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:51:18
+[2025-05-03 14:51:26] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:51:26] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:51:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:51:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:51:46] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 19892.8673ms - 200
+[2025-05-03 14:51:46] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 27224.7714ms - 200
+[2025-05-03 14:52:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:52:01
+[2025-05-03 14:52:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:52:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:52:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:52:03] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:52:03] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:52:03] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 828.2713ms - 200
+[2025-05-03 14:52:03] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 830.4906ms - 200
+[2025-05-03 14:52:19] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:52:19] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:52:19] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 823.3779ms - 200
+[2025-05-03 14:52:19] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 825.7798ms - 200
+[2025-05-03 14:52:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:52:31
+[2025-05-03 14:52:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:52:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:52:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:55:26] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-03 14:55:28] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-03 14:55:28] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-03 14:55:28] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 📡 CloudflareStreamMonitor started.
+[2025-05-03 14:55:28] [Error] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔥 Error in CloudflareStreamMonitor loop.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Repos.VideoHistoryRepo.GetActiveUnconfirmedStreamsAsync() in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 45
+   at School_TV_Show.HostedService.CloudflareStreamMonitor.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\CloudflareStreamMonitor.cs:line 52
+[2025-05-03 14:55:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-03 14:55:28] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:55:28
+[2025-05-03 14:55:28] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-03 14:55:29] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-03 14:55:29] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-03 14:55:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:55:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:55:29] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-03 14:55:29] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-03 14:55:29] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-03 14:55:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:55:33] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:55:33] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:55:35] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 1131.8305ms - 200
+[2025-05-03 14:55:35] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 1162.5014ms - 200
+[2025-05-03 14:55:50] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:55:50] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:55:51] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 900.4955ms - 200
+[2025-05-03 14:55:51] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 903.0094ms - 200
+[2025-05-03 14:55:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:55:59
+[2025-05-03 14:55:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:55:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:55:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:56:06] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:56:06] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:56:07] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 865.577ms - 200
+[2025-05-03 14:56:07] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 867.5432ms - 200
+[2025-05-03 14:56:22] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:56:22] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:56:22] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 823.1961ms - 200
+[2025-05-03 14:56:22] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 826.1237ms - 200
+[2025-05-03 14:56:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:56:29
+[2025-05-03 14:56:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:56:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:56:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:56:38] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:56:38] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:56:38] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 798.8628ms - 200
+[2025-05-03 14:56:38] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 801.0721ms - 200
+[2025-05-03 14:56:54] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:56:54] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:56:54] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 849.5505ms - 200
+[2025-05-03 14:56:54] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 851.7844ms - 200
+[2025-05-03 14:56:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:56:59
+[2025-05-03 14:56:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:56:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:56:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:57:10] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:57:10] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:57:10] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 836.7016ms - 200
+[2025-05-03 14:57:10] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 837.8053ms - 200
+[2025-05-03 14:57:25] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:57:25] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:57:26] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 996.1516ms - 200
+[2025-05-03 14:57:26] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 1000.1752ms - 200
+[2025-05-03 14:57:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:57:29
+[2025-05-03 14:57:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:57:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:57:29] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:57:42] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:57:42] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:57:43] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 915.2847ms - 200
+[2025-05-03 14:57:43] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 916.9348ms - 200
+[2025-05-03 14:57:58] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:57:58] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:57:59] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 880.5698ms - 200
+[2025-05-03 14:57:59] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 883.6388ms - 200
+[2025-05-03 14:57:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:57:59
+[2025-05-03 14:57:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:57:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:58:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:58:14] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:58:14] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:58:14] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 769.9104ms - 200
+[2025-05-03 14:58:14] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 771.1849ms - 200
+[2025-05-03 14:58:30] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:58:30] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:58:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:58:30
+[2025-05-03 14:58:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:58:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:58:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:58:30] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 926.834ms - 200
+[2025-05-03 14:58:30] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 928.3432ms - 200
+[2025-05-03 14:58:46] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:58:46] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:58:46] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 815.4289ms - 200
+[2025-05-03 14:58:46] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 816.6208ms - 200
+[2025-05-03 14:59:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:59:00
+[2025-05-03 14:59:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:59:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:59:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:59:01] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:59:01] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:59:02] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 868.1572ms - 200
+[2025-05-03 14:59:02] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 869.836ms - 200
+[2025-05-03 14:59:17] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:59:17] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:59:18] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 900.4764ms - 200
+[2025-05-03 14:59:18] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 901.5957ms - 200
+[2025-05-03 14:59:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 14:59:30
+[2025-05-03 14:59:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 14:59:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 14:59:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 14:59:34] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:59:34] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:59:34] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 889.2987ms - 200
+[2025-05-03 14:59:34] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 890.6813ms - 200
+[2025-05-03 14:59:49] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:59:49] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 14:59:50] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 941.2221ms - 200
+[2025-05-03 14:59:50] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 942.9186ms - 200
+[2025-05-03 15:00:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 15:00:00
+[2025-05-03 15:00:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 15:00:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 15:00:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 15:00:06] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:00:06] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:00:07] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 1462.7592ms - 200
+[2025-05-03 15:00:07] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 1463.7415ms - 200
+[2025-05-03 15:00:22] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:00:22] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:00:23] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 842.4097ms - 200
+[2025-05-03 15:00:23] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 844.0074ms - 200
+[2025-05-03 15:00:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 15:00:30
+[2025-05-03 15:00:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 15:00:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 15:00:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 15:00:38] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:00:38] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:00:39] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 887.4017ms - 200
+[2025-05-03 15:00:39] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 888.8561ms - 200
+[2025-05-03 15:00:54] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:00:54] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:00:55] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 813.0055ms - 200
+[2025-05-03 15:00:55] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 814.0625ms - 200
+[2025-05-03 15:01:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 15:01:00
+[2025-05-03 15:01:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 15:01:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 15:01:00] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 15:01:10] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:01:10] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:01:11] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 850.1389ms - 200
+[2025-05-03 15:01:11] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 851.9085ms - 200
+[2025-05-03 15:01:26] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:01:26] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:01:27] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 815.1794ms - 200
+[2025-05-03 15:01:27] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 816.1319ms - 200
+[2025-05-03 15:01:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 15:01:30
+[2025-05-03 15:01:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 15:01:30] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 15:01:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 15:01:42] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:01:42] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:01:43] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 865.8487ms - 200
+[2025-05-03 15:01:43] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 868.9224ms - 200
+[2025-05-03 15:01:58] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:01:58] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:01:59] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 993.5474ms - 200
+[2025-05-03 15:01:59] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 995.0279ms - 200
+[2025-05-03 15:02:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 15:02:01
+[2025-05-03 15:02:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 15:02:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 15:02:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 15:02:14] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:02:14] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:02:15] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 948.0963ms - 200
+[2025-05-03 15:02:15] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 949.4437ms - 200
+[2025-05-03 15:02:30] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:02:30] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:02:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 15:02:31
+[2025-05-03 15:02:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 15:02:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 15:02:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 15:02:31] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 855.9221ms - 200
+[2025-05-03 15:02:31] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 857.7543ms - 200
+[2025-05-03 15:02:46] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:02:46] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:02:47] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 870.2327ms - 200
+[2025-05-03 15:02:47] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 871.3372ms - 200
+[2025-05-03 15:03:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/03/2025 15:03:01
+[2025-05-03 15:03:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-03 15:03:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-03 15:03:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 30 marked as inactive.
+[2025-05-03 15:03:02] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:03:02] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:03:03] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 873.6811ms - 200
+[2025-05-03 15:03:03] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 874.7453ms - 200
+[2025-05-03 15:03:18] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:03:18] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/b47d2589ee3b323c44f5ceb7ffaf13bf
+[2025-05-03 15:03:19] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 828.8939ms - 200
+[2025-05-03 15:03:19] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 835.6773ms - 200

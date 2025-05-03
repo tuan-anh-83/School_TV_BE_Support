@@ -285,7 +285,8 @@ namespace School_TV_Show.Controllers
                     sc.Account.Email,
                     sc.Account.Fullname,
                     sc.Account.Address,
-                    sc.Account.PhoneNumber
+                    sc.Account.PhoneNumber,
+                    sc.Account.AccountPackages
                 } : null,
                 sc.News
             };

@@ -52,6 +52,7 @@ namespace DAOs
         {
             return await _context.SchoolChannels.AsNoTracking()
                                  .Include(sc => sc.Account)
+                                    .ThenInclude(a => a.AccountPackages)
                                  .FirstOrDefaultAsync(sc => sc.SchoolChannelID == id);
         }
 
@@ -59,6 +60,7 @@ namespace DAOs
         {
             var query = _context.SchoolChannels.AsNoTracking()
                           .Include(sc => sc.Account)
+                            .ThenInclude(a => a.AccountPackages)
                                 .Where(sc => sc.Status == true)
                                 .AsQueryable();
 
