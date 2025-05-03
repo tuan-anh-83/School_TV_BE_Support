@@ -10,7 +10,7 @@ namespace Repos
 {
     public class PaymentHistoryRepo : IPaymentHistoryRepo
     {
-        public Task AddPaymentHistoryAsync(Payment payment)
+        public Task<bool> AddPaymentHistoryAsync(Payment payment)
         {
             return PaymentHistoryDAO.Instance.AddPaymentHistoryAsync(payment);  
         }

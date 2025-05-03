@@ -16,7 +16,7 @@ namespace Services
             _repo = repo;
         }
 
-        public Task AddPaymentHistoryAsync(Payment payment)
+        public Task<bool> AddPaymentHistoryAsync(Payment payment)
         {
             return _repo.AddPaymentHistoryAsync(payment);
         }

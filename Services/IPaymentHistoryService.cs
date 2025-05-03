@@ -9,7 +9,7 @@ namespace Services
 {
     public interface IPaymentHistoryService
     {
-        Task AddPaymentHistoryAsync(Payment payment);
+        Task<bool> AddPaymentHistoryAsync(Payment payment);
         Task<List<PaymentHistory>> GetPaymentHistoriesByPaymentIdAsync(int paymentId);
 
         Task<List<PaymentHistory>> GetAllPaymentHistoriesAsync();

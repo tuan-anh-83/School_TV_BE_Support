@@ -141,7 +141,8 @@ namespace Services
                     _logger.LogInformation($"✅ Payment record updated for Order {order.OrderID}");
                 }
 
-                await _paymentHistoryService.AddPaymentHistoryAsync(payment);
+                var isCreatedPaymentHistory = await _paymentHistoryService.AddPaymentHistoryAsync(payment);
+                _logger.LogInformation($"📜 Payment history is created: {isCreatedPaymentHistory}");
                 _logger.LogInformation($"📜 Payment history recorded for Payment {payment.PaymentID}");
 
                 order.Status = request.data.code == "00" ? "Completed" : "Failed";

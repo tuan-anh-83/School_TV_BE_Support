@@ -31,24 +31,31 @@ namespace DAOs
             }
         }
 
-        public async Task AddPaymentHistoryAsync(Payment payment)
+        public async Task<bool> AddPaymentHistoryAsync(Payment payment)
         {
-            if (payment == null || payment.PaymentID <= 0)
+            try
             {
-                Console.WriteLine("❌ Invalid Payment object. PaymentID is missing.");
-                return;
+                if (payment == null || payment.PaymentID <= 0)
+                {
+                    Console.WriteLine("❌ Invalid Payment object. PaymentID is missing.");
+                    return false;
+                }
+
+                var paymentHistory = new PaymentHistory
+                {
+                    PaymentID = payment.PaymentID,
+                    Amount = payment.Amount,  // ✅ Assign amount
+                    Status = payment.Status,
+                    Timestamp = DateTime.UtcNow
+                };
+
+                await _context.PaymentHistories.AddAsync(paymentHistory);
+                return await _context.SaveChangesAsync() > 0;
             }
-
-            var paymentHistory = new PaymentHistory
+            catch (Exception)
             {
-                PaymentID = payment.PaymentID,
-                Amount = payment.Amount,  // ✅ Assign amount
-                Status = payment.Status,
-                Timestamp = DateTime.UtcNow
-            };
-
-            await _context.PaymentHistories.AddAsync(paymentHistory);
-            await _context.SaveChangesAsync();
+                throw;
+            }
         }
 
         public async Task<List<PaymentHistory>> GetPaymentHistoriesByPaymentIdAsync(int paymentId)

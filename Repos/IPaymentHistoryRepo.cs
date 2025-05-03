@@ -9,7 +9,7 @@ namespace Repos
 {
     public interface IPaymentHistoryRepo
     {
-        Task AddPaymentHistoryAsync(Payment payment);
+        Task<bool> AddPaymentHistoryAsync(Payment payment);
         Task<List<PaymentHistory>> GetPaymentHistoriesByPaymentIdAsync(int paymentId);
 
         Task<List<PaymentHistory>> GetAllPaymentHistoriesAsync();
