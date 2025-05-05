@@ -66,6 +66,7 @@ namespace School_TV_Show.HostedService
                         {
                             await MarkVideoAsLiveAsync(video, scope, localNow);
                             await MarkScheduleAsLiveAsync(video, scope, localNow);
+                            Console.WriteLine("Hello");
                         } 
                     }
 
