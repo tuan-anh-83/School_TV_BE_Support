@@ -25333,3 +25333,78 @@ Exception: System.InvalidOperationException: A second operation was started on t
 [2025-05-05 14:28:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 14:28:15
 [2025-05-05 14:28:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
 [2025-05-05 14:28:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-05 16:25:14] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-05 16:25:15] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-05 16:25:15] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-05 16:25:16] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 📡 CloudflareStreamMonitor started.
+[2025-05-05 16:25:16] [Error] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔥 Error in CloudflareStreamMonitor loop.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Repos.VideoHistoryRepo.GetActiveUnconfirmedStreamsAsync() in D:\DoAn_Ky9\SP\BE\School_TV_Show---BE-main\Repos\VideoHistoryRepo.cs:line 45
+   at School_TV_Show.HostedService.CloudflareStreamMonitor.ExecuteAsync(CancellationToken stoppingToken) in D:\DoAn_Ky9\SP\BE\School_TV_Show---BE-main\School_TV_Show\HostedService\CloudflareStreamMonitor.cs:line 56
+[2025-05-05 16:25:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-05 16:25:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 16:25:16
+[2025-05-05 16:25:16] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-05 16:25:16] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-05 16:25:16] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-05 16:25:16] [Information] Microsoft.Hosting.Lifetime: Content root path: D:\DoAn_Ky9\SP\BE\School_TV_Show---BE-main\School_TV_Show
+[2025-05-05 16:25:16] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-05 16:25:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-05 16:25:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-05 16:25:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 16:25:47
+[2025-05-05 16:25:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-05 16:25:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-05 16:26:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 16:26:17
+[2025-05-05 16:26:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-05 16:26:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-05 16:26:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 16:26:47
+[2025-05-05 16:26:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-05 16:26:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-05 16:27:21] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-05 16:27:22] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-05 16:27:22] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-05 16:27:22] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 📡 CloudflareStreamMonitor started.
+[2025-05-05 16:27:22] [Error] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔥 Error in CloudflareStreamMonitor loop.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Repos.VideoHistoryRepo.GetActiveUnconfirmedStreamsAsync() in D:\DoAn_Ky9\SP\BE\School_TV_Show---BE-main\Repos\VideoHistoryRepo.cs:line 45
+   at School_TV_Show.HostedService.CloudflareStreamMonitor.ExecuteAsync(CancellationToken stoppingToken) in D:\DoAn_Ky9\SP\BE\School_TV_Show---BE-main\School_TV_Show\HostedService\CloudflareStreamMonitor.cs:line 56
+[2025-05-05 16:27:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-05 16:27:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 16:27:22
+[2025-05-05 16:27:22] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-05 16:27:22] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-05 16:27:22] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-05 16:27:22] [Information] Microsoft.Hosting.Lifetime: Content root path: D:\DoAn_Ky9\SP\BE\School_TV_Show---BE-main\School_TV_Show
+[2025-05-05 16:27:22] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-05 16:27:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-05 16:27:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-05 16:27:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 16:27:53
+[2025-05-05 16:27:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-05 16:27:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-05 16:28:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 16:28:23
+[2025-05-05 16:28:23] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-05 16:28:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-05 16:28:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 16:28:54
+[2025-05-05 16:28:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-05 16:28:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-05 16:29:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 16:29:24
+[2025-05-05 16:29:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-05 16:29:24] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-05 16:29:45] [Information] School_TV_Show.Controllers.PackageController: 🔔 [WEBHOOK] Received Payment Webhook at 5/5/2025 9:29:45 AM
+[2025-05-05 16:29:45] [Information] School_TV_Show.Controllers.PackageController: 🟢 Webhook Data: OrderCode = 0, Amount = 0, Transaction ID = string
+[2025-05-05 16:29:45] [Information] Services.PaymentService: 🔍 Verifying Signature for Order 0...
+[2025-05-05 16:29:45] [Information] Services.PaymentService: 📝 Data String for Signature: accountNumber=string&amount=0&code=string&counterAccountBankId=string&counterAccountBankName=string&counterAccountName=string&counterAccountNumber=string&currency=string&desc=string&description=string&orderCode=0&paymentLinkId=string&reference=string&transactionDateTime=string&virtualAccountName=string&virtualAccountNumber=string
+[2025-05-05 16:29:45] [Information] Services.PaymentService: 🔐 Computed Signature: 14939392c2c2a61e099af55d278dee0d16f3d822162d417c80d4d7c42cd7d49b
+[2025-05-05 16:29:45] [Information] Services.PaymentService: 📩 Received Signature: string
+[2025-05-05 16:29:45] [Information] Services.PaymentService: ✅ Signature Match: False
+[2025-05-05 16:29:45] [Information] School_TV_Show.Controllers.PackageController: 🔑 Signature Valid: False
+[2025-05-05 16:29:45] [Error] School_TV_Show.Controllers.PackageController: ❌ Webhook signature verification failed for Order 0!
+[2025-05-05 16:29:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/05/2025 16:29:54
+[2025-05-05 16:29:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-05 16:29:54] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
