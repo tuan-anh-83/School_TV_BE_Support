@@ -40,13 +40,6 @@ namespace School_TV_Show.Controllers
         [HttpPost("follow")]
         public async Task<IActionResult> Follow([FromBody] CreateProgramFollowRequest request)
         {
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-
-            }
             var result = await _programFollowService.CreateOrRefollowAsync(request.AccountID, request.ProgramID);
             return Ok(result);
         }

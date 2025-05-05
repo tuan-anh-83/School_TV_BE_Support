@@ -193,17 +193,39 @@ namespace DAOs
 
         public void UpdateSchedule(Schedule schedule)
         {
+            // Kiểm tra xem entity đã được attach vào DbContext chưa
             var tracked = _context.Schedules.Local.FirstOrDefault(s => s.ScheduleID == schedule.ScheduleID);
+
             if (tracked != null)
             {
-                tracked.Status = schedule.Status;
-                tracked.LiveStreamStarted = schedule.LiveStreamStarted;
-                tracked.LiveStreamEnded = schedule.LiveStreamEnded;
+                // Kiểm tra sự thay đổi thực sự để tránh cập nhật không cần thiết
+                if (tracked.Status != schedule.Status)
+                {
+                    tracked.Status = schedule.Status;
+                    _context.Entry(tracked).Property(s => s.Status).IsModified = true;
+                }
+
+                if (tracked.LiveStreamStarted != schedule.LiveStreamStarted)
+                {
+                    tracked.LiveStreamStarted = schedule.LiveStreamStarted;
+                    _context.Entry(tracked).Property(s => s.LiveStreamStarted).IsModified = true;
+                }
+
+                if (tracked.LiveStreamEnded != schedule.LiveStreamEnded)
+                {
+                    tracked.LiveStreamEnded = schedule.LiveStreamEnded;
+                    _context.Entry(tracked).Property(s => s.LiveStreamEnded).IsModified = true;
+                }
             }
             else
             {
+                // Nếu entity chưa được theo dõi, attach entity mới vào DbContext
                 _context.Schedules.Attach(schedule);
-                _context.Entry(schedule).State = EntityState.Modified;
+
+                // Mark các property cần update
+                _context.Entry(schedule).Property(s => s.Status).IsModified = true;
+                _context.Entry(schedule).Property(s => s.LiveStreamStarted).IsModified = true;
+                _context.Entry(schedule).Property(s => s.LiveStreamEnded).IsModified = true;
             }
         }
 

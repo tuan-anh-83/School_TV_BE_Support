@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.SignalR;
 using Services.Hubs;
 using Services;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Text;
 
 namespace School_TV_Show.HostedService
 {
@@ -20,12 +21,14 @@ namespace School_TV_Show.HostedService
         private readonly ILogger<CloudflareStreamMonitor> _logger;
         private readonly CloudflareSettings _cloudflareSettings;
         private readonly IHubContext<LiveStreamHub> _hubContext;
+        private readonly IHubContext<NotificationHub> _notiHubContext;
 
         public CloudflareStreamMonitor(
             IServiceScopeFactory scopeFactory,
             ILogger<CloudflareStreamMonitor> logger,
             IHttpClientFactory httpClientFactory,
             IHubContext<LiveStreamHub> hubContext,
+            IHubContext<NotificationHub> notiHubContext,
             IOptions<CloudflareSettings> cloudflareSettings
         )
         {
@@ -34,6 +37,7 @@ namespace School_TV_Show.HostedService
             _httpClientFactory = httpClientFactory;
             _cloudflareSettings = cloudflareSettings.Value;
             _hubContext = hubContext;
+            _notiHubContext = notiHubContext;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -116,6 +120,39 @@ namespace School_TV_Show.HostedService
             return result?.Result?.Status?.Current?.State;
         }
 
+        private async Task NotifyToFollower(VideoHistory video, IServiceScope scope, DateTime now)
+        {
+            var programFollowRepo = scope.ServiceProvider.GetRequiredService<IProgramFollowRepo>();
+            var notificationRepo = scope.ServiceProvider.GetRequiredService<INotificationRepo>();
+
+            if (video.ProgramID == null)
+            {
+                _logger.LogWarning($"⚠️ VideoID {video.VideoHistoryID} does not have a ProgramID. Skipping notify.");
+                return;
+            }
+
+            var programFollowers = await programFollowRepo.GetByProgramIdAsync(video.ProgramID.Value);
+
+            if(programFollowers.Count() > 0)
+            {
+                foreach(var follower in programFollowers)
+                {
+                    var noti = new Notification
+                    {
+                        AccountID = follower.AccountID,
+                        Title = $"📺 Starting live stream!",
+                        Message = $"The program is in streaming now. Let join!",
+                        Content = $"The program is in streaming now. Let join!",
+                        CreatedAt = now,
+                        IsRead = false
+                    };
+                    await notificationRepo.AddAsync(noti);
+                    await _notiHubContext.Clients.Group(follower.AccountID.ToString())
+                    .SendAsync("ReceiveNotification", new { title = noti.Title, content = noti.Content });
+                }
+            }
+        }
+
         private async Task MarkVideoAsLiveAsync(VideoHistory video, IServiceScope scope, DateTime now)
         {
             var videoRepo = scope.ServiceProvider.GetRequiredService<IVideoHistoryRepo>();
@@ -162,13 +199,15 @@ namespace School_TV_Show.HostedService
 
                 await scheduleRepo.UpdateScheduleAsync(schedule);
                 _logger.LogInformation($"🎬 Marked ScheduleID {schedule.ScheduleID} as Live (from VideoID {video.VideoHistoryID})");
-                await _hubContext.Clients.All.SendAsync("StreamStarted", new
-                {
-                    scheduleId = schedule.ScheduleID,
-                    videoId = video.VideoHistoryID,
-                    url = video.URL,
-                    playbackUrl = video.PlaybackUrl
-                });
+                /*                await _hubContext.Clients.All.SendAsync("StreamStarted", new
+                                {
+                                    scheduleId = schedule.ScheduleID,
+                                    videoId = video.VideoHistoryID,
+                                    url = video.URL,
+                                    playbackUrl = video.PlaybackUrl
+                                });*/
+
+                await NotifyToFollower(video, scope, now);
             }
         }
 

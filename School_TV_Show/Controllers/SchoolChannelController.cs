@@ -288,7 +288,8 @@ namespace School_TV_Show.Controllers
                     sc.Account.PhoneNumber,
                     sc.Account.AccountPackages
                 } : null,
-                sc.News
+                sc.News,
+                Programs = sc.Programs
             };
         }
 

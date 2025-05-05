@@ -62,5 +62,9 @@ namespace Services
             return allAds.OrderByDescending(a => a.CreatedAt).FirstOrDefault();
         }
 
+        public Task<IEnumerable<AdSchedule>> GetAdsToday(DateTime start, DateTime end)
+        {
+            return _repository.GetAdsTodayAsync(start, end);
+        }
     }
 }

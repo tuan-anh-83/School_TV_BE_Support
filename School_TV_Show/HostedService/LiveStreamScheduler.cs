@@ -22,17 +22,20 @@ namespace BLL.Services.LiveStream.Implements
         private readonly ILogger<LiveStreamScheduler> _logger;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly IHubContext<LiveStreamHub> _hubContext;
+        private readonly IHubContext<NotificationHub> _notiHubContext;
         private readonly CloudflareSettings _cloudflareSettings;
 
         public LiveStreamScheduler(
             ILogger<LiveStreamScheduler> logger,
             IServiceScopeFactory scopeFactory,
             IHubContext<LiveStreamHub> hubContext,
+            IHubContext<NotificationHub> notiHubContext,
             IOptions<CloudflareSettings> cloudflareOptions)
         {
             _logger = logger;
             _scopeFactory = scopeFactory;
             _hubContext = hubContext;
+            _notiHubContext = notiHubContext;
             _cloudflareSettings = cloudflareOptions.Value;
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -73,9 +76,10 @@ namespace BLL.Services.LiveStream.Implements
                         else
                         {
                             _logger.LogWarning("Skip marking READY for ScheduleID {ScheduleID} because it's already past StartTime: {StartTime}", s.ScheduleID, s.StartTime);
+                            continue;
                         }
 
-                            var program = s.Program ?? await repository.GetProgramByIdAsync(s.ProgramID);
+                        var program = s.Program ?? await repository.GetProgramByIdAsync(s.ProgramID);
                         if (program == null)
                         {
                             _logger.LogWarning("Program not found for ScheduleID {ScheduleID}", s.ScheduleID);
@@ -93,27 +97,29 @@ namespace BLL.Services.LiveStream.Implements
                         {
                             var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
                             var programFollowService = scope.ServiceProvider.GetRequiredService<IProgramFollowService>();
-                           var schoolFollowService = scope.ServiceProvider.GetRequiredService<ISchoolChannelFollowService>();
+                            var schoolFollowService = scope.ServiceProvider.GetRequiredService<ISchoolChannelFollowService>();
 
                             var programFollowers = await programFollowService.GetByProgramIdAsync(program.ProgramID);
-                             var schoolFollowers = await schoolFollowService.GetFollowersBySchoolChannelIdAsync(school.SchoolChannelID);
-                             var notifiedAccountIds = programFollowers.Select(f => f.AccountID)
+                            var schoolFollowers = await schoolFollowService.GetFollowersBySchoolChannelIdAsync(school.SchoolChannelID);
+                            var notifiedAccountIds = programFollowers.Select(f => f.AccountID)
                                                      .Union(schoolFollowers.Select(f => f.AccountID))
                                                      .Distinct();
 
                             foreach (var accId in notifiedAccountIds)
                             {
+                                var minutesLeft = (int)Math.Ceiling((s.StartTime - localNow).TotalMinutes);
+
                                 var noti = new Notification
                                 {
                                     AccountID = accId,
                                     Title = $"📺 Livestream from {school.Name} is about to start!",
-                                    Message = $"The program {program.ProgramName} will start at {s.StartTime.ToLocalTime():HH:mm}",
-                                    Content = $"The program {program.ProgramName} will start at {s.StartTime.ToLocalTime():HH:mm}",
-                                    CreatedAt = DateTime.UtcNow,
+                                    Message = $"The program {program.ProgramName} will start in {minutesLeft} minute{(minutesLeft > 1 ? "s" : "")}.",
+                                    Content = $"The program {program.ProgramName} will start in {minutesLeft} minute{(minutesLeft > 1 ? "s" : "")}.",
+                                    CreatedAt = localNow,
                                     IsRead = false
                                 };
                                 await notificationService.CreateNotificationAsync(noti);
-                                await _hubContext.Clients.User(accId.ToString())
+                                await _notiHubContext.Clients.Group(accId.ToString())
                                     .SendAsync("ReceiveNotification", new { title = noti.Title, content = noti.Content });
                             }
                         }

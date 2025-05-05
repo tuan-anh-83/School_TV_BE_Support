@@ -25,6 +25,11 @@ namespace Repos
             return await AdScheduleDAO.Instance.FilterByDateRangeAsync(startTime, endTime);
         }
 
+        public async Task<IEnumerable<AdSchedule>> GetAdsTodayAsync(DateTime start, DateTime end)
+        {
+            return await AdScheduleDAO.Instance.GetAdsTodayAsync(start, end);
+        }
+
         public async Task<IEnumerable<AdSchedule>> GetAllAsync()
         {
             return await AdScheduleDAO.Instance.GetAllAsync();

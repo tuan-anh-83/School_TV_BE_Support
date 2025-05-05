@@ -11,7 +11,7 @@ namespace Services.Hubs
     {
         public override async Task OnConnectedAsync()
         {
-            var accountId = Context.GetHttpContext()?.Request.Query["accountId"];
+            string? accountId = Context.GetHttpContext()?.Request.Query["accountId"].ToString();
             if (!string.IsNullOrEmpty(accountId))
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, accountId);

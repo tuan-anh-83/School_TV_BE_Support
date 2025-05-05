@@ -1127,7 +1127,7 @@ namespace BOs.Migrations
             modelBuilder.Entity("BOs.Models.Program", b =>
                 {
                     b.HasOne("BOs.Models.SchoolChannel", "SchoolChannel")
-                        .WithMany()
+                        .WithMany("Programs")
                         .HasForeignKey("SchoolChannelID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1313,6 +1313,8 @@ namespace BOs.Migrations
                     b.Navigation("Followers");
 
                     b.Navigation("News");
+
+                    b.Navigation("Programs");
                 });
 
             modelBuilder.Entity("BOs.Models.VideoHistory", b =>

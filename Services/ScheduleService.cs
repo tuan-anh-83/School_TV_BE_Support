@@ -85,7 +85,7 @@ namespace Services
 
             return new Dictionary<string, List<Schedule>>
             {
-                ["Live Now"] = all.Where(s => s.Status == "Live").ToList(),
+                ["LiveNow"] = all.Where(s => s.Status == "Live" || s.Status == "LateStart").ToList(),
                 ["Upcoming"] = all.Where(s => s.Status == "Pending" || s.Status == "Ready").ToList(),
                 ["Replay"] = all.Where(s => s.Status == "Ended" || s.Status == "EndedEarly").ToList()
             };

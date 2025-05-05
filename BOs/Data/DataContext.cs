@@ -275,7 +275,7 @@ namespace BOs.Data
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.SchoolChannel)
-                      .WithMany()
+                      .WithMany(sc => sc.Programs)
                       .HasForeignKey(e => e.SchoolChannelID)
                       .OnDelete(DeleteBehavior.Cascade);
 

@@ -1,8 +1,11 @@
 ﻿using BOs.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using School_TV_Show.DTO;
 using School_TV_Show.Helpers;
 using Services;
+using Services.Hubs;
+using System.Globalization;
 
 namespace School_TV_Show.Controllers
 {
@@ -11,10 +14,12 @@ namespace School_TV_Show.Controllers
     public class AdScheduleController : ControllerBase
     {
         private readonly IAdScheduleService _service;
+        private readonly IHubContext<LiveStreamHub> _hubContext;
 
-        public AdScheduleController(IAdScheduleService service)
+        public AdScheduleController(IAdScheduleService service, IHubContext<LiveStreamHub> hubContext)
         {
             _service = service;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -49,6 +54,9 @@ namespace School_TV_Show.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateAdScheduleRequestDTO request)
         {
+            DateTime startDate = DateTime.ParseExact(request.StartTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            DateTime endDate = DateTime.ParseExact(request.EndTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+
             var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
 
             if (hasViolation)
@@ -59,16 +67,24 @@ namespace School_TV_Show.Controllers
             var ad = new AdSchedule
             {
                 Title = request.Title,
-                StartTime = request.StartTime,
-                EndTime = request.EndTime,
+                StartTime = startDate,
+                EndTime = endDate,
                 VideoUrl = request.VideoUrl,
-
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"))
             };
 
             var success = await _service.CreateAdScheduleAsync(ad);
             if (!success)
                 return StatusCode(500, new ApiResponse(false, "Failed to create ad schedule"));
+
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+
+            var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
+            var today = now.Date;
+            var tomorrow = today.AddDays(1);
+
+            var ads = await _service.GetAdsToday(today, tomorrow);
+            await _hubContext.Clients.All.SendAsync("Ads", ads);
 
             return Ok(new ApiResponse(true, "Ad schedule created successfully"));
         }

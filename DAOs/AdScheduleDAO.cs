@@ -36,6 +36,11 @@ namespace DAOs
             return await _context.AdSchedules.AsNoTracking().ToListAsync();
         }
 
+        public async Task<IEnumerable<AdSchedule>> GetAdsTodayAsync(DateTime start, DateTime end)
+        {
+            return await _context.AdSchedules.AsNoTracking().Where(ad => ad.StartTime < end && ad.EndTime > start).ToListAsync();
+        }
+
         public async Task<AdSchedule> GetByIdAsync(int id)
         {
             return await _context.AdSchedules.FindAsync(id);

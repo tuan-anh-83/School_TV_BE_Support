@@ -87,6 +87,7 @@ namespace DAOs
         {
             return await _context.Schedules
               .Include(s => s.Program)
+                .ThenInclude(p => p.SchoolChannel)
                 .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
                 .ToListAsync();
         }
@@ -179,7 +180,7 @@ namespace DAOs
             var all = await GetAllSchedulesAsync();
             var result = new Dictionary<string, List<Schedule>>
             {
-                ["Live Now"] = all.Where(s => s.Status == "Live").ToList(),
+                ["LiveNow"] = all.Where(s => s.Status == "Live" || s.Status == "LateStart").ToList(),
                 ["Upcoming"] = all.Where(s => s.Status == "Pending" || s.Status == "Ready").ToList(),
                 ["Replay"] = all.Where(s => s.Status == "Ended" || s.Status == "EndedEarly").ToList()
             };

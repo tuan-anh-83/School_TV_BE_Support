@@ -49,8 +49,6 @@ namespace Services
                 throw new Exception("Invalid Account ID.");
 
             var follows = await _programFollowRepository.GetByAccountIdAsync(accountId);
-            if (!follows.Any())
-                throw new Exception("No follows found for this account.");
 
             return follows;
         }

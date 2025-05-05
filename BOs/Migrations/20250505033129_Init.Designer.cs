@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BOs.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250426065656_Init")]
+    [Migration("20250505033129_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -1130,7 +1130,7 @@ namespace BOs.Migrations
             modelBuilder.Entity("BOs.Models.Program", b =>
                 {
                     b.HasOne("BOs.Models.SchoolChannel", "SchoolChannel")
-                        .WithMany()
+                        .WithMany("Programs")
                         .HasForeignKey("SchoolChannelID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1316,6 +1316,8 @@ namespace BOs.Migrations
                     b.Navigation("Followers");
 
                     b.Navigation("News");
+
+                    b.Navigation("Programs");
                 });
 
             modelBuilder.Entity("BOs.Models.VideoHistory", b =>

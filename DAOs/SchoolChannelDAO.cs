@@ -51,6 +51,7 @@ namespace DAOs
         public async Task<SchoolChannel?> GetByIdAsync(int id)
         {
             return await _context.SchoolChannels.AsNoTracking()
+                                 .Include(sc => sc.Programs)
                                  .Include(sc => sc.Account)
                                     .ThenInclude(a => a.AccountPackages)
                                  .FirstOrDefaultAsync(sc => sc.SchoolChannelID == id);

@@ -23,5 +23,6 @@ namespace BOs.Models
         public virtual ICollection<News> News { get; set; } = new List<News>();
 
         public ICollection<SchoolChannelFollow> Followers { get; set; }
+        public ICollection<Program> Programs { get; set; }
     }
 }
