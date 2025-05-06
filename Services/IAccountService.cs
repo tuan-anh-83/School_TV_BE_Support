@@ -21,7 +21,7 @@ namespace Services
         Task<Account?> SearchAccountByIdAsync(int accountId);
         Task<List<Account>> SearchAccountsByNameAsync(string searchTerm);
         Task<bool> AssignRoleAsync(int accountId, int roleId);
-        Task<bool> UpdateAccountStatusAsync(int accountId, string status);
+        Task<bool> UpdateAccountStatusAsync(Account accountId, string status);
         Task SavePasswordResetTokenAsync(int accountId, string token, DateTime expiration);
         Task<bool> VerifyPasswordResetTokenAsync(int accountId, string token);
         Task InvalidatePasswordResetTokenAsync(int accountId, string token);

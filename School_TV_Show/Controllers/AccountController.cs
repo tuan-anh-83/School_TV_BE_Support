@@ -757,7 +757,7 @@ namespace School_TV_Show.Controllers
                 if (!allowedStatuses.Contains(request.Status, StringComparer.OrdinalIgnoreCase))
                     return BadRequest("Invalid status for User account.");
             }
-            bool result = await _accountService.UpdateAccountStatusAsync(id, request.Status);
+            bool result = await _accountService.UpdateAccountStatusAsync(account, request.Status);
             if (!result)
                 return StatusCode(500, "Failed to update account status.");
             return Ok(new { message = "Account status updated successfully." });

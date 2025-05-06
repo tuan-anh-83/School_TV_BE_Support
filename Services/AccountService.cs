@@ -155,7 +155,7 @@ namespace Services
             return _accountRepo.UpdateAccountAsync(account);
         }
 
-        public async Task<bool> UpdateAccountStatusAsync(int accountId, string status)
+        public async Task<bool> UpdateAccountStatusAsync(Account accountId, string status)
         {
             return await _accountRepo.UpdateAccountStatusAsync(accountId, status);
         }

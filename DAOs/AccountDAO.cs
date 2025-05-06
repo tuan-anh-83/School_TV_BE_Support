@@ -110,20 +110,23 @@ namespace DAOs
 
         public async Task<bool> UpdateAccountAsync(Account account)
         {
-            var existingAccount = await GetAccountByIdAsync(account.AccountID);
+            var existingAccount = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountID == account.AccountID);
+
             if (existingAccount == null || existingAccount.RoleID == 0)
                 return false;
 
+            // Cập nhật từng trường cần thiết
             if (!string.IsNullOrEmpty(account.Password) && !account.Password.StartsWith("$2"))
             {
-                account.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
-            }
-            else
-            {
-                account.Password = existingAccount.Password;
+                existingAccount.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
             }
 
-            _context.Entry(existingAccount).CurrentValues.SetValues(account);
+            existingAccount.Status = account.Status;
+            existingAccount.UpdatedAt = account.UpdatedAt;
+
+            // Thêm log debug nếu cần
+            // Console.WriteLine($"Cập nhật status từ {existingAccount.Status} → {account.Status}");
+
             return await _context.SaveChangesAsync() > 0;
         }
 
@@ -162,18 +165,24 @@ namespace DAOs
             return await UpdateAccountAsync(account);
         }
 
-        public async Task<bool> UpdateAccountStatusAsync(int accountId, string status)
+        public async Task<bool> UpdateAccountStatusAsync(Account account, string status)
         {
+            // Danh sách các trạng thái được phép
             var allowedStatuses = new[] { "Active", "InActive", "Pending", "Reject" };
+
+            // Kiểm tra trạng thái hợp lệ
             if (!allowedStatuses.Contains(status, StringComparer.OrdinalIgnoreCase))
                 return false;
 
-            var account = await GetAccountByIdAsync(accountId);
-            if (account == null)
-                return false;
+            // Kiểm tra nếu trạng thái mới giống trạng thái hiện tại
+            if (account.Status.Equals(status, StringComparison.OrdinalIgnoreCase))
+                return true; // Không cần update, xem như thành công
 
+            // Cập nhật trạng thái và thời gian cập nhật
             account.Status = status;
             account.UpdatedAt = DateTime.UtcNow;
+
+            // Gọi hàm cập nhật thực tế
             return await UpdateAccountAsync(account);
         }
 
