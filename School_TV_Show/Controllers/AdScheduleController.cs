@@ -57,13 +57,6 @@ namespace School_TV_Show.Controllers
             DateTime startDate = DateTime.ParseExact(request.StartTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
             DateTime endDate = DateTime.ParseExact(request.EndTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             var ad = new AdSchedule
             {
                 Title = request.Title,
@@ -92,13 +85,6 @@ namespace School_TV_Show.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateAdScheduleRequestDTO request)
         {
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-
-            }
             var existing = await _service.GetAdScheduleByIdAsync(id);
             if (existing == null)
                 return NotFound(new ApiResponse(false, "Ad schedule not found"));

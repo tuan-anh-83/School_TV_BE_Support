@@ -76,13 +76,6 @@ namespace School_TV_Show.Controllers
             if (request == null)
                 return BadRequest("Invalid package data.");
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             var package = new Package
             {
                 Name = request.Name,
@@ -111,13 +104,6 @@ namespace School_TV_Show.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePackage(int id, [FromBody] UpdatePackageRequestDTO request)
         {
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             try
             {
                 var existingPackage = await _packageService.GetPackageByIdAsync(id);

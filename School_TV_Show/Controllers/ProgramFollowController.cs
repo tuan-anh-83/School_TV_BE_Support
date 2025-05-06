@@ -47,13 +47,6 @@ namespace School_TV_Show.Controllers
         [HttpPut("status")]
         public async Task<IActionResult> UpdateFollowStatus([FromBody] UpdateProgramFollowStatusRequest request)
         {
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             var result = await _programFollowService.UpdateFollowStatusAsync(request.ProgramFollowID, request.Status);
             return Ok(result);
         }
@@ -61,13 +54,6 @@ namespace School_TV_Show.Controllers
         [HttpPost("add")]
         public async Task<ActionResult> Add([FromBody] ProgramFollow programFollow)
         {
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(programFollow);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             var result = await _programFollowService.AddAsync(programFollow);
             return result ? Ok() : BadRequest();
         }
@@ -75,13 +61,6 @@ namespace School_TV_Show.Controllers
         [HttpPut("update")]
         public async Task<ActionResult> Update([FromBody] ProgramFollow programFollow)
         {
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(programFollow);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             var result = await _programFollowService.UpdateAsync(programFollow);
             return result ? Ok() : NotFound();
         }

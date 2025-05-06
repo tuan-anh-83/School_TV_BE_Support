@@ -62,13 +62,6 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { errors });
             }
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(accountRequest);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             var account = new Account
             {
                 Username = accountRequest.Username,
@@ -112,13 +105,6 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { errors });
             }
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(accountRequest);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             bool result = await _accountPackageService.CreateAccountPackageAsync(accountRequest);
 
             if (!result)
@@ -141,13 +127,6 @@ namespace School_TV_Show.Controllers
                                               .Select(e => e.ErrorMessage)
                                               .ToList();
                 return BadRequest(new { errors });
-            }
-
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(accountRequest);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
             }
 
             var currentPackage = await _accountPackageService.GetActiveAccountPackageAsync(accountRequest.AccountID);
@@ -188,13 +167,6 @@ namespace School_TV_Show.Controllers
                                               .Select(e => e.ErrorMessage)
                                               .ToList();
                 return BadRequest(new { errors });
-            }
-
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
             }
 
             if (request.Password != request.ConfirmPassword)
@@ -259,13 +231,6 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { errors });
             }
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             if (request.Password != request.ConfirmPassword)
                 return BadRequest(new { error = "Password and Confirm Password do not match." });
 
@@ -319,13 +284,6 @@ namespace School_TV_Show.Controllers
                                               .Select(e => e.ErrorMessage)
                                               .ToList();
                 return BadRequest(new { errors });
-            }
-
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
             }
 
             if (request.Password != request.ConfirmPassword)
@@ -383,13 +341,6 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { errors });
             }
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             var account = await _accountService.GetAccountByEmailAsync(request.Email);
             if (account == null)
                 return NotFound("Account not found.");
@@ -421,13 +372,6 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { errors });
             }
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             var account = await _accountService.GetAccountByEmailAsync(request.Email);
             if (account == null)
                 return NotFound("Account not found.");
@@ -457,13 +401,6 @@ namespace School_TV_Show.Controllers
                                               .Select(e => e.ErrorMessage)
                                               .ToList();
                 return BadRequest(new { errors });
-            }
-
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
             }
 
             var account = await _accountService.GetAccountByEmailAsync(request.Email);
@@ -512,13 +449,6 @@ namespace School_TV_Show.Controllers
                                               .Select(e => e.ErrorMessage)
                                               .ToList();
                 return BadRequest(new { errors });
-            }
-
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(loginRequest);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
             }
 
             var account = await _accountService.Login(loginRequest.Email, loginRequest.Password);
@@ -755,13 +685,6 @@ namespace School_TV_Show.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             var account = await _accountService.GetAccountByEmailAsync(request.Email);
             if (account == null)
             {
@@ -783,13 +706,6 @@ namespace School_TV_Show.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
 
             var account = await _accountService.GetAccountByEmailAsync(request.Email);
             if (account == null)

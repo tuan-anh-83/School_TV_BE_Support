@@ -61,13 +61,6 @@ namespace School_TV_Show.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input", ModelState));
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             var currentPackage = await _packageService.GetCurrentPackageAndDurationByProgramIdAsync(request.ProgramID);
 
             if (currentPackage == null)
@@ -135,13 +128,6 @@ namespace School_TV_Show.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input"));
-
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
 
             var video = await _videoHistoryService.GetVideoByIdAsync(request.VideoHistoryId);
             if (video == null || video.ProgramID == null)
@@ -235,13 +221,6 @@ namespace School_TV_Show.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input"));
-
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
 
             var existingSchedule = await _scheduleService.GetScheduleByIdAsync(id);
             if (existingSchedule == null)

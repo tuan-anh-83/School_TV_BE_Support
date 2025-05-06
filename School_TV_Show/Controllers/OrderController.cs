@@ -220,13 +220,6 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { message = "Status is required." });
             }
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
             try
             {
                 var existingOrder = await _orderService.GetOrderByIdAsync(id);
