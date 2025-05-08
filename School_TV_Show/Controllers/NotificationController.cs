@@ -89,5 +89,16 @@ namespace School_TV_Show.Controllers
 
             return Ok(new { message = "Notifications sent successfully." });
         }
+
+        [HttpGet("test-hub/{AccountID}")]
+        public async Task<IActionResult> TestHub(string AccountID)
+        {
+            await _hubContext.Clients.Group(AccountID).SendAsync("ReceiveNotification", new
+            {
+                title = "Test Hub",
+                content = "This notification is being tested with hub."
+            });
+            return Ok(new { message = "Hub is working." });
+        }
     }
 }
