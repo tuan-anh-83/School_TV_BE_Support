@@ -66,7 +66,7 @@ namespace School_TV_Show.Controllers
             if (currentPackage == null)
                 return NotFound(new { error = "No active package found." });
 
-            if (currentPackage.RemainingHours <= 0 || currentPackage.ExpiredAt < TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone))
+            if (currentPackage.RemainingMinutes <= 0 || currentPackage.ExpiredAt < TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone))
                 return BadRequest(new { error = "Your package was expired." });
 
             var program = await _programService.GetProgramByIdAsync(request.ProgramID);

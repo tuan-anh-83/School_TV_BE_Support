@@ -151,7 +151,7 @@ namespace School_TV_Show.Controllers
 
 
 
-        [Authorize(Roles = "User,SchoolOwner,Admin")]
+        [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
         [HttpGet("{id}")]
         public async Task<ActionResult<News>> GetNews(int id)
         {
@@ -169,7 +169,7 @@ namespace School_TV_Show.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "User,SchoolOwner,Admin")]
+        [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
         [HttpGet("combined")]
         public async Task<ActionResult<IEnumerable<News>>> GetActiveNewsCombined()
         {
@@ -180,7 +180,7 @@ namespace School_TV_Show.Controllers
             return Ok(news);
         }
 
-        [Authorize(Roles = "User,SchoolOwner,Admin")]
+        [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
         [HttpGet("school-channel/{schoolChannelId}")]
         public async Task<ActionResult<IEnumerable<News>>> GetSchoolChannelNews(int schoolChannelId)
         {
@@ -201,7 +201,7 @@ namespace School_TV_Show.Controllers
         }
 
 
-        [Authorize(Roles = "User,SchoolOwner,Admin")]
+        [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<News>>> GetAllNews()
         {

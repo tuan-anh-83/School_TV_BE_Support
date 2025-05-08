@@ -192,11 +192,11 @@ namespace Services
                 var accountPackage = await _packageRepo.GetCurrentPackageAndDurationByProgramIdAsync(stream.ProgramID.Value);
                 if(accountPackage != null && stream.Duration.HasValue)
                 {
-                    accountPackage.HoursUsed += (recorded.Duration / 3600.0);
-                    accountPackage.RemainingHours = accountPackage.TotalHoursAllowed - accountPackage.HoursUsed;
+                    accountPackage.MinutesUsed += (recorded.Duration / 60);
+                    accountPackage.RemainingMinutes = accountPackage.TotalMinutesAllowed - accountPackage.MinutesUsed;
                     await _accountPackageRepo.UpdateAccountPackageAsync(accountPackage);
 
-                    _logger.LogInformation($"Updated account package - Hours used: {accountPackage.HoursUsed}, Remaining: {accountPackage.RemainingHours}");
+                    _logger.LogInformation($"Updated account package - Minutes used: {accountPackage.MinutesUsed}, Remaining: {accountPackage.RemainingMinutes}");
                 }
             }
 

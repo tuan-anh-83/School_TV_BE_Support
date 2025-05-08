@@ -101,9 +101,9 @@ namespace BOs.Data
                 entity.Property(e => e.AccountPackageID).ValueGeneratedOnAdd();
                 entity.Property(e => e.AccountID).IsRequired();
                 entity.Property(e => e.PackageID).IsRequired();
-                entity.Property(e => e.TotalHoursAllowed).IsRequired();
-                entity.Property(e => e.HoursUsed).IsRequired();
-                entity.Property(e => e.RemainingHours).IsRequired();
+                entity.Property(e => e.TotalMinutesAllowed).IsRequired();
+                entity.Property(e => e.MinutesUsed).IsRequired();
+                entity.Property(e => e.RemainingMinutes).IsRequired();
                 entity.Property(e => e.StartDate).HasDefaultValueSql("GETDATE()");
                 entity.Property(e => e.ExpiredAt).HasDefaultValueSql("GETDATE()");
 

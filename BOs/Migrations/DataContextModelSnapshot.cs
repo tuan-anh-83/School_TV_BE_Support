@@ -109,13 +109,13 @@ namespace BOs.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<double>("HoursUsed")
+                    b.Property<double>("MinutesUsed")
                         .HasColumnType("float");
 
                     b.Property<int>("PackageID")
                         .HasColumnType("int");
 
-                    b.Property<double>("RemainingHours")
+                    b.Property<double>("RemainingMinutes")
                         .HasColumnType("float");
 
                     b.Property<DateTime>("StartDate")
@@ -123,7 +123,7 @@ namespace BOs.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<double>("TotalHoursAllowed")
+                    b.Property<double>("TotalMinutesAllowed")
                         .HasColumnType("float");
 
                     b.HasKey("AccountPackageID");

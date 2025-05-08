@@ -96,9 +96,9 @@ namespace Services
                                     AccountPackageID = currentPackage.AccountPackageID,
                                     AccountID = currentPackage.AccountID,
                                     PackageID = orderDetail.PackageID,
-                                    TotalHoursAllowed = currentPackage.TotalHoursAllowed + orderDetail.Package.TimeDuration,
-                                    HoursUsed = currentPackage.HoursUsed,
-                                    RemainingHours = currentPackage.RemainingHours + orderDetail.Package.TimeDuration,
+                                    TotalMinutesAllowed = currentPackage.TotalMinutesAllowed + orderDetail.Package.TimeDuration,
+                                    MinutesUsed = currentPackage.MinutesUsed,
+                                    RemainingMinutes = currentPackage.RemainingMinutes + orderDetail.Package.TimeDuration,
                                     StartDate = currentPackage.StartDate,
                                     ExpiredAt = currentPackage.ExpiredAt != null ?
                                     currentPackage.ExpiredAt.Value.AddDays(orderDetail.Package.Duration) :
@@ -116,9 +116,9 @@ namespace Services
                                     AccountPackageID = 0,
                                     AccountID = order.AccountID,
                                     PackageID = orderDetail.PackageID,
-                                    TotalHoursAllowed = orderDetail.Package.TimeDuration,
-                                    HoursUsed = 0,
-                                    RemainingHours = orderDetail.Package.TimeDuration,
+                                    TotalMinutesAllowed = orderDetail.Package.TimeDuration,
+                                    MinutesUsed = 0,
+                                    RemainingMinutes = orderDetail.Package.TimeDuration,
                                     StartDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
                                     ExpiredAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddDays(orderDetail.Package.Duration)
                                 });

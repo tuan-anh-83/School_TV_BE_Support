@@ -252,7 +252,7 @@ namespace School_TV_Show.HostedService
 
             var accountPackage = await packageRepo.GetCurrentPackageAndDurationByProgramIdAsync(video.ProgramID.Value);
 
-            var expired = accountPackage == null || accountPackage.ExpiredAt < now || accountPackage.RemainingHours <= 0;
+            var expired = accountPackage == null || accountPackage.ExpiredAt < now || accountPackage.RemainingMinutes <= 0;
             if (!expired) return;
 
             var success = await liveStreamService.EndStreamAndReturnLinksAsync(video);

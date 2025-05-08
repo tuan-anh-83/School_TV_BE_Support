@@ -33,5 +33,8 @@ namespace School_TV_Show.DTO
 
         [StringLength(20, ErrorMessage = "Phone number cannot exceed 20 characters.")]
         public string? PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Role Type is requrired.")]
+        public string RoleType { get; set; }
     }
 }

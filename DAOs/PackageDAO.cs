@@ -164,9 +164,9 @@ namespace DAOs
                 return null;
             }
 
-            Console.WriteLine($"[DEBUG] AccountPackage found: RemainingHours = {accountPackage.RemainingHours}");
+            Console.WriteLine($"[DEBUG] AccountPackage found: RemainingMinutes = {accountPackage.RemainingMinutes}");
 
-            return (packageDetail.Package, accountPackage.RemainingHours, accountPackage.ExpiredAt);
+            return (packageDetail.Package, accountPackage.RemainingMinutes, accountPackage.ExpiredAt);
         }
 
         public async Task<AccountPackage?> GetCurrentPackageAndDurationByProgramIdAsync(int programId)

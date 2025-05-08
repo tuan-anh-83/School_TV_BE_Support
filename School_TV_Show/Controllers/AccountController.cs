@@ -139,9 +139,9 @@ namespace School_TV_Show.Controllers
                 AccountPackageID = currentPackage.AccountPackageID,
                 AccountID = currentPackage.AccountID,
                 PackageID = accountRequest.PackageID,
-                TotalHoursAllowed = currentPackage.TotalHoursAllowed + 10,
-                HoursUsed = currentPackage.HoursUsed,
-                RemainingHours = currentPackage.RemainingHours + 10,
+                TotalMinutesAllowed = currentPackage.TotalMinutesAllowed + 10,
+                MinutesUsed = currentPackage.MinutesUsed,
+                RemainingMinutes = currentPackage.RemainingMinutes + 10,
                 StartDate = currentPackage.StartDate,
                 ExpiredAt = currentPackage.ExpiredAt != null ?
                     currentPackage.ExpiredAt.Value.AddDays(10) :
@@ -178,9 +178,9 @@ namespace School_TV_Show.Controllers
                 Email = request.Email,
                 Password = request.Password,
                 Fullname = request.Fullname,
-                Address = request.Address,
-                PhoneNumber = request.PhoneNumber,
-                RoleID = 2,
+                Address = request.Address ?? string.Empty,
+                PhoneNumber = request.PhoneNumber ?? string.Empty,
+                RoleID = request.RoleType.Equals("Advertiser") ? 4 : 2,
                 Status = "Pending",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
@@ -567,7 +567,7 @@ namespace School_TV_Show.Controllers
         #region Account Management
 
         [HttpGet("info")]
-        [Authorize(Roles = "User,SchoolOwner,Admin")]
+        [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
         public async Task<IActionResult> GetAccountInformation()
         {
             try
@@ -598,7 +598,7 @@ namespace School_TV_Show.Controllers
         }
 
         [HttpPatch("update")]
-        [Authorize(Roles = "User,SchoolOwner,Admin")]
+        [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
         public async Task<IActionResult> UpdateAccount([FromBody] PartialAccountUpdateRequest updateRequest)
         {
             var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -646,7 +646,7 @@ namespace School_TV_Show.Controllers
         }
 
         [HttpPatch("change-password")]
-        [Authorize(Roles = "User,SchoolOwner,Admin")]
+        [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDTO changePasswordRequest)
         {
             var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);

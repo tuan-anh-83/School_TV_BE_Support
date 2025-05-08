@@ -407,43 +407,5 @@ namespace BLL.Services.LiveStream.Implements
                 }
             }
         }
-
-        private async Task MonitorAndStopExpiredLivestreamsAsync(
-            ILiveStreamService liveStreamService, 
-            IPackageService packageService,
-            IAccountPackageService accountPackageService
-        )
-        {
-            var activeStreams = await liveStreamService.GetActiveLiveStreamsAsync();
-
-            foreach (var stream in activeStreams)
-            {
-                if (stream.ProgramID == null || stream.StreamAt == null || string.IsNullOrEmpty(stream.CloudflareStreamId))
-                    continue;
-
-                var accountPackage = await packageService.GetCurrentPackageAndDurationByProgramIdAsync(stream.ProgramID.Value);
-                if (accountPackage == null || accountPackage.RemainingHours <= 0)
-                    continue;
-
-                var streamStart = stream.StreamAt.Value;
-                var allowedEnd = streamStart.AddHours(accountPackage.RemainingHours);
-                var now = DateTime.UtcNow;
-
-                if (now >= allowedEnd)
-                {
-                    _logger.LogWarning($"Stream {stream.VideoHistoryID} exceeded package. Stopping...");
-
-                    await liveStreamService.EndLiveStreamAsync(stream);
-                    await liveStreamService.EndStreamAndReturnLinksAsync(stream);
-
-                    stream.Duration = (allowedEnd - streamStart).TotalHours;
-
-                    accountPackage.HoursUsed += stream.Duration.Value;
-                    accountPackage.RemainingHours = 0;
-
-                    await accountPackageService.UpdateAccountPackageAsync(accountPackage);
-                }
-            }
-        }
     }
 }

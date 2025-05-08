@@ -151,7 +151,7 @@ namespace School_TV_Show.Controllers
             }
         }
 
-        [Authorize(Roles = "SchoolOwner")]
+        [Authorize(Roles = "SchoolOwner,Advertiser")]
         [HttpGet("active")]
         public async Task<IActionResult> GetAllActivePackages()
         {
@@ -195,7 +195,7 @@ namespace School_TV_Show.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        [Authorize(Roles = "SchoolOwner")]
+        [Authorize(Roles = "SchoolOwner,Advertiser")]
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrentPackageInfo()
         {
@@ -207,7 +207,7 @@ namespace School_TV_Show.Controllers
 
                 var result = await _packageService.GetCurrentPackageAndDurationByAccountIdAsync(accountId);
 
-                if (result == null)
+                if (result == null || result.Value.Item1 == null)
                     return NotFound("No active package found.");
 
                 var (package, remainingDuration, expiredAt) = result.Value;

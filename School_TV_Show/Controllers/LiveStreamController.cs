@@ -298,22 +298,22 @@ namespace School_TV_Show.Controllers
                             // If Cloudflare duration is available, use it directly
                             if (streamDuration.HasValue)
                             {
-                                stream.Duration = streamDuration.Value / 3600.0; // Convert seconds to hours
+                                stream.Duration = streamDuration.Value / 60; // Convert seconds to minutes
 
-                                _logger.LogInformation($"Stream duration from Cloudflare: {stream.Duration} hours");
+                                _logger.LogInformation($"Stream duration from Cloudflare: {stream.Duration} minutes");
 
                                 await _liveStreamService.UpdateLiveStreamAsync(stream);
                                 await MarkScheduleAsEndedAsync(stream.ProgramID.Value, stream.VideoHistoryID);
 
-                                // Update account package with hours used
+                                // Update account package with minutes used
                                 var accountPackage = await _packageService.GetCurrentPackageAndDurationByProgramIdAsync(stream.ProgramID.Value);
                                 if (accountPackage != null && stream.Duration.HasValue)
                                 {
-                                    accountPackage.HoursUsed += stream.Duration.Value;
-                                    accountPackage.RemainingHours = accountPackage.TotalHoursAllowed - accountPackage.HoursUsed;
+                                    accountPackage.MinutesUsed += stream.Duration.Value;
+                                    accountPackage.RemainingMinutes = accountPackage.TotalMinutesAllowed - accountPackage.MinutesUsed;
                                     await _accountPackageService.UpdateAccountPackageAsync(accountPackage);
 
-                                    _logger.LogInformation($"Updated account package - Hours used: {accountPackage.HoursUsed}, Remaining: {accountPackage.RemainingHours}");
+                                    _logger.LogInformation($"Updated account package - Minutes used: {accountPackage.MinutesUsed}, Remaining: {accountPackage.RemainingMinutes}");
                                 }
                             }
                         });

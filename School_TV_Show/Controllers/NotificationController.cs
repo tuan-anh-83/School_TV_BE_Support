@@ -11,7 +11,7 @@ namespace School_TV_Show.Controllers
 {
     [Route("api/notifications")]
     [ApiController]
-    [Authorize(Roles = "User,SchoolOwner,Admin")]
+    [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
     public class NotificationController : ControllerBase
     {
         private readonly INotificationService _notificationService;
