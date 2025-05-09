@@ -15,6 +15,7 @@ namespace School_TV_Show.Controllers
         private readonly ISchoolChannelService _service;
         private readonly ILogger<SchoolChannelController> _logger;
         private readonly IAccountService _accountService;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public SchoolChannelController(ISchoolChannelService service, IAccountService accountService, ILogger<SchoolChannelController> logger)
         {
@@ -130,8 +131,8 @@ namespace School_TV_Show.Controllers
                 Address = request.Address,
                 AccountID = accountId.Value,
                 Status = true,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
 
             try
@@ -188,7 +189,7 @@ namespace School_TV_Show.Controllers
             if (!string.IsNullOrWhiteSpace(request.Website))
                 schoolChannel.Website = request.Website;
 
-            schoolChannel.UpdatedAt = DateTime.UtcNow;
+            schoolChannel.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
 
             try
             {

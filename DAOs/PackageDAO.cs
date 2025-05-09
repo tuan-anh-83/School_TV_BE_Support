@@ -13,6 +13,7 @@ namespace DAOs
     {
         private static PackageDAO instance = null;
         private readonly DataContext _context;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         private PackageDAO()
         {
@@ -58,8 +59,8 @@ namespace DAOs
         public async Task<bool> AddPackageAsync(Package package)
         {
             package.Status = "Active";
-            package.CreatedAt = DateTime.UtcNow;
-            package.UpdatedAt = DateTime.UtcNow;
+            package.CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+            package.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
             await _context.Packages.AddAsync(package);
             await _context.SaveChangesAsync();
             return true;
@@ -76,7 +77,7 @@ namespace DAOs
             existingPackage.Price = package.Price;
             existingPackage.Duration = package.Duration;
             existingPackage.TimeDuration = package.TimeDuration;
-            existingPackage.UpdatedAt = DateTime.UtcNow;
+            existingPackage.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -88,7 +89,7 @@ namespace DAOs
                 return false;
 
             package.Status = "Inactive";
-            package.UpdatedAt = DateTime.UtcNow;
+            package.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
             await _context.SaveChangesAsync();
             return true;
         }

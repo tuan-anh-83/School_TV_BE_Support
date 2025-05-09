@@ -173,5 +173,10 @@ namespace Services
         {
             return await _accountRepo.VerifyPasswordResetTokenAsync(accountId, token);
         }
+
+        public async Task<List<Account>> GetAllPendingAdvertiserAsync()
+        {
+            return await _accountRepo.GetAllPendingAdvertiserAsync();
+        }
     }
 }

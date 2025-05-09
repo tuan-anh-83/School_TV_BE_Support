@@ -1,4 +1,5 @@
 ﻿using BOs.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using School_TV_Show.DTO;
@@ -6,6 +7,7 @@ using School_TV_Show.Helpers;
 using Services;
 using Services.Hubs;
 using System.Globalization;
+using System.Security.Claims;
 
 namespace School_TV_Show.Controllers
 {
@@ -15,11 +17,18 @@ namespace School_TV_Show.Controllers
     {
         private readonly IAdScheduleService _service;
         private readonly IHubContext<LiveStreamHub> _hubContext;
+        private readonly IPackageService _packageService;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
-        public AdScheduleController(IAdScheduleService service, IHubContext<LiveStreamHub> hubContext)
+        public AdScheduleController(
+            IAdScheduleService service, 
+            IHubContext<LiveStreamHub> hubContext,
+            IPackageService packageService
+        )
         {
             _service = service;
             _hubContext = hubContext;
+            _packageService = packageService;
         }
 
         [HttpGet]
@@ -78,6 +87,60 @@ namespace School_TV_Show.Controllers
 
             var ads = await _service.GetAdsToday(today, tomorrow);
             await _hubContext.Clients.All.SendAsync("Ads", ads);
+
+            return Ok(new ApiResponse(true, "Ad schedule created successfully"));
+        }
+
+        [Authorize(Roles = "Advertiser")]
+        [HttpPost("ads")]
+        public async Task<IActionResult> CreateAds([FromBody] CreateAdScheduleRequestDTO request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new ApiResponse(false, "Invalid input", ModelState));
+
+            DateTime startDate = DateTime.ParseExact(request.StartTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            DateTime endDate = DateTime.ParseExact(request.EndTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+
+            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
+
+            if (hasViolation)
+            {
+                return BadRequest(new { error = message });
+            }
+
+            var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                return Unauthorized("Invalid account");
+
+            var currentPackage = await _packageService.GetCurrentPackageAndDurationByAccountIdAsync(accountId);
+
+            if (currentPackage == null)
+                return NotFound(new { error = "No active package found." });
+
+            var (package, remainingDuration, expiredAt) = currentPackage.Value;
+
+            if (remainingDuration == null || remainingDuration <= 0 || expiredAt < TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone))
+                return BadRequest(new { error = "Your package was expired." });
+
+            var ad = new AdSchedule
+            {
+                Title = request.Title,
+                StartTime = startDate,
+                EndTime = endDate,
+                VideoUrl = request.VideoUrl,
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
+            };
+
+            var success = await _service.CreateAdScheduleAsync(ad);
+            if (!success)
+                return StatusCode(500, new ApiResponse(false, "Failed to create ad schedule"));
+
+/*            var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
+            var today = now.Date;
+            var tomorrow = today.AddDays(1);
+
+            var ads = await _service.GetAdsToday(today, tomorrow);
+            await _hubContext.Clients.All.SendAsync("Ads", ads);*/
 
             return Ok(new ApiResponse(true, "Ad schedule created successfully"));
         }

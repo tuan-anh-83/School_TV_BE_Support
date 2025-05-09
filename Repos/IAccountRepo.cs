@@ -26,6 +26,7 @@ namespace Repos
         Task<bool> VerifyPasswordResetTokenAsync(int accountId, string token);
         Task InvalidatePasswordResetTokenAsync(int accountId, string token);
         Task<List<Account>> GetAllPendingSchoolOwnerAsync();
+        Task<List<Account>> GetAllPendingAdvertiserAsync();
         Task<int> GetUserCountAsync();
         Task<int> GetSchoolOwnerCountAsync();
         Task<List<Account>> GetPendingAccountsOlderThanAsync(DateTime threshold);

@@ -26,6 +26,7 @@ namespace Services
         Task<bool> VerifyPasswordResetTokenAsync(int accountId, string token);
         Task InvalidatePasswordResetTokenAsync(int accountId, string token);
         Task<List<Account>> GetAllPendingSchoolOwnerAsync();
+        Task<List<Account>> GetAllPendingAdvertiserAsync();
         Task<bool> SaveOtpAsync(string email, string otp, DateTime expiration);
         Task<bool> VerifyOtpAsync(string email, string otp);
         Task InvalidateOtpAsync(string email);

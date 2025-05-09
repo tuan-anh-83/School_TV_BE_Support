@@ -19,22 +19,27 @@ namespace School_TV_Show.Controllers
         private readonly IOrderService _orderService;
         private readonly IOrderDetailService _orderDetailService;
         private readonly IPackageService _packageService;
+        private readonly ILogger<OrderController> _logger;
         private readonly PayOS _payOS;
         private readonly OrderTrackingService _orderTrackingService;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+
         public OrderController(
            IOrderService orderService,
            IOrderDetailService orderDetailService,
            IPackageService packageService,
+           ILogger<OrderController> logger,
            PayOS payOS)
         {
             _orderService = orderService;
             _orderDetailService = orderDetailService;
             _packageService = packageService;
+            _logger = logger;
             _payOS = payOS;
         }
 
         [HttpPost("create")]
-        [Authorize(Roles = "SchoolOwner")]
+        [Authorize(Roles = "SchoolOwner, Advertiser")]
         public async Task<IActionResult> CreateOrder(
             [FromBody] CreateOrderRequestDTO request,
             [FromQuery] string returnUrl,
@@ -43,9 +48,11 @@ namespace School_TV_Show.Controllers
             try
             {
                 Console.WriteLine($"Received Request: {JsonSerializer.Serialize(request)}");
+                _logger.LogInformation($"Received Request: {JsonSerializer.Serialize(request)}");
 
                 if (request == null || request.PackageID <= 0 || request.Quantity <= 0)
                 {
+                    _logger.LogError("PackageID and Quantity are required and must be greater than 0");
                     return BadRequest(new { message = "PackageID and Quantity are required and must be greater than 0" });
                 }
 
@@ -70,8 +77,8 @@ namespace School_TV_Show.Controllers
                     OrderCode = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), // Unique order code
                     Status = "Pending",
                     TotalPrice = totalPrice,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                    UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
                 };
 
                 var createdOrder = await _orderService.CreateOrderAsync(order);
@@ -91,9 +98,9 @@ namespace School_TV_Show.Controllers
                 string description = $"{usernameClaim}-'{package.Name}'";
 
                 List<ItemData> items = new()
-        {
-            new ItemData(package.Name, orderDetail.Quantity, (int)(package.Price))
-        };
+                {
+                    new ItemData(package.Name, orderDetail.Quantity, (int)(package.Price))
+                };
 
                 PaymentData paymentData = new PaymentData(
                     uniquePaymentId,
@@ -105,6 +112,7 @@ namespace School_TV_Show.Controllers
                 );
 
                 CreatePaymentResult paymentResult = await _payOS.createPaymentLink(paymentData);
+                _logger.LogInformation($"PayOS Response: {JsonSerializer.Serialize(paymentResult)}");
                 Console.WriteLine($"PayOS Response: {JsonSerializer.Serialize(paymentResult)}");
 
                 return Ok(new
@@ -117,6 +125,7 @@ namespace School_TV_Show.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                _logger.LogError($"Error when creating order: {ex.Message}.");
                 return StatusCode(500, new { message = "Error creating order", error = ex.Message });
             }
         }
@@ -185,7 +194,7 @@ namespace School_TV_Show.Controllers
         }
 
         [HttpGet("history")]
-        [Authorize(Roles = "SchoolOwner")]
+        [Authorize(Roles = "SchoolOwner, Advertiser")]
         public async Task<IActionResult> GetOrderHistory()
         {
             try
@@ -229,7 +238,7 @@ namespace School_TV_Show.Controllers
                 }
 
                 existingOrder.Status = request.Status;
-                existingOrder.UpdatedAt = DateTime.UtcNow;
+                existingOrder.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
 
                 await _orderService.UpdateOrderAsync(existingOrder);
 

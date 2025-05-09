@@ -72,8 +72,8 @@ namespace School_TV_Show.Controllers
                 PhoneNumber = accountRequest.PhoneNumber,
                 RoleID = 1,
                 Status = "Active",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
 
             bool result = await _accountService.SignUpAsync(account);
@@ -182,8 +182,8 @@ namespace School_TV_Show.Controllers
                 PhoneNumber = request.PhoneNumber ?? string.Empty,
                 RoleID = 2,
                 Status = "Pending",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
 
             bool result = await _accountService.SignUpAsync(account);
@@ -191,7 +191,7 @@ namespace School_TV_Show.Controllers
                 return Conflict("Username or Email already exists and is not eligible for re-registration.");
 
             var otpCode = new Random().Next(100000, 999999).ToString();
-            var expiration = DateTime.UtcNow.AddMinutes(5);
+            var expiration = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddMinutes(5);
             bool otpSaved = await _accountService.SaveOtpAsync(account.Email, otpCode, expiration);
 
             if (otpSaved)
@@ -244,8 +244,8 @@ namespace School_TV_Show.Controllers
                 PhoneNumber = request.PhoneNumber ?? string.Empty,
                 RoleID = 4,
                 Status = "Pending",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
 
             bool result = await _accountService.SignUpAsync(account);
@@ -253,7 +253,7 @@ namespace School_TV_Show.Controllers
                 return Conflict("Username or Email already exists and is not eligible for re-registration.");
 
             var otpCode = new Random().Next(100000, 999999).ToString();
-            var expiration = DateTime.UtcNow.AddMinutes(5);
+            var expiration = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddMinutes(5);
             bool otpSaved = await _accountService.SaveOtpAsync(account.Email, otpCode, expiration);
 
             if (otpSaved)
@@ -306,8 +306,8 @@ namespace School_TV_Show.Controllers
                 PhoneNumber = request.PhoneNumber,
                 RoleID = 2,
                 Status = "Pending",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
 
             bool result = await _accountService.SignUpAsync(account);
@@ -315,7 +315,7 @@ namespace School_TV_Show.Controllers
                 return Conflict("Username or Email already exists.");
 
             var otpCode = new Random().Next(100000, 999999).ToString();
-            var expiration = DateTime.UtcNow.AddMinutes(5);
+            var expiration = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddMinutes(5);
 
             bool otpSaved = await _accountService.SaveOtpAsync(request.Email, otpCode, expiration);
             if (!otpSaved)
@@ -361,8 +361,8 @@ namespace School_TV_Show.Controllers
                 PhoneNumber = request.PhoneNumber,
                 RoleID = 1,
                 Status = "Pending",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
 
             bool result = await _accountService.SignUpAsync(account);
@@ -370,7 +370,7 @@ namespace School_TV_Show.Controllers
                 return Conflict("Username or Email already exists.");
 
             var otpCode = new Random().Next(100000, 999999).ToString();
-            var expiration = DateTime.UtcNow.AddMinutes(5);
+            var expiration = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddMinutes(5);
 
             bool otpSaved = await _accountService.SaveOtpAsync(request.Email, otpCode, expiration);
             if (!otpSaved)
@@ -473,13 +473,13 @@ namespace School_TV_Show.Controllers
                 return Ok(new { message = "Account is already verified." });
 
             var currentOtp = await _accountService.GetCurrentOtpAsync(request.Email);
-            if (currentOtp != null && currentOtp.Expiration > DateTime.UtcNow)
+            if (currentOtp != null && currentOtp.Expiration > TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone))
             {
                 return Ok(new { message = "Your OTP is still active. Please use the existing OTP." });
             }
 
             var otpCode = new Random().Next(100000, 999999).ToString();
-            var expiration = DateTime.UtcNow.AddMinutes(5);
+            var expiration = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddMinutes(5);
 
             bool otpSaved = await _accountService.SaveOtpAsync(request.Email, otpCode, expiration);
             if (!otpSaved)
@@ -754,7 +754,7 @@ namespace School_TV_Show.Controllers
             }
 
             var token = Guid.NewGuid().ToString();
-            var expiration = DateTime.UtcNow.AddHours(1);
+            var expiration = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone).AddHours(1);
             await _accountService.SavePasswordResetTokenAsync(account.AccountID, token, expiration);
 
             await _emailService.SendPasswordResetEmailAsync(request.Email, token);
@@ -808,7 +808,7 @@ namespace School_TV_Show.Controllers
                     return BadRequest("Invalid status for SchoolOwner account.");
 
                 var currentOtp = await _accountService.GetCurrentOtpAsync(account.Email);
-                if (currentOtp != null && currentOtp.Expiration > DateTime.UtcNow)
+                if (currentOtp != null && currentOtp.Expiration > TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone))
                 {
                     return BadRequest("Cannot update status: School owner OTP verification is not complete.");
                 }
@@ -880,6 +880,14 @@ namespace School_TV_Show.Controllers
         public async Task<IActionResult> GetAllPendingSchoolOwners()
         {
             var pendingAccounts = await _accountService.GetAllPendingSchoolOwnerAsync();
+            return Ok(pendingAccounts);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("admin/pending-advertisers")]
+        public async Task<IActionResult> GetAllPendingAdvertisers()
+        {
+            var pendingAccounts = await _accountService.GetAllPendingAdvertiserAsync();
             return Ok(pendingAccounts);
         }
 

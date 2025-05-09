@@ -227,6 +227,14 @@ namespace DAOs
                 .ToListAsync();
         }
 
+        public async Task<List<Account>> GetAllPendingAdvertiserAsync()
+        {
+            return await _context.Accounts.AsNoTracking()
+            .Include(a => a.Role)
+                .Where(a => a.RoleID == 4 && a.Status.ToLower() == "pending")
+                .ToListAsync();
+        }
+
         public async Task<int> GetUserCountAsync()
         {
             return await _context.Accounts.AsNoTracking().CountAsync(a =>

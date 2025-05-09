@@ -40,6 +40,11 @@ namespace Repos
             return await AccountDAO.Instance.GetAllAccountsAsync();
         }
 
+        public async Task<List<Account>> GetAllPendingAdvertiserAsync()
+        {
+            return await AccountDAO.Instance.GetAllPendingAdvertiserAsync();
+        }
+
         public async Task<List<Account>> GetAllPendingSchoolOwnerAsync()
         {
             return await AccountDAO.Instance.GetAllPendingSchoolOwnerAsync();
