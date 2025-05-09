@@ -180,7 +180,69 @@ namespace School_TV_Show.Controllers
                 Fullname = request.Fullname,
                 Address = request.Address ?? string.Empty,
                 PhoneNumber = request.PhoneNumber ?? string.Empty,
-                RoleID = request.RoleType.Equals("Advertiser") ? 4 : 2,
+                RoleID = 2,
+                Status = "Pending",
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            bool result = await _accountService.SignUpAsync(account);
+            if (!result)
+                return Conflict("Username or Email already exists and is not eligible for re-registration.");
+
+            var otpCode = new Random().Next(100000, 999999).ToString();
+            var expiration = DateTime.UtcNow.AddMinutes(5);
+            bool otpSaved = await _accountService.SaveOtpAsync(account.Email, otpCode, expiration);
+
+            if (otpSaved)
+            {
+                try
+                {
+                    await _emailService.SendOtpEmailAsync(account.Email, otpCode);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send OTP email to {Email}", account.Email);
+                    return StatusCode(500, "Failed to send OTP email.");
+                }
+            }
+
+            return Ok(new
+            {
+                message = "School Owner registered. OTP has been sent to your email. Please verify.",
+                account = new
+                {
+                    account.AccountID,
+                    account.Username,
+                    account.Email,
+                    account.Fullname
+                }
+            });
+        }
+
+        [HttpPost("advertiser/signup")]
+        public async Task<IActionResult> AdvertiserSignUp([FromBody] SchoolOwnerSignUpRequestDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage)
+                                              .ToList();
+                return BadRequest(new { errors });
+            }
+
+            if (request.Password != request.ConfirmPassword)
+                return BadRequest(new { error = "Password and Confirm Password do not match." });
+
+            var account = new Account
+            {
+                Username = request.Username,
+                Email = request.Email,
+                Password = request.Password,
+                Fullname = request.Fullname,
+                Address = request.Address ?? string.Empty,
+                PhoneNumber = request.PhoneNumber ?? string.Empty,
+                RoleID = 4,
                 Status = "Pending",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
