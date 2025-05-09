@@ -81,6 +81,8 @@ namespace School_TV_Show.Controllers
                     UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
                 };
 
+                _logger.LogInformation($"Creating order: {order}");
+
                 var createdOrder = await _orderService.CreateOrderAsync(order);
 
                 var orderDetail = new OrderDetail
@@ -125,7 +127,7 @@ namespace School_TV_Show.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                _logger.LogError($"Error when creating order: {ex.Message}.");
+                _logger.LogError($"Error when creating order: {ex}.");
                 return StatusCode(500, new { message = "Error creating order", error = ex.Message });
             }
         }

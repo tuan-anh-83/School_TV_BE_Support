@@ -135,6 +135,38 @@ namespace BOs.Migrations
                     b.ToTable("AccountPackage", (string)null);
                 });
 
+            modelBuilder.Entity("BOs.Models.AdLiveStream", b =>
+                {
+                    b.Property<int>("AdLiveStreamID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdLiveStreamID"));
+
+                    b.Property<int>("AdScheduleID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPlayed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("PlayAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ScheduleID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdLiveStreamID");
+
+                    b.HasIndex("AdScheduleID");
+
+                    b.HasIndex("ScheduleID");
+
+                    b.ToTable("AdLiveStream", (string)null);
+                });
+
             modelBuilder.Entity("BOs.Models.AdSchedule", b =>
                 {
                     b.Property<int>("AdScheduleID")
@@ -1021,6 +1053,27 @@ namespace BOs.Migrations
                     b.Navigation("Package");
                 });
 
+            modelBuilder.Entity("BOs.Models.AdLiveStream", b =>
+                {
+                    b.HasOne("BOs.Models.AdSchedule", "AdSchedule")
+                        .WithMany("AdLiveStreams")
+                        .HasForeignKey("AdScheduleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdLiveStream_AdSchedule_AdScheduleID");
+
+                    b.HasOne("BOs.Models.Schedule", "Schedule")
+                        .WithMany("AdLiveStreams")
+                        .HasForeignKey("ScheduleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdLiveStream_Schedule_ScheduleID");
+
+                    b.Navigation("AdSchedule");
+
+                    b.Navigation("Schedule");
+                });
+
             modelBuilder.Entity("BOs.Models.Comment", b =>
                 {
                     b.HasOne("BOs.Models.VideoHistory", "VideoHistory")
@@ -1272,6 +1325,11 @@ namespace BOs.Migrations
                     b.Navigation("ProgramFollows");
                 });
 
+            modelBuilder.Entity("BOs.Models.AdSchedule", b =>
+                {
+                    b.Navigation("AdLiveStreams");
+                });
+
             modelBuilder.Entity("BOs.Models.CategoryNews", b =>
                 {
                     b.Navigation("News");
@@ -1306,6 +1364,11 @@ namespace BOs.Migrations
                     b.Navigation("Schedules");
 
                     b.Navigation("VideoHistories");
+                });
+
+            modelBuilder.Entity("BOs.Models.Schedule", b =>
+                {
+                    b.Navigation("AdLiveStreams");
                 });
 
             modelBuilder.Entity("BOs.Models.SchoolChannel", b =>

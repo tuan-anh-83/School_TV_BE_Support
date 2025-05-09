@@ -46,6 +46,7 @@ namespace BOs.Data
         public DbSet<CategoryNews> CategoryNews { get; set; }
         public DbSet<ProgramFollow> ProgramFollows { get; set; }
         public DbSet<AccountPackage> AccountPackages { get; set; }  
+        public DbSet<AdLiveStream> AdLiveStreams { get; set; }
 
 
         public DbSet<PaymentHistory> PaymentHistories { get; set; }
@@ -121,6 +122,31 @@ namespace BOs.Data
             });
             #endregion
 
+            #region AdLiveStream
+            modelBuilder.Entity<AdLiveStream>(entity =>
+            {
+                entity.ToTable("AdLiveStream");
+                entity.HasKey(e => e.AdLiveStreamID);
+                entity.Property(e => e.AdLiveStreamID).ValueGeneratedOnAdd();
+                entity.Property(e => e.AdScheduleID).IsRequired();
+                entity.Property(e => e.ScheduleID).IsRequired();
+                entity.Property(e => e.PlayAt).IsRequired();
+                entity.Property(e => e.IsPlayed).IsRequired();
+                entity.Property(e => e.Duration).IsRequired();
+
+                entity.HasOne(e => e.AdSchedule)
+                      .WithMany(p => p.AdLiveStreams)
+                      .HasForeignKey(e => e.AdScheduleID)
+                      .HasConstraintName("FK_AdLiveStream_AdSchedule_AdScheduleID")
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.Schedule)
+                    .WithMany(a => a.AdLiveStreams)
+                    .HasForeignKey(e => e.ScheduleID)
+                    .HasConstraintName("FK_AdLiveStream_Schedule_ScheduleID")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+            #endregion
 
             #region Role
             modelBuilder.Entity<Role>(entity =>

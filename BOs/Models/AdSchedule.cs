@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,5 +15,8 @@ namespace BOs.Models
         public DateTime EndTime { get; set; }
         public string VideoUrl { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        [InverseProperty("AdSchedule")]
+        public virtual ICollection<AdLiveStream> AdLiveStreams { get; set; } = new List<AdLiveStream>();
     }
 }
