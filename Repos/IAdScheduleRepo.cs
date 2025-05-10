@@ -11,6 +11,7 @@ namespace Repos
     {
         Task<IEnumerable<AdSchedule>> GetAllAsync();
         Task<IEnumerable<AdSchedule>> GetAdsTodayAsync(DateTime start, DateTime end);
+        Task<IEnumerable<AdSchedule>> GetListAdsInRangeAsync(DateTime start, DateTime end);
         Task<AdSchedule> GetByIdAsync(int id);
         Task AddAsync(AdSchedule adSchedule);
         void Update(AdSchedule adSchedule);

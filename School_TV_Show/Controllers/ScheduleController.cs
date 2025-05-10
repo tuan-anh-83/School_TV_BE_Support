@@ -189,6 +189,39 @@ namespace School_TV_Show.Controllers
             }));
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("suitable")]
+        public async Task<IActionResult> GetSuitableSchedules()
+        {
+            var schedules = await _scheduleService.GetSuitableSchedulesAsync(TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone));
+            return Ok(schedules.Select(s => new
+            {
+                s.ScheduleID,
+                StartTime = s.StartTime,
+                EndTime = s.EndTime,
+                s.Status,
+                s.IsReplay,
+                Program = new
+                {
+                    s.Program.ProgramID,
+                    s.Program.Title,
+                    SchoolChannel = new
+                    {
+                        s.Program.SchoolChannel.SchoolChannelID,
+                        s.Program.SchoolChannel.Name,
+                        s.Program.SchoolChannel.AccountID
+                    }
+                },
+                AdLiveStreams = s.AdLiveStreams.Select(ad => new {
+                    ad.AdLiveStreamID,
+                    ad.AdScheduleID,
+                    ad.PlayAt,
+                    ad.Duration,
+                    ad.IsPlayed
+                })
+            }));
+        }
+
         [HttpGet("by-program/{programId}")]
         public async Task<IActionResult> GetSchedulesByProgramId(int programId)
         {

@@ -1,4 +1,5 @@
-﻿using BOs.Models;
+﻿using Azure.Core;
+using BOs.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -49,6 +50,27 @@ namespace School_TV_Show.Controllers
             return Ok(new ApiResponse(true, "List of ad schedules", response));
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("valid")]
+        public async Task<IActionResult> GetValidAdSchedules([FromQuery] string start, [FromQuery] string end)
+        {
+            DateTime startDate = DateTime.ParseExact(start, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            DateTime endDate = DateTime.ParseExact(end, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+
+            var ads = await _service.GetListAdsInRangeAsync(startDate, endDate);
+
+            var response = ads.Select(ad => new AdScheduleResponseDTO
+            {
+                AdScheduleID = ad.AdScheduleID,
+                Title = ad.Title,
+                StartTime = ad.StartTime,
+                EndTime = ad.EndTime,
+                VideoUrl = ad.VideoUrl,
+                CreatedAt = ad.CreatedAt
+            });
+
+            return Ok(new ApiResponse(true, "List of ad schedules", response));
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -79,14 +101,14 @@ namespace School_TV_Show.Controllers
             if (!success)
                 return StatusCode(500, new ApiResponse(false, "Failed to create ad schedule"));
 
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+/*            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
             var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
             var today = now.Date;
             var tomorrow = today.AddDays(1);
 
             var ads = await _service.GetAdsToday(today, tomorrow);
-            await _hubContext.Clients.All.SendAsync("Ads", ads);
+            await _hubContext.Clients.All.SendAsync("Ads", ads);*/
 
             return Ok(new ApiResponse(true, "Ad schedule created successfully"));
         }

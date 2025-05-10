@@ -66,5 +66,10 @@ namespace Services
         {
             return _repository.GetAdsTodayAsync(start, end);
         }
+
+        public async Task<IEnumerable<AdSchedule>> GetListAdsInRangeAsync(DateTime start, DateTime end)
+        {
+            return await _repository.GetListAdsInRangeAsync(start, end);
+        }
     }
 }

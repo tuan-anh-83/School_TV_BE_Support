@@ -95,6 +95,7 @@ builder.Services.AddScoped<ICategoryNewsRepo, CategoryNewsRepo>();
 //builder.Services.AddScoped<ICloudflareUploadService, CloudflareUploadService>();
 builder.Services.AddScoped<INotificationRepo, NotificationRepo>();
 builder.Services.AddScoped<IAccountPackageRepo, AccountPackageRepo>();
+builder.Services.AddScoped<IAdLiveStreamRepo, AdLiveStreamRepo>();
 
 
 // Services
@@ -123,8 +124,10 @@ builder.Services.AddHostedService<PendingAccountReminderService>();
 builder.Services.AddHostedService<ExpiredOrderCheckerService>();
 builder.Services.AddHostedService<DurationTrackingService>();
 builder.Services.AddHostedService<CloudflareStreamMonitor>();
+builder.Services.AddHostedService<AdPlaybackCheckerService>();
 builder.Services.AddScoped<IAccountPackageService, AccountPackageService>();
 builder.Services.AddScoped<ISchoolChannelFollowService, SchoolChannelFollowsService>();
+builder.Services.AddScoped<IAdLiveStreamService, AdLiveStreamService>();
 
 //builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 //builder.Services.AddProblemDetails();

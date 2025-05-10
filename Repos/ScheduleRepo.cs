@@ -78,6 +78,11 @@ namespace Repos
             return await ScheduleDAO.Instance.GetSchedulesGroupedTimelineAsync();
         }
 
+        public async Task<IEnumerable<Schedule>> GetSuitableSchedulesAsync(DateTime now)
+        {
+            return await ScheduleDAO.Instance.GetSuitableSchedulesAsync(now);
+        }
+
         public async Task<IEnumerable<Schedule>> GetUpcomingSchedulesAsync()
         {
             return await ScheduleDAO.Instance.GetUpcomingSchedulesAsync();

@@ -154,8 +154,19 @@ namespace DAOs
         public async Task<IEnumerable<Schedule>> GetUpcomingSchedulesAsync()
         {
             return await _context.Schedules.AsNoTracking()
-          .Where(s => s.Status == "Pending" || s.Status == "Ready")
+            .Where(s => s.Status == "Pending" || s.Status == "Ready")
                 .Include(s => s.Program)
+                .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Schedule>> GetSuitableSchedulesAsync(DateTime now)
+        {
+            return await _context.Schedules.AsNoTracking()
+            .Where(s => (s.Status == "Pending" || s.Status == "Ready" || s.Status == "Live") && s.StartTime > now)
+                .Include(s => s.Program)
+                    .ThenInclude(p => p.SchoolChannel)
+                .Include(s => s.AdLiveStreams)
                 .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
                 .ToListAsync();
         }

@@ -143,6 +143,9 @@ namespace BOs.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdLiveStreamID"));
 
+                    b.Property<int>("AccountID")
+                        .HasColumnType("int");
+
                     b.Property<int>("AdScheduleID")
                         .HasColumnType("int");
 
@@ -159,6 +162,8 @@ namespace BOs.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("AdLiveStreamID");
+
+                    b.HasIndex("AccountID");
 
                     b.HasIndex("AdScheduleID");
 
@@ -1055,6 +1060,13 @@ namespace BOs.Migrations
 
             modelBuilder.Entity("BOs.Models.AdLiveStream", b =>
                 {
+                    b.HasOne("BOs.Models.Account", "Account")
+                        .WithMany("AdLiveStreams")
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdLiveStream_Account_AccountID");
+
                     b.HasOne("BOs.Models.AdSchedule", "AdSchedule")
                         .WithMany("AdLiveStreams")
                         .HasForeignKey("AdScheduleID")
@@ -1068,6 +1080,8 @@ namespace BOs.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_AdLiveStream_Schedule_ScheduleID");
+
+                    b.Navigation("Account");
 
                     b.Navigation("AdSchedule");
 
@@ -1317,6 +1331,8 @@ namespace BOs.Migrations
             modelBuilder.Entity("BOs.Models.Account", b =>
                 {
                     b.Navigation("AccountPackages");
+
+                    b.Navigation("AdLiveStreams");
 
                     b.Navigation("Follows");
 

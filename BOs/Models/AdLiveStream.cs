@@ -12,6 +12,7 @@ namespace BOs.Models
         public int AdLiveStreamID { get; set; }
         public int AdScheduleID { get; set; }
         public int ScheduleID { get; set; }
+        public int AccountID { get; set; }
         public DateTime PlayAt { get; set; }
         public bool IsPlayed { get; set; } = false;
         public int Duration { get; set; }
@@ -23,5 +24,9 @@ namespace BOs.Models
         [ForeignKey("ScheduleID")]
         [InverseProperty("AdLiveStreams")]
         public virtual Schedule? Schedule { get; set; } = null!;
+
+        [ForeignKey("AccountID")]
+        [InverseProperty("AdLiveStreams")]
+        public virtual Account? Account { get; set; } = null!;
     }
 }
