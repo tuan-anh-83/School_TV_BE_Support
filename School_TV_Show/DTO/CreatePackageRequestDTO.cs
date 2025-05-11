@@ -22,5 +22,8 @@ namespace School_TV_Show.DTO
         public int TimeDuration { get; set; }
 
         public bool Status { get; set; }
+
+        [Required(ErrorMessage = "For Type is required.")]
+        public string ForType { get; set; }
     }
 }

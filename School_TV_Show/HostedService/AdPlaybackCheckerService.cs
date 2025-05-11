@@ -54,9 +54,10 @@ namespace School_TV_Show.HostedService
                                     {
                                         adScheduleId = ad.AdScheduleID,
                                         videoUrl = ad.AdSchedule?.VideoUrl,
-                                        startTime = ad.AdSchedule?.StartTime,
-                                        endTime = ad.AdSchedule?.EndTime,
-                                        title = ad.AdSchedule?.Title
+                                        startTime = ad.PlayAt,
+                                        endTime = ad.AdSchedule != null ? ad.PlayAt.AddSeconds(ad.AdSchedule.DurationSeconds) : ad.PlayAt.AddSeconds(10),
+                                        title = ad.AdSchedule?.Title,
+                                        accountId = ad.AccountID
                                     });
                             }
                         }

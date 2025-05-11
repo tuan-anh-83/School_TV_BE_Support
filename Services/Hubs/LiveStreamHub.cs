@@ -81,37 +81,5 @@ namespace Services.Hubs
                 endedAt = DateTime.UtcNow
             });
         }
-
-        public async Task BroadcastAds()
-        {
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-
-            var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
-            var today = now.Date;
-
-            var tomorrow = today.AddDays(1);
-            var ads = await _adScheduleService.GetAdsToday(today, tomorrow);
-            await Clients.All.SendAsync("Ads", ads.ToList()); // sự kiện bên client đã lắng nghe
-        }
-
-        public async Task ReceiveAdsVideos()
-        {
-            try
-            {
-                var timeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-
-                var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
-                var today = now.Date;
-                var tomorrow = today.AddDays(1);
-
-                var ads = await _adScheduleService.GetAdsToday(today, tomorrow);
-                await Clients.Caller.SendAsync("Ads", ads.ToList());
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("❌ Error in ReceiveAdsVideos: " + ex.Message);
-                throw; // Bạn có thể bỏ dòng này nếu không muốn ngắt kết nối client
-            }
-        }
     }
 }

@@ -504,6 +504,9 @@ namespace BOs.Data
                 entity.Property(e => e.Status)
                       .IsRequired()
                       .HasDefaultValue(true);
+                entity.Property(e => e.ForType)
+                      .IsRequired()
+                      .HasMaxLength(50);
                 entity.Property(e => e.CreatedAt)
                       .HasColumnType("datetime")
                       .HasDefaultValueSql("GETDATE()");
@@ -661,8 +664,7 @@ namespace BOs.Data
                 entity.ToTable("AdSchedule");
                 entity.HasKey(e => e.AdScheduleID);
                 entity.Property(e => e.Title).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.StartTime).IsRequired();
-                entity.Property(e => e.EndTime).IsRequired();
+                entity.Property(e => e.DurationSeconds).IsRequired();
                 entity.Property(e => e.VideoUrl).IsRequired();
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")

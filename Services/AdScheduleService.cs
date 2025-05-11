@@ -54,22 +54,12 @@ namespace Services
         public async Task<IEnumerable<AdSchedule>> FilterAdSchedulesAsync(DateTime start, DateTime end)
         {
             var all = await _repository.GetAllAsync();
-            return all.Where(a => a.StartTime >= start && a.EndTime <= end);
+            return all;
         }
         public async Task<AdSchedule?> GetLatestAdAsync()
         {
             var allAds = await _repository.GetAllAsync();
             return allAds.OrderByDescending(a => a.CreatedAt).FirstOrDefault();
-        }
-
-        public Task<IEnumerable<AdSchedule>> GetAdsToday(DateTime start, DateTime end)
-        {
-            return _repository.GetAdsTodayAsync(start, end);
-        }
-
-        public async Task<IEnumerable<AdSchedule>> GetListAdsInRangeAsync(DateTime start, DateTime end)
-        {
-            return await _repository.GetListAdsInRangeAsync(start, end);
         }
     }
 }

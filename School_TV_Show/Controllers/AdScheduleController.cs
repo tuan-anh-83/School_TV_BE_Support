@@ -3,12 +3,17 @@ using BOs.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 using School_TV_Show.DTO;
 using School_TV_Show.Helpers;
 using Services;
 using Services.Hubs;
 using System.Globalization;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace School_TV_Show.Controllers
 {
@@ -17,18 +22,24 @@ namespace School_TV_Show.Controllers
     public class AdScheduleController : ControllerBase
     {
         private readonly IAdScheduleService _service;
+        private readonly HttpClient _httpClient;
         private readonly IHubContext<LiveStreamHub> _hubContext;
         private readonly IPackageService _packageService;
+        private readonly CloudflareSettings _cloudflareSettings;
         TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public AdScheduleController(
             IAdScheduleService service, 
             IHubContext<LiveStreamHub> hubContext,
-            IPackageService packageService
+            IPackageService packageService,
+            IOptions<CloudflareSettings> cloudflareSettings
         )
         {
             _service = service;
             _hubContext = hubContext;
+            _cloudflareSettings = cloudflareSettings.Value;
+            _httpClient = new HttpClient();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _cloudflareSettings.ApiToken);
             _packageService = packageService;
         }
 
@@ -41,8 +52,7 @@ namespace School_TV_Show.Controllers
             {
                 AdScheduleID = ad.AdScheduleID,
                 Title = ad.Title,
-                StartTime = ad.StartTime,
-                EndTime = ad.EndTime,
+                DurationSeconds = ad.DurationSeconds,
                 VideoUrl = ad.VideoUrl,
                 CreatedAt = ad.CreatedAt
             });
@@ -52,19 +62,15 @@ namespace School_TV_Show.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("valid")]
-        public async Task<IActionResult> GetValidAdSchedules([FromQuery] string start, [FromQuery] string end)
+        public async Task<IActionResult> GetValidAdSchedules()
         {
-            DateTime startDate = DateTime.ParseExact(start, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-            DateTime endDate = DateTime.ParseExact(end, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-
-            var ads = await _service.GetListAdsInRangeAsync(startDate, endDate);
+            var ads = await _service.GetAllAdSchedulesAsync();
 
             var response = ads.Select(ad => new AdScheduleResponseDTO
             {
                 AdScheduleID = ad.AdScheduleID,
                 Title = ad.Title,
-                StartTime = ad.StartTime,
-                EndTime = ad.EndTime,
+                DurationSeconds = ad.DurationSeconds,
                 VideoUrl = ad.VideoUrl,
                 CreatedAt = ad.CreatedAt
             });
@@ -83,17 +89,13 @@ namespace School_TV_Show.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateAdScheduleRequestDTO request)
+        public async Task<IActionResult> Create([FromForm] CreateAdScheduleRequestDTO request)
         {
-            DateTime startDate = DateTime.ParseExact(request.StartTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-            DateTime endDate = DateTime.ParseExact(request.EndTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-
             var ad = new AdSchedule
             {
                 Title = request.Title,
-                StartTime = startDate,
-                EndTime = endDate,
-                VideoUrl = request.VideoUrl,
+                DurationSeconds= request.DurationSeconds,
+                VideoUrl = "",
                 CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"))
             };
 
@@ -101,27 +103,15 @@ namespace School_TV_Show.Controllers
             if (!success)
                 return StatusCode(500, new ApiResponse(false, "Failed to create ad schedule"));
 
-/*            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-
-            var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
-            var today = now.Date;
-            var tomorrow = today.AddDays(1);
-
-            var ads = await _service.GetAdsToday(today, tomorrow);
-            await _hubContext.Clients.All.SendAsync("Ads", ads);*/
-
             return Ok(new ApiResponse(true, "Ad schedule created successfully"));
         }
 
         [Authorize(Roles = "Advertiser")]
         [HttpPost("ads")]
-        public async Task<IActionResult> CreateAds([FromBody] CreateAdScheduleRequestDTO request)
+        public async Task<IActionResult> CreateAds([FromForm] CreateAdScheduleRequestDTO request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input", ModelState));
-
-            DateTime startDate = DateTime.ParseExact(request.StartTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-            DateTime endDate = DateTime.ParseExact(request.EndTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
             var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
 
@@ -144,25 +134,39 @@ namespace School_TV_Show.Controllers
             if (remainingDuration == null || remainingDuration <= 0 || expiredAt < TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone))
                 return BadRequest(new { error = "Your package was expired." });
 
+            var url = $"https://api.cloudflare.com/client/v4/accounts/{_cloudflareSettings.AccountId}/stream";
+
+            using var content = new MultipartFormDataContent();
+            using var fileStream = request.VideoFile.OpenReadStream();
+            var fileContent = new StreamContent(fileStream);
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(request.VideoFile.ContentType);
+
+            content.Add(fileContent, "file", request.VideoFile.FileName);
+            content.Add(new StringContent(request.Title), "meta[name]");
+
+            var response = await _httpClient.PostAsync(url, content);
+            var json = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Cloudflare upload failed: " + json);
+                return BadRequest(new { error = "Cloudflare upload failed" });
+            }
+
+            var jsonDoc = JsonDocument.Parse(json);
+            var uid = jsonDoc.RootElement.GetProperty("result").GetProperty("uid").GetString();
+
             var ad = new AdSchedule
             {
                 Title = request.Title,
-                StartTime = startDate,
-                EndTime = endDate,
-                VideoUrl = request.VideoUrl,
+                DurationSeconds = request.DurationSeconds,
+                VideoUrl = $"https://iframe.videodelivery.net/{uid}",
                 CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
 
             var success = await _service.CreateAdScheduleAsync(ad);
             if (!success)
                 return StatusCode(500, new ApiResponse(false, "Failed to create ad schedule"));
-
-/*            var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
-            var today = now.Date;
-            var tomorrow = today.AddDays(1);
-
-            var ads = await _service.GetAdsToday(today, tomorrow);
-            await _hubContext.Clients.All.SendAsync("Ads", ads);*/
 
             return Ok(new ApiResponse(true, "Ad schedule created successfully"));
         }
@@ -175,8 +179,7 @@ namespace School_TV_Show.Controllers
                 return NotFound(new ApiResponse(false, "Ad schedule not found"));
 
             existing.Title = request.Title;
-            existing.StartTime = request.StartTime;
-            existing.EndTime = request.EndTime;
+            existing.DurationSeconds = request.DurationSeconds;
             existing.VideoUrl = request.VideoUrl;
 
             var success = await _service.UpdateAdScheduleAsync(existing);

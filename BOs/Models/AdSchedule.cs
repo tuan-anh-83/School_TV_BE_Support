@@ -11,8 +11,7 @@ namespace BOs.Models
     {
         public int AdScheduleID { get; set; }
         public string Title { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public int DurationSeconds { get; set; }
         public string VideoUrl { get; set; }
         public DateTime CreatedAt { get; set; }
 

@@ -84,6 +84,7 @@ namespace School_TV_Show.Controllers
                 Duration = request.Duration,
                 TimeDuration = request.TimeDuration,
                 Status = "Active",
+                ForType = request.ForType,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
@@ -118,6 +119,7 @@ namespace School_TV_Show.Controllers
                 existingPackage.Duration = request.Duration;
                 existingPackage.TimeDuration = request.TimeDuration;
                 existingPackage.UpdatedAt = DateTime.UtcNow;
+                existingPackage.ForType = request.ForType;
 
                 bool isUpdated = await _packageService.UpdatePackageAsync(existingPackage);
                 if (!isUpdated)
@@ -155,10 +157,11 @@ namespace School_TV_Show.Controllers
         [HttpGet("active")]
         public async Task<IActionResult> GetAllActivePackages()
         {
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
             try
             {
                 var packages = await _packageService.GetAllActivePackagesAsync();
-                var result = packages.Select(p => new PackageAdminResponse
+                var result = packages.Where(p => p.ForType.Equals(role)).Select(p => new PackageAdminResponse
                 {
                     PackageID = p.PackageID,
                     Name = p.Name,
@@ -167,6 +170,7 @@ namespace School_TV_Show.Controllers
                     Duration = p.Duration,
                     TimeDuration = p.TimeDuration,
                     Status = p.Status,
+                    ForType = p.ForType,
                     CreatedAt = p.CreatedAt,
                     UpdatedAt = p.UpdatedAt
                 }).ToList();

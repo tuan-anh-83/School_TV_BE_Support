@@ -14,10 +14,12 @@ namespace School_TV_Show.Controllers
     public class AdLiveStreamController : ControllerBase
     {
         private readonly IAdLiveStreamService _adLiveStreamService;
+        private readonly IAccountPackageService _accountPackageService;
 
-        public AdLiveStreamController(IAdLiveStreamService adLiveStreamService)
+        public AdLiveStreamController(IAdLiveStreamService adLiveStreamService, IAccountPackageService accountPackageService)
         {
             _adLiveStreamService = adLiveStreamService;
+            _accountPackageService = accountPackageService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -78,6 +80,29 @@ namespace School_TV_Show.Controllers
                     skipped = request.Ads.Count - count,
                     message = confligIds.Count > 0 ? $"Quảng cáo bị trùng thời gian - Mã: {string.Join(", ", confligIds)}" : string.Empty
                 });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("ads-hook")]
+        public async Task<IActionResult> AdsHook([FromQuery] int accountID, [FromQuery] int duration)
+        {
+            try
+            {
+                var package = await _accountPackageService.GetActiveAccountPackageAsync(accountID);
+
+                if (package != null)
+                {
+                    package.MinutesUsed += (duration / 60);
+                    package.RemainingMinutes = package.TotalMinutesAllowed - package.MinutesUsed;
+                    await _accountPackageService.UpdateAccountPackageAsync(package);
+                }
+
+                return Ok();
             }
             catch (Exception)
             {

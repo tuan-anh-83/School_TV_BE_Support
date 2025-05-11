@@ -16,6 +16,7 @@ namespace BOs.Models
         public int Duration { get; set; }
         public int TimeDuration { get; set; }
         public string Status { get; set; }
+        public string ForType { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         //public ICollection<OrderDetail> OrderDetails { get; set; } 

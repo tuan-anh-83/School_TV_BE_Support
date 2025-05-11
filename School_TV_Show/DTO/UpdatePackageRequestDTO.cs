@@ -23,5 +23,8 @@ namespace School_TV_Show.DTO
 
         [Required(ErrorMessage = "Status is required.")]
         public bool Status { get; set; }
+
+        [Required(ErrorMessage = "ForType is required.")]
+        public string ForType { get; set; }
     }
 }

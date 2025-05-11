@@ -78,6 +78,7 @@ namespace DAOs
             existingPackage.Duration = package.Duration;
             existingPackage.TimeDuration = package.TimeDuration;
             existingPackage.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+            existingPackage.ForType = package.ForType;
             await _context.SaveChangesAsync();
             return true;
         }
