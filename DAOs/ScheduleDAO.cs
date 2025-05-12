@@ -163,7 +163,7 @@ namespace DAOs
         public async Task<IEnumerable<Schedule>> GetSuitableSchedulesAsync(DateTime now)
         {
             return await _context.Schedules.AsNoTracking()
-            .Where(s => (s.Status == "Pending" || s.Status == "Ready" || s.Status == "Live") && s.StartTime > now)
+            .Where(s => ((s.Status == "Pending" || s.Status == "Ready") && s.StartTime > now) || s.Status == "Live")
                 .Include(s => s.Program)
                     .ThenInclude(p => p.SchoolChannel)
                 .Include(s => s.AdLiveStreams)
