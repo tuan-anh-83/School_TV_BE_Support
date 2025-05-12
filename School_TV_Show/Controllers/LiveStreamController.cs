@@ -298,7 +298,7 @@ namespace School_TV_Show.Controllers
                             // If Cloudflare duration is available, use it directly
                             if (streamDuration.HasValue)
                             {
-                                stream.Duration = streamDuration.Value / 60; // Convert seconds to minutes
+                                stream.Duration = streamDuration.Value / 60.0; // Convert seconds to minutes
 
                                 _logger.LogInformation($"Stream duration from Cloudflare: {stream.Duration} minutes");
 

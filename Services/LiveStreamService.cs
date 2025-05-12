@@ -192,7 +192,7 @@ namespace Services
                 var accountPackage = await _packageRepo.GetCurrentPackageAndDurationByProgramIdAsync(stream.ProgramID.Value);
                 if(accountPackage != null && stream.Duration.HasValue)
                 {
-                    accountPackage.MinutesUsed += (recorded.Duration / 60);
+                    accountPackage.MinutesUsed += (recorded.Duration / 60.0);
                     accountPackage.RemainingMinutes = accountPackage.TotalMinutesAllowed - accountPackage.MinutesUsed;
                     await _accountPackageRepo.UpdateAccountPackageAsync(accountPackage);
 

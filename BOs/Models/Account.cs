@@ -32,6 +32,6 @@ namespace BOs.Models
         public virtual ICollection<AccountPackage> AccountPackages { get; set; } = new List<AccountPackage>();
 
         [InverseProperty("Account")]
-        public virtual ICollection<AdLiveStream> AdLiveStreams { get; set; } = new List<AdLiveStream>();
+        public virtual ICollection<AdSchedule> AdSchedules { get; set; } = new List<AdSchedule>();
     }
 }

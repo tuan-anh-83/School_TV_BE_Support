@@ -91,11 +91,17 @@ namespace School_TV_Show.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CreateAdScheduleRequestDTO request)
         {
+            var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                return Unauthorized("Invalid account");
+
             var ad = new AdSchedule
             {
                 Title = request.Title,
                 DurationSeconds= request.DurationSeconds,
                 VideoUrl = "",
+                AccountID = accountId,
                 CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"))
             };
 
@@ -161,6 +167,7 @@ namespace School_TV_Show.Controllers
                 Title = request.Title,
                 DurationSeconds = request.DurationSeconds,
                 VideoUrl = $"https://iframe.videodelivery.net/{uid}",
+                AccountID = accountId,
                 CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
 
@@ -174,6 +181,10 @@ namespace School_TV_Show.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateAdScheduleRequestDTO request)
         {
+            var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                return Unauthorized("Invalid account");
+
             var existing = await _service.GetAdScheduleByIdAsync(id);
             if (existing == null)
                 return NotFound(new ApiResponse(false, "Ad schedule not found"));
@@ -181,6 +192,7 @@ namespace School_TV_Show.Controllers
             existing.Title = request.Title;
             existing.DurationSeconds = request.DurationSeconds;
             existing.VideoUrl = request.VideoUrl;
+            existing.AccountID = accountId;
 
             var success = await _service.UpdateAdScheduleAsync(existing);
             if (!success)

@@ -130,7 +130,6 @@ namespace BOs.Data
                 entity.Property(e => e.AdLiveStreamID).ValueGeneratedOnAdd();
                 entity.Property(e => e.AdScheduleID).IsRequired();
                 entity.Property(e => e.ScheduleID).IsRequired();
-                entity.Property(e => e.AccountID).IsRequired();
                 entity.Property(e => e.PlayAt).IsRequired();
                 entity.Property(e => e.IsPlayed).IsRequired();
                 entity.Property(e => e.Duration).IsRequired();
@@ -145,12 +144,6 @@ namespace BOs.Data
                     .WithMany(a => a.AdLiveStreams)
                     .HasForeignKey(e => e.ScheduleID)
                     .HasConstraintName("FK_AdLiveStream_Schedule_ScheduleID")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.Account)
-                    .WithMany(a => a.AdLiveStreams)
-                    .HasForeignKey(e => e.AccountID)
-                    .HasConstraintName("FK_AdLiveStream_Account_AccountID")
                     .OnDelete(DeleteBehavior.Cascade);
             });
             #endregion
@@ -666,9 +659,16 @@ namespace BOs.Data
                 entity.Property(e => e.Title).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.DurationSeconds).IsRequired();
                 entity.Property(e => e.VideoUrl).IsRequired();
+                entity.Property(e => e.AccountID).IsRequired();
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("GETDATE()");
+
+                entity.HasOne(e => e.Account)
+                   .WithMany(a => a.AdSchedules)
+                   .HasForeignKey(e => e.AccountID)
+                   .HasConstraintName("FK_AdSchedule_Account_AccountID")
+                   .OnDelete(DeleteBehavior.Cascade);
             });
 
             #endregion

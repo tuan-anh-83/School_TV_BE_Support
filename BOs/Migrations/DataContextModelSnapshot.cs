@@ -143,9 +143,6 @@ namespace BOs.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdLiveStreamID"));
 
-                    b.Property<int>("AccountID")
-                        .HasColumnType("int");
-
                     b.Property<int>("AdScheduleID")
                         .HasColumnType("int");
 
@@ -163,8 +160,6 @@ namespace BOs.Migrations
 
                     b.HasKey("AdLiveStreamID");
 
-                    b.HasIndex("AccountID");
-
                     b.HasIndex("AdScheduleID");
 
                     b.HasIndex("ScheduleID");
@@ -179,6 +174,9 @@ namespace BOs.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdScheduleID"));
+
+                    b.Property<int>("AccountID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -198,6 +196,8 @@ namespace BOs.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AdScheduleID");
+
+                    b.HasIndex("AccountID");
 
                     b.ToTable("AdSchedule", (string)null);
                 });
@@ -1062,13 +1062,6 @@ namespace BOs.Migrations
 
             modelBuilder.Entity("BOs.Models.AdLiveStream", b =>
                 {
-                    b.HasOne("BOs.Models.Account", "Account")
-                        .WithMany("AdLiveStreams")
-                        .HasForeignKey("AccountID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_AdLiveStream_Account_AccountID");
-
                     b.HasOne("BOs.Models.AdSchedule", "AdSchedule")
                         .WithMany("AdLiveStreams")
                         .HasForeignKey("AdScheduleID")
@@ -1083,11 +1076,21 @@ namespace BOs.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_AdLiveStream_Schedule_ScheduleID");
 
-                    b.Navigation("Account");
-
                     b.Navigation("AdSchedule");
 
                     b.Navigation("Schedule");
+                });
+
+            modelBuilder.Entity("BOs.Models.AdSchedule", b =>
+                {
+                    b.HasOne("BOs.Models.Account", "Account")
+                        .WithMany("AdSchedules")
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdSchedule_Account_AccountID");
+
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("BOs.Models.Comment", b =>
@@ -1334,7 +1337,7 @@ namespace BOs.Migrations
                 {
                     b.Navigation("AccountPackages");
 
-                    b.Navigation("AdLiveStreams");
+                    b.Navigation("AdSchedules");
 
                     b.Navigation("Follows");
 

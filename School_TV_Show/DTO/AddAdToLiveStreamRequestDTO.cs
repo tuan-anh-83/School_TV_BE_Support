@@ -3,7 +3,6 @@
     public class AddAdToLiveStreamRequestDTO
     {
         public int ScheduleId { get; set; }
-        public int AccountId { get; set; }
         public List<AdItem> Ads { get; set; }
 
         public class AdItem

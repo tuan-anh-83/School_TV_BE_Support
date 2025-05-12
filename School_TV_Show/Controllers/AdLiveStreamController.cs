@@ -57,7 +57,6 @@ namespace School_TV_Show.Controllers
                         {
                             AdScheduleID = ad.AdScheduleId,
                             ScheduleID = request.ScheduleId,
-                            AccountID = request.AccountId,
                             PlayAt = startDate,
                             Duration = ad.Duration,
                             IsPlayed = false
@@ -99,7 +98,7 @@ namespace School_TV_Show.Controllers
 
                 if (package != null)
                 {
-                    package.MinutesUsed += (duration / 60);
+                    package.MinutesUsed += (duration / 60.0);
                     package.RemainingMinutes = package.TotalMinutesAllowed - package.MinutesUsed;
                     await _accountPackageService.UpdateAccountPackageAsync(package);
                 }

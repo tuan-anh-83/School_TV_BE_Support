@@ -14,8 +14,13 @@ namespace BOs.Models
         public int DurationSeconds { get; set; }
         public string VideoUrl { get; set; }
         public DateTime CreatedAt { get; set; }
+        public int AccountID { get; set; }
 
         [InverseProperty("AdSchedule")]
         public virtual ICollection<AdLiveStream> AdLiveStreams { get; set; } = new List<AdLiveStream>();
+
+        [ForeignKey("AccountID")]
+        [InverseProperty("AdSchedules")]
+        public virtual Account? Account { get; set; } = null!;
     }
 }

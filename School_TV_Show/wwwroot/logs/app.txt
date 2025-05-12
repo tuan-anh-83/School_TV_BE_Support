@@ -1065,3 +1065,378 @@ Exception: System.InvalidOperationException: A second operation was started on t
 [2025-05-11 21:15:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/11/2025 21:15:16
 [2025-05-11 21:15:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
 [2025-05-11 21:15:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:35:48] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-12 09:35:57] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-12 09:35:57] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-12 09:35:57] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 📡 CloudflareStreamMonitor started.
+[2025-05-12 09:35:58] [Error] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔥 Error in CloudflareStreamMonitor loop.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Repos.VideoHistoryRepo.GetActiveUnconfirmedStreamsAsync() in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 45
+   at School_TV_Show.HostedService.CloudflareStreamMonitor.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\CloudflareStreamMonitor.cs:line 56
+[2025-05-12 09:35:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-12 09:35:59] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:35:59
+[2025-05-12 09:36:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:36:01] [Information] Services.HostedServices.PendingAccountReminderService: Sent OTP reminder to: nin27644@toaik.com
+[2025-05-12 09:36:01] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:36:01] [Information] Services.HostedServices.PendingAccountReminderService: Sent OTP reminder to: caokhacbao0712@gmail.com
+[2025-05-12 09:36:01] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 2
+[2025-05-12 09:36:02] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-12 09:36:02] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-12 09:36:03] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-12 09:36:03] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-12 09:36:03] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-12 09:36:31] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:36:31
+[2025-05-12 09:36:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:36:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:36:56] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.FormatException: String '5/12/2025 9:30:00 AM' was not recognized as a valid DateTime.
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at School_TV_Show.Controllers.ScheduleController.CreateSchedule(CreateScheduleRequest request) in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\ScheduleController.cs:line 58
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-12 09:37:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:37:02
+[2025-05-12 09:37:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:37:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:37:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:37:32
+[2025-05-12 09:37:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:37:32] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:37:47] [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Exception: System.FormatException: String '2025-05-12 9:30:00' was not recognized as a valid DateTime.
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at School_TV_Show.Controllers.ScheduleController.CreateSchedule(CreateScheduleRequest request) in F:\Workspace\School_TV_BE\School_TV_Show\Controllers\ScheduleController.cs:line 58
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-12 09:38:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:38:02
+[2025-05-12 09:38:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:38:02] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:38:37] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:38:37
+[2025-05-12 09:38:39] [Error] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Error during LiveStreamScheduler tick
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.LiveStreamDAO.GetPendingSchedulesAsync(DateTime time) in F:\Workspace\School_TV_BE\DAOs\LiveStreamDAO.cs:line 248
+   at Repos.LiveStreamRepo.GetPendingSchedulesAsync(DateTime time) in F:\Workspace\School_TV_BE\Repos\LiveStreamRepo.cs:line 95
+   at BLL.Services.LiveStream.Implements.LiveStreamScheduler.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\LiveStreamScheduler.cs:line 63
+[2025-05-12 09:39:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:39:09
+[2025-05-12 09:39:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:39:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:39:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:39:39
+[2025-05-12 09:39:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:39:39] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:40:09] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:40:09
+[2025-05-12 09:40:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:40:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:40:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:40:40
+[2025-05-12 09:40:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:40:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:41:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:41:10
+[2025-05-12 09:41:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:41:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:41:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:41:40
+[2025-05-12 09:41:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:41:40] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:42:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:42:10
+[2025-05-12 09:42:10] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:42:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:42:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:42:41
+[2025-05-12 09:42:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:42:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:43:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:43:11
+[2025-05-12 09:43:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:43:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:43:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:43:41
+[2025-05-12 09:43:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:43:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:44:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:44:11
+[2025-05-12 09:44:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:44:11] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:44:41] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:44:41
+[2025-05-12 09:44:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:44:42] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:45:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:45:12
+[2025-05-12 09:45:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:45:12] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 1
+[2025-05-12 09:45:12] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/a5e098bb42b8ca53208a2f5135695bf7
+[2025-05-12 09:45:12] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/a5e098bb42b8ca53208a2f5135695bf7
+[2025-05-12 09:45:12] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 543.1731ms - 404
+[2025-05-12 09:45:12] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 575.4007ms - 404
+[2025-05-12 09:45:13] [Warning] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Input Check] Old Cloudflare input not found, cleared CloudflareStreamId for ProgramID=1
+[2025-05-12 09:45:13] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request POST https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs
+[2025-05-12 09:45:13] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request POST https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs
+[2025-05-12 09:45:14] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 483.8422ms - 200
+[2025-05-12 09:45:14] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 485.2471ms - 200
+[2025-05-12 09:45:14] [Error] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Error during LiveStreamScheduler tick
+Exception: System.InvalidOperationException: The instance of entity type 'Program' cannot be tracked because another instance with the same key value for {'ProgramID'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.ThrowIdentityConflict(InternalEntityEntry entry)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.Add(TKey key, InternalEntityEntry entry, Boolean updateDuplicate)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.Add(TKey key, InternalEntityEntry entry)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.Add(InternalEntityEntry entry)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.StartTracking(InternalEntityEntry entry)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.InternalEntityEntry.SetEntityState(EntityState oldState, EntityState newState, Boolean acceptChanges, Boolean modifyProperties)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.InternalEntityEntry.SetEntityState(EntityState entityState, Boolean acceptChanges, Boolean modifyProperties, Nullable`1 forceStateWhenUnknownKey, Nullable`1 fallbackState)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.EntityGraphAttacher.PaintAction(EntityEntryGraphNode`1 node)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.EntityEntryGraphIterator.TraverseGraph[TState](EntityEntryGraphNode`1 node, Func`2 handleNode)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.EntityGraphAttacher.AttachGraph(InternalEntityEntry rootEntry, EntityState targetState, EntityState storeGeneratedWithKeySetTargetState, Boolean forceStateWhenUnknownKey)
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.SetEntityState(InternalEntityEntry entry, EntityState entityState)
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.Update(TEntity entity)
+   at DAOs.LiveStreamDAO.UpdateProgramAsync(Program program) in F:\Workspace\School_TV_BE\DAOs\LiveStreamDAO.cs:line 87
+   at Repos.LiveStreamRepo.UpdateProgramAsync(Program program) in F:\Workspace\School_TV_BE\Repos\LiveStreamRepo.cs:line 160
+   at Services.LiveStreamService.StartLiveStreamAsync(VideoHistory stream) in F:\Workspace\School_TV_BE\Services\LiveStreamService.cs:line 98
+   at BLL.Services.LiveStream.Implements.LiveStreamScheduler.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\LiveStreamScheduler.cs:line 223
+[2025-05-12 09:45:32] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:45:32] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:45:33] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 630.6169ms - 200
+[2025-05-12 09:45:33] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 632.3343ms - 200
+[2025-05-12 09:45:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:45:44
+[2025-05-12 09:45:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:45:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 1
+[2025-05-12 09:45:48] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:45:48] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:45:49] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 439.0673ms - 200
+[2025-05-12 09:45:49] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 444.2378ms - 200
+[2025-05-12 09:46:00] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 25 thành công.
+[2025-05-12 09:46:04] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:46:04] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:46:05] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 488.4113ms - 200
+[2025-05-12 09:46:05] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 494.6573ms - 200
+[2025-05-12 09:46:10] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 25 thành công.
+[2025-05-12 09:46:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:46:14
+[2025-05-12 09:46:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:46:14] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:46:15] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421/videos
+[2025-05-12 09:46:15] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421/videos
+[2025-05-12 09:46:15] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 410.8068ms - 200
+[2025-05-12 09:46:15] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 413.6934ms - 200
+[2025-05-12 09:46:20] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 25 thành công.
+[2025-05-12 09:46:25] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:46:25] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:46:25] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 451.8957ms - 200
+[2025-05-12 09:46:25] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 527.504ms - 200
+[2025-05-12 09:46:30] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 25 thành công.
+[2025-05-12 09:46:40] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 25 thành công.
+[2025-05-12 09:46:42] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:46:42] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:46:42] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 364.975ms - 200
+[2025-05-12 09:46:42] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 431.7464ms - 200
+[2025-05-12 09:46:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:46:45
+[2025-05-12 09:46:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:46:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:46:45] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421/videos
+[2025-05-12 09:46:45] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421/videos
+[2025-05-12 09:46:46] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 298.3063ms - 200
+[2025-05-12 09:46:46] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 337.8008ms - 200
+[2025-05-12 09:46:51] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 25 thành công.
+[2025-05-12 09:46:58] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:46:58] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:46:58] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 397.2527ms - 200
+[2025-05-12 09:46:58] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 413.1618ms - 200
+[2025-05-12 09:47:01] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 25 thành công.
+[2025-05-12 09:47:15] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:47:15] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:47:15] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 824.7387ms - 200
+[2025-05-12 09:47:15] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 861.8387ms - 200
+[2025-05-12 09:47:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:47:16
+[2025-05-12 09:47:16] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421/videos
+[2025-05-12 09:47:16] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421/videos
+[2025-05-12 09:47:16] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 384.6412ms - 200
+[2025-05-12 09:47:16] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 388.3855ms - 200
+[2025-05-12 09:47:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:47:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:47:17] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request POST https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/9264e735c8a5292a1007e68ece162657/downloads
+[2025-05-12 09:47:17] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request POST https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/9264e735c8a5292a1007e68ece162657/downloads
+[2025-05-12 09:47:17] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421/videos
+[2025-05-12 09:47:17] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421/videos
+[2025-05-12 09:47:18] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 731.8345ms - 400
+[2025-05-12 09:47:18] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 800.7691ms - 400
+[2025-05-12 09:47:18] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 1186.1908ms - 200
+[2025-05-12 09:47:19] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 1981.5557ms - 200
+[2025-05-12 09:47:21] [Information] Services.LiveStreamService: Updated account package - Minutes used: 149.98333333333332, Remaining: -89.98333333333332
+[2025-05-12 09:47:21] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: Start processing HTTP request DELETE https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:47:21] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Sending HTTP request DELETE https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/0fd15bfe3b6b8d7aa335a9cdaddeb421
+[2025-05-12 09:47:22] [Information] System.Net.Http.HttpClient.ILiveStreamService.ClientHandler: Received HTTP response headers after 437.5332ms - 200
+[2025-05-12 09:47:22] [Information] System.Net.Http.HttpClient.ILiveStreamService.LogicalHandler: End processing HTTP request after 482.5357ms - 200
+[2025-05-12 09:47:23] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔒 Ended stream due to expired package for AccountID 31
+[2025-05-12 09:47:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:47:49
+[2025-05-12 09:47:49] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:47:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:48:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:48:20
+[2025-05-12 09:48:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:48:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:48:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:48:50
+[2025-05-12 09:48:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:48:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:49:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:49:20
+[2025-05-12 09:49:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:49:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:49:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:49:50
+[2025-05-12 09:49:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:49:50] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:50:20] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:50:20
+[2025-05-12 09:50:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:50:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:50:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:50:51
+[2025-05-12 09:50:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:50:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:51:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:51:21
+[2025-05-12 09:51:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:51:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:51:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:51:51
+[2025-05-12 09:51:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:51:51] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:52:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:52:21
+[2025-05-12 09:52:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:52:21] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:52:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:52:52
+[2025-05-12 09:52:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:52:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:53:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:53:22
+[2025-05-12 09:53:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:53:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:53:22] [Error] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Error during LiveStreamScheduler tick
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.VideoHistoryDAO.GetExpiredUploadedVideosAsync(DateTime currentTime) in F:\Workspace\School_TV_BE\DAOs\VideoHistoryDAO.cs:line 44
+   at Repos.VideoHistoryRepo.GetExpiredUploadedVideosAsync(DateTime currentTime) in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 60
+   at BLL.Services.LiveStream.Implements.LiveStreamScheduler.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\LiveStreamScheduler.cs:line 348
+[2025-05-12 09:53:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:53:52
+[2025-05-12 09:53:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:53:52] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:54:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:54:22
+[2025-05-12 09:54:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:54:22] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 09:54:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 09:54:53
+[2025-05-12 09:54:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 09:54:53] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 10:08:26] [Warning] Microsoft.EntityFrameworkCore.Model.Validation: Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+[2025-05-12 10:08:51] [Warning] Microsoft.EntityFrameworkCore.Model.Validation: Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+[2025-05-12 10:08:52] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (69ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+[2025-05-12 10:08:53] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (64ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+[2025-05-12 10:08:53] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (50ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+[2025-05-12 10:08:53] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (49ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+[2025-05-12 10:08:53] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (50ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+[2025-05-12 10:08:53] [Information] Microsoft.EntityFrameworkCore.Migrations: Applying migration '20250512030829_Update-AdSchedule-AccountID'.
+[2025-05-12 10:08:53] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (59ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [AdSchedule] ADD [AccountID] int NOT NULL DEFAULT 0;
+[2025-05-12 10:08:53] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (105ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_AdSchedule_AccountID] ON [AdSchedule] ([AccountID]);
+[2025-05-12 10:08:53] [Error] Microsoft.EntityFrameworkCore.Database.Command: Failed executing DbCommand (71ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [AdSchedule] ADD CONSTRAINT [FK_AdSchedule_Account_AccountID] FOREIGN KEY ([AccountID]) REFERENCES [Account] ([AccountID]) ON DELETE CASCADE;
+[2025-05-12 10:12:49] [Warning] Microsoft.EntityFrameworkCore.Model.Validation: Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+[2025-05-12 10:12:53] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (66ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+[2025-05-12 10:12:53] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (73ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+[2025-05-12 10:12:54] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (54ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+[2025-05-12 10:13:16] [Warning] Microsoft.EntityFrameworkCore.Model.Validation: Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+[2025-05-12 10:13:30] [Warning] Microsoft.EntityFrameworkCore.Model.Validation: Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (65ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (60ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (49ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (50ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (49ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Migrations: Applying migration '20250512031317_Update-AdSchedule-AccountID'.
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (53ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [AdLiveStream] DROP CONSTRAINT [FK_AdLiveStream_Account_AccountID];
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (52ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DROP INDEX [IX_AdLiveStream_AccountID] ON [AdLiveStream];
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (77ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[AdLiveStream]') AND [c].[name] = N'AccountID');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [AdLiveStream] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [AdLiveStream] DROP COLUMN [AccountID];
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (56ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [AdSchedule] ADD [AccountID] int NOT NULL DEFAULT 0;
+[2025-05-12 10:13:31] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (52ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_AdSchedule_AccountID] ON [AdSchedule] ([AccountID]);
+[2025-05-12 10:13:31] [Error] Microsoft.EntityFrameworkCore.Database.Command: Failed executing DbCommand (74ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [AdSchedule] ADD CONSTRAINT [FK_AdSchedule_Account_AccountID] FOREIGN KEY ([AccountID]) REFERENCES [Account] ([AccountID]) ON DELETE CASCADE;
+[2025-05-12 10:14:28] [Warning] Microsoft.EntityFrameworkCore.Model.Validation: Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+[2025-05-12 10:14:29] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (61ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+[2025-05-12 10:14:29] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (61ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+[2025-05-12 10:14:29] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (49ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+[2025-05-12 10:14:29] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (48ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+[2025-05-12 10:14:29] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (50ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+[2025-05-12 10:14:29] [Information] Microsoft.EntityFrameworkCore.Migrations: Applying migration '20250512031317_Update-AdSchedule-AccountID'.
+[2025-05-12 10:14:30] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (50ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [AdLiveStream] DROP CONSTRAINT [FK_AdLiveStream_Account_AccountID];
+[2025-05-12 10:14:30] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (55ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DROP INDEX [IX_AdLiveStream_AccountID] ON [AdLiveStream];
+[2025-05-12 10:14:30] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (55ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[AdLiveStream]') AND [c].[name] = N'AccountID');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [AdLiveStream] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [AdLiveStream] DROP COLUMN [AccountID];
+[2025-05-12 10:14:30] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (52ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [AdSchedule] ADD [AccountID] int NOT NULL DEFAULT 0;
+[2025-05-12 10:14:30] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (52ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_AdSchedule_AccountID] ON [AdSchedule] ([AccountID]);
+[2025-05-12 10:14:30] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (51ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [AdSchedule] ADD CONSTRAINT [FK_AdSchedule_Account_AccountID] FOREIGN KEY ([AccountID]) REFERENCES [Account] ([AccountID]) ON DELETE CASCADE;
+[2025-05-12 10:14:30] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (49ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250512031317_Update-AdSchedule-AccountID', N'8.0.8');
