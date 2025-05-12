@@ -11,6 +11,6 @@ namespace Services
     {
         Task<IEnumerable<AdLiveStream>> GetExistsAdLiveStreams(int scheduleID);
         Task<int> AddRangeAdLiveStream(List<AdLiveStream> ads);
-        void UpdateStatusAlternative(int adLiveStreamId);
+        Task UpdateStatusAlternative(int adLiveStreamId);
     }
 }

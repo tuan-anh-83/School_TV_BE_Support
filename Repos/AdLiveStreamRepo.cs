@@ -45,9 +45,9 @@ namespace Repos
             AdLiveStreamDAO.Instance.UpdateStatus(adLiveStreamId);
         }
 
-        public void UpdateStatusAlternative(int adLiveStreamId)
+        public async Task UpdateStatusAlternative(int adLiveStreamId)
         {
-            AdLiveStreamDAO.Instance.UpdateStatusAlternative(adLiveStreamId);
+            await AdLiveStreamDAO.Instance.UpdateStatusAlternative(adLiveStreamId);
         }
     }
 }

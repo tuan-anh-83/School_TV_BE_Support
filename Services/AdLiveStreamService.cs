@@ -27,9 +27,9 @@ namespace Services
             return await _adLiveStreamRepo.GetExistsAdLiveStreams(scheduleID);
         }
 
-        public void UpdateStatusAlternative(int adLiveStreamId)
+        public async Task UpdateStatusAlternative(int adLiveStreamId)
         {
-            _adLiveStreamRepo.UpdateStatusAlternative(adLiveStreamId);
+            await _adLiveStreamRepo.UpdateStatusAlternative(adLiveStreamId);
         }
     }
 }

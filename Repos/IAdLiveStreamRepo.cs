@@ -16,6 +16,6 @@ namespace Repos
         Task<int> UpdateRangeAdLiveStream(List<AdLiveStream> adLiveStreams);
         Task SaveChangeAsync();
         void UpdateStatus(int adLiveStreamId);
-        void UpdateStatusAlternative(int adLiveStreamId);
+        Task UpdateStatusAlternative(int adLiveStreamId);
     }
 }

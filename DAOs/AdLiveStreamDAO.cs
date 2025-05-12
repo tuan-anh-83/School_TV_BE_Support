@@ -102,10 +102,10 @@ namespace DAOs
             }
         }
 
-        public void UpdateStatusAlternative(int adLiveStreamId)
+        public async Task UpdateStatusAlternative(int adLiveStreamId)
         {
             // This uses raw SQL to update only what's needed without tracking issues
-            _context.Database.ExecuteSqlRaw(
+            await _context.Database.ExecuteSqlRawAsync(
                 "UPDATE AdLiveStream SET IsPlayed = 1 WHERE AdLiveStreamID = {0}",
                 adLiveStreamId);
         }

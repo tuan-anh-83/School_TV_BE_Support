@@ -93,7 +93,7 @@ namespace School_TV_Show.Controllers
         {
             try
             {
-                _adLiveStreamService.UpdateStatusAlternative(adLiveStreamID);
+                await _adLiveStreamService.UpdateStatusAlternative(adLiveStreamID);
 
                 var package = await _accountPackageService.GetActiveAccountPackageAsync(accountID);
 
