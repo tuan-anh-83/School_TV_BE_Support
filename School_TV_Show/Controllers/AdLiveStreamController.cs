@@ -89,10 +89,12 @@ namespace School_TV_Show.Controllers
 
         [AllowAnonymous]
         [HttpPost("ads-hook")]
-        public async Task<IActionResult> AdsHook([FromQuery] int accountID, [FromQuery] int duration)
+        public async Task<IActionResult> AdsHook([FromQuery] int accountID, [FromQuery] int duration, [FromQuery] int adLiveStreamID)
         {
             try
             {
+                _adLiveStreamService.UpdateStatusAlternative(adLiveStreamID);
+
                 var package = await _accountPackageService.GetActiveAccountPackageAsync(accountID);
 
                 if (package != null)

@@ -39,8 +39,6 @@ namespace School_TV_Show.HostedService
                 {
                     try
                     {
-                        adLiveStreamRepo.UpdateStatusAlternative(ad.AdLiveStreamID);
-
                         if (ad.AdSchedule != null && ad.Schedule?.ProgramID != null)
                         {
                             // 2. Lấy danh sách followers của chương trình
@@ -53,6 +51,7 @@ namespace School_TV_Show.HostedService
                                     .SendAsync("Ad", new
                                     {
                                         adScheduleId = ad.AdScheduleID,
+                                        adLiveStreamId = ad.AdLiveStreamID,
                                         videoUrl = ad.AdSchedule?.VideoUrl,
                                         startTime = ad.PlayAt,
                                         endTime = ad.AdSchedule != null ? ad.PlayAt.AddSeconds(ad.AdSchedule.DurationSeconds) : ad.PlayAt.AddSeconds(10),
@@ -70,10 +69,7 @@ namespace School_TV_Show.HostedService
                     }
                 }
 
-                // 4. Cập nhật trạng thái quảng cáo đã phát
-                await adLiveStreamRepo.SaveChangeAsync();
-
-                // 5. Delay 10s để lặp lại
+                // 4. Delay 10s để lặp lại
                 await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
             }
         }
