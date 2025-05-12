@@ -61,8 +61,11 @@ namespace DAOs
 
         public async Task<Account?> GetAccountByIdAsync(int accountId)
         {
-            return await _context.Accounts.Include(a => a.Role).AsNoTracking()
-                                         .FirstOrDefaultAsync(a => a.AccountID == accountId);
+            return await _context.Accounts
+                .Include(a => a.Role)
+                .Include(ap => ap.AccountPackages)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.AccountID == accountId);
         }
 
         public async Task<bool> DeleteAccountAsync(int accountId)

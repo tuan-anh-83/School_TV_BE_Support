@@ -649,7 +649,13 @@ namespace School_TV_Show.Controllers
                     account.Email,
                     account.Fullname,
                     account.Address,
-                    account.PhoneNumber
+                    account.PhoneNumber,
+                    AccountPackage = account.AccountPackages.Select(ap => new
+                    {
+                        ap.AccountPackageID,
+                        ap.MinutesUsed,
+                        ap.RemainingMinutes
+                    }).FirstOrDefault()
                 };
                 return Ok(accountInfo);
             }

@@ -1440,3 +1440,105 @@ ALTER TABLE [AdSchedule] ADD CONSTRAINT [FK_AdSchedule_Account_AccountID] FOREIG
 [2025-05-12 10:14:30] [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (49ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20250512031317_Update-AdSchedule-AccountID', N'8.0.8');
+[2025-05-12 16:40:51] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-12 16:40:55] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-12 16:40:55] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-12 16:40:55] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 📡 CloudflareStreamMonitor started.
+[2025-05-12 16:40:55] [Error] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔥 Error in CloudflareStreamMonitor loop.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Repos.VideoHistoryRepo.GetActiveUnconfirmedStreamsAsync() in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 45
+   at School_TV_Show.HostedService.CloudflareStreamMonitor.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\CloudflareStreamMonitor.cs:line 56
+[2025-05-12 16:40:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-12 16:40:55] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 16:40:55
+[2025-05-12 16:40:56] [Information] Services.HostedServices.PendingAccountReminderService: Sent OTP reminder to: nin27644@toaik.com
+[2025-05-12 16:40:56] [Information] Services.HostedServices.PendingAccountReminderService: Sent OTP reminder to: caokhacbao0712@gmail.com
+[2025-05-12 16:40:56] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 2
+[2025-05-12 16:40:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 16:40:56] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-12 16:40:56] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-12 16:40:56] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:40:56] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 1
+[2025-05-12 16:40:56] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-12 16:40:56] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-12 16:40:56] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-12 16:41:00] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:41:00] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:41:01] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 805.2942ms - 200
+[2025-05-12 16:41:01] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 824.9901ms - 200
+[2025-05-12 16:41:06] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:41:16] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:41:16] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:41:16] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:41:17] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 403.0316ms - 200
+[2025-05-12 16:41:17] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 411.0959ms - 200
+[2025-05-12 16:41:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 16:41:27
+[2025-05-12 16:41:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 16:41:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 16:41:27] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:41:32] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:41:32] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:41:33] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 427.6883ms - 200
+[2025-05-12 16:41:33] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 431.3673ms - 200
+[2025-05-12 16:41:37] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:41:47] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:41:48] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:41:48] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:41:48] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 347.7732ms - 200
+[2025-05-12 16:41:48] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 349.8322ms - 200
+[2025-05-12 16:41:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 16:41:57
+[2025-05-12 16:41:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 16:41:57] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 16:41:57] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:42:03] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:42:03] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:42:04] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 783.3047ms - 200
+[2025-05-12 16:42:04] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 791.6228ms - 200
+[2025-05-12 16:42:07] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:42:17] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:42:19] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:42:19] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:42:20] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 360.9143ms - 200
+[2025-05-12 16:42:20] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 362.4204ms - 200
+[2025-05-12 16:42:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 16:42:27
+[2025-05-12 16:42:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 16:42:27] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 16:42:27] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:42:41] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-12 16:42:43] [Information] Services.HostedServices.ExpiredOrderCheckerService: ⏳ Starting Expired Order Checker Service...
+[2025-05-12 16:42:43] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-12 16:42:43] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 📡 CloudflareStreamMonitor started.
+[2025-05-12 16:42:43] [Error] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔥 Error in CloudflareStreamMonitor loop.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Repos.VideoHistoryRepo.GetActiveUnconfirmedStreamsAsync() in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 45
+   at School_TV_Show.HostedService.CloudflareStreamMonitor.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\CloudflareStreamMonitor.cs:line 56
+[2025-05-12 16:42:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-12 16:42:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/12/2025 16:42:44
+[2025-05-12 16:42:44] [Information] Services.HostedServices.PendingAccountReminderService: Sent OTP reminder to: nin27644@toaik.com
+[2025-05-12 16:42:44] [Information] Services.HostedServices.PendingAccountReminderService: Sent OTP reminder to: caokhacbao0712@gmail.com
+[2025-05-12 16:42:44] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 2
+[2025-05-12 16:42:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-12 16:42:44] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-12 16:42:44] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-12 16:42:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-12 16:42:44] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:42:44] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-12 16:42:44] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-12 16:42:44] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-12 16:42:49] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:42:49] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:42:49] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 778.8574ms - 200
+[2025-05-12 16:42:49] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 803.5336ms - 200
+[2025-05-12 16:42:56] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
+[2025-05-12 16:43:05] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: Start processing HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:43:05] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Sending HTTP request GET https://api.cloudflare.com/client/v4/accounts/0f8785237edcec9778f5d01eda134e87/stream/live_inputs/1c6abfc8476903169b20c9dcab5c2f20
+[2025-05-12 16:43:05] [Information] System.Net.Http.HttpClient.Default.ClientHandler: Received HTTP response headers after 366.739ms - 200
+[2025-05-12 16:43:05] [Information] System.Net.Http.HttpClient.Default.LogicalHandler: End processing HTTP request after 368.9557ms - 200
+[2025-05-12 16:43:06] [Information] School_TV_Show.HostedService.AdPlaybackCheckerService: ✅ Gửi quảng cáo ID 26 thành công.
