@@ -68,17 +68,17 @@ namespace DAOs
 
         public async Task<bool> UpdatePackageAsync(Package package)
         {
-            var existingPackage = await GetPackageByIdAsync(package.PackageID);
-            if (existingPackage == null)
-                return false;
+            var tracked = _context.ChangeTracker.Entries<Package>()
+                .FirstOrDefault(e => e.Entity.PackageID == package.PackageID);
 
-            existingPackage.Name = package.Name;
-            existingPackage.Description = package.Description;
-            existingPackage.Price = package.Price;
-            existingPackage.Duration = package.Duration;
-            existingPackage.TimeDuration = package.TimeDuration;
-            existingPackage.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
-            existingPackage.ForType = package.ForType;
+            if (tracked != null)
+            {
+                tracked.State = EntityState.Detached;
+            }
+
+            _context.Packages.Attach(package);
+            _context.Entry(package).State = EntityState.Modified;
+
             await _context.SaveChangesAsync();
             return true;
         }
@@ -91,6 +91,11 @@ namespace DAOs
 
             package.Status = "Inactive";
             package.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+
+            _context.Packages.Attach(package);
+            _context.Entry(package).Property(p => p.Status).IsModified = true;
+            _context.Entry(package).Property(p => p.UpdatedAt).IsModified = true;
+
             await _context.SaveChangesAsync();
             return true;
         }

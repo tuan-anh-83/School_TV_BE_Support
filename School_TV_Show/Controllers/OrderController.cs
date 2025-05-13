@@ -21,7 +21,6 @@ namespace School_TV_Show.Controllers
         private readonly IPackageService _packageService;
         private readonly ILogger<OrderController> _logger;
         private readonly PayOS _payOS;
-        private readonly OrderTrackingService _orderTrackingService;
         TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public OrderController(
