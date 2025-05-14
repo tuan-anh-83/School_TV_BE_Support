@@ -108,21 +108,10 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { errors });
             }
 
-            var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
-
-            if (hasViolation)
-            {
-                return BadRequest(new { message });
-            }
-
-            var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
-                return Unauthorized("Invalid user.");
-
             var share = new Share
             {
                 VideoHistoryID = request.VideoHistoryID,
-                AccountID = accountId,
+                AccountID = request.AccountID,
                 Quantity = 1
             };
 

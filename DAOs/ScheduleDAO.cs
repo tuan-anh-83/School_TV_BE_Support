@@ -177,7 +177,7 @@ namespace DAOs
             var end = start.AddDays(1);
 
             return await _context.Schedules.AsNoTracking()
-          .Where(s =>
+                .Where(s =>
                     s.Program.SchoolChannelID == channelId &&
                     s.StartTime >= start &&
                     s.StartTime < end)

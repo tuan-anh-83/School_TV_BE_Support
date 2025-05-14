@@ -6,5 +6,8 @@ namespace School_TV_Show.DTO
     {
         [Required(ErrorMessage = "VideoHistoryID is required.")]
         public int VideoHistoryID { get; set; }
+
+        [Required(ErrorMessage = "AccountID is required.")]
+        public int AccountID { get; set; }
     }
 }

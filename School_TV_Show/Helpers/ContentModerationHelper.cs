@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace School_TV_Show.Helpers
 {
@@ -33,18 +34,30 @@ namespace School_TV_Show.Helpers
                                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                                 .Where(p => p.PropertyType == typeof(string));
 
+            if (_bannedWords == null || !_bannedWords.Any())
+                return (false, null);
+
             foreach (var prop in properties)
             {
                 var value = prop.GetValue(obj) as string;
-
                 if (!string.IsNullOrWhiteSpace(value))
                 {
-                    var matchedWord = _bannedWords
-                        .FirstOrDefault(word => value.Contains(word, StringComparison.OrdinalIgnoreCase));
-
-                    if (matchedWord != null)
+                    // Precompile regex pattern for each banned word
+                    foreach (var bannedWord in _bannedWords)
                     {
-                        return (true, $"Nội dung trường '{prop.Name}' chứa từ cấm '{matchedWord}', vui lòng chỉnh sửa.");
+                        string pattern = $@"\b{Regex.Escape(bannedWord)}\b";
+                        try
+                        {
+                            if (Regex.IsMatch(value, pattern, RegexOptions.IgnoreCase))
+                            {
+                                return (true, $"Nội dung trường '{prop.Name}' chứa từ cấm '{bannedWord}', vui lòng chỉnh sửa.");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log error in case of invalid regex pattern (though it shouldn't happen)
+                            Console.WriteLine($"Error while matching banned word: {bannedWord}. Exception: {ex.Message}");
+                        }
                     }
                 }
             }

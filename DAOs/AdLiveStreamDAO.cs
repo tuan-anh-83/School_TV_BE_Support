@@ -109,5 +109,14 @@ namespace DAOs
                 "UPDATE AdLiveStream SET IsPlayed = 1 WHERE AdLiveStreamID = {0}",
                 adLiveStreamId);
         }
+
+        public async Task<IEnumerable<AdLiveStream>> GetExpiredAds(DateTime now)
+        {
+            return await _context.AdLiveStreams
+                .Where(x => x.PlayAt < now && !x.IsPlayed)
+                .Include(x => x.AdSchedule)
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }

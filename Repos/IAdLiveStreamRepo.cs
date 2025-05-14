@@ -17,5 +17,6 @@ namespace Repos
         Task SaveChangeAsync();
         void UpdateStatus(int adLiveStreamId);
         Task UpdateStatusAlternative(int adLiveStreamId);
+        Task<IEnumerable<AdLiveStream>> GetExpiredAds(DateTime now);
     }
 }

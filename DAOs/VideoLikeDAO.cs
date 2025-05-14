@@ -74,12 +74,11 @@ namespace DAOs
 
         public async Task<bool> DeleteVideoLikeAsync(int videoLikeId)
         {
-            var videoLike = await GetVideoLikeByIdAsync(videoLikeId);
+            var videoLike = await _context.VideoLikes.FindAsync(videoLikeId);
             if (videoLike == null)
                 return false;
 
-            videoLike.Quantity = 0;
-            _context.VideoLikes.Update(videoLike);
+            _context.VideoLikes.Remove(videoLike);
             await _context.SaveChangesAsync();
             return true;
         }

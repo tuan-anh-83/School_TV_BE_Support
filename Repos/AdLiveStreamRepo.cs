@@ -49,5 +49,10 @@ namespace Repos
         {
             await AdLiveStreamDAO.Instance.UpdateStatusAlternative(adLiveStreamId);
         }
+
+        public async Task<IEnumerable<AdLiveStream>> GetExpiredAds(DateTime now)
+        {
+            return await AdLiveStreamDAO.Instance.GetExpiredAds(now);
+        }
     }
 }

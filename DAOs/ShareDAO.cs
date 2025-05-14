@@ -56,14 +56,14 @@ namespace DAOs
         public async Task<bool> AddShareAsync(Share share)
         {
             bool vhExists = await _context.VideoHistories.AsNoTracking().AnyAsync(v => v.VideoHistoryID == share.VideoHistoryID);
-
-            if (!vhExists) return false;
-
             bool accountExists = await _context.Accounts.AsNoTracking().AnyAsync(a => a.AccountID == share.AccountID);
 
-            if (!accountExists) return false;
+            if (!vhExists || !accountExists) return false;
 
-            share.Quantity = 1;
+            var sharedExists = await _context.Shares.AsNoTracking().AnyAsync(x => x.VideoHistoryID == share.VideoHistoryID && x.AccountID == share.AccountID);
+
+            if (sharedExists) return true;
+
             await _context.Shares.AddAsync(share);
             await _context.SaveChangesAsync();
             return true;
