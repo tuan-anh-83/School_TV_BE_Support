@@ -10,11 +10,13 @@ namespace Repos
     public interface IAdScheduleRepo
     {
         Task<IEnumerable<AdSchedule>> GetAllAsync();
-        Task<AdSchedule> GetByIdAsync(int id);
+        Task<AdSchedule?> GetByIdAsync(int id);
         Task AddAsync(AdSchedule adSchedule);
         void Update(AdSchedule adSchedule);
         void Delete(AdSchedule adSchedule);
         Task<IEnumerable<AdSchedule>> FilterByDateRangeAsync(DateTime startTime, DateTime endTime);
+        Task<bool> UpdateAdAsync(AdSchedule adSchedule);
+        Task<bool> DeleteAdAsync(int adScheduleId);
         Task SaveAsync();
     }
 }

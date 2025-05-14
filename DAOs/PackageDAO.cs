@@ -86,9 +86,12 @@ namespace DAOs
         public async Task<bool> DeletePackageAsync(int packageId)
         {
             var package = await GetPackageByIdAsync(packageId);
-            if (package == null)
-                return false;
+            if (package == null) return false;
 
+            // Đơn giản hơn: Làm sạch ChangeTracker trước khi attach
+            _context.ChangeTracker.Clear();
+
+            // Sau đó attach và thực hiện cập nhật
             package.Status = "Inactive";
             package.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
 
@@ -99,6 +102,7 @@ namespace DAOs
             await _context.SaveChangesAsync();
             return true;
         }
+
         public async Task<List<object>> GetTopPurchasedPackagesAsync()
         {
             var result = await _context.OrderDetails.AsNoTracking()

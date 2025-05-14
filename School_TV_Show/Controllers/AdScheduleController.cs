@@ -192,7 +192,6 @@ namespace School_TV_Show.Controllers
             existing.Title = request.Title;
             existing.DurationSeconds = request.DurationSeconds;
             existing.VideoUrl = request.VideoUrl;
-            existing.AccountID = accountId;
 
             var success = await _service.UpdateAdScheduleAsync(existing);
             if (!success)

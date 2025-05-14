@@ -36,11 +36,6 @@ namespace DAOs
             return await _context.AdSchedules.AsNoTracking().ToListAsync();
         }
 
-        public async Task<AdSchedule> GetByIdAsync(int id)
-        {
-            return await _context.AdSchedules.FindAsync(id);
-        }
-
         public async Task AddAsync(AdSchedule adSchedule)
         {
             await _context.AdSchedules.AddAsync(adSchedule);
@@ -55,6 +50,45 @@ namespace DAOs
         {
             _context.AdSchedules.Remove(adSchedule);
         }
+
+        public async Task<AdSchedule?> GetAdScheduleByIdAsync(int adScheduleId)
+        {
+            return await _context.AdSchedules.AsNoTracking()
+         .FirstOrDefaultAsync(p => p.AdScheduleID == adScheduleId);
+        }
+
+        public async Task<bool> UpdateAdAsync(AdSchedule adSchedule)
+        {
+            var tracked = _context.ChangeTracker.Entries<AdSchedule>()
+                .FirstOrDefault(e => e.Entity.AdScheduleID == adSchedule.AdScheduleID);
+
+            if (tracked != null)
+            {
+                tracked.State = EntityState.Detached;
+            }
+
+            _context.AdSchedules.Attach(adSchedule);
+            _context.Entry(adSchedule).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteAdAsync(int adScheduleId)
+        {
+            var adSchedule = await GetAdScheduleByIdAsync(adScheduleId);
+            if (adSchedule == null) return false;
+
+            // Đơn giản hơn: Làm sạch ChangeTracker trước khi attach
+            _context.ChangeTracker.Clear();
+
+            // Sau đó thực hiện xóa
+            _context.Remove(adSchedule);
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<IEnumerable<AdSchedule>> FilterByDateRangeAsync(DateTime startTime, DateTime endTime)
         {
             return await _context.AdSchedules.AsNoTracking()

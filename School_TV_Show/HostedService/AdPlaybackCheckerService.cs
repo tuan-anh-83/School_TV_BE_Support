@@ -32,8 +32,8 @@ namespace School_TV_Show.HostedService
 
                 var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
 
-                // 1. Lấy các quảng cáo đến hạn phát trong vòng 1 phút
-                var dueAds = await adLiveStreamRepo.GetDueAds(now.AddMinutes(1));
+                // 1. Lấy các quảng cáo đến hạn phát trong vòng 2 phút
+                var dueAds = await adLiveStreamRepo.GetDueAds(now.AddMinutes(2));
 
                 foreach (var ad in dueAds)
                 {

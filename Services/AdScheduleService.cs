@@ -36,19 +36,12 @@ namespace Services
 
         public async Task<bool> UpdateAdScheduleAsync(AdSchedule adSchedule)
         {
-            _repository.Update(adSchedule);
-            await _repository.SaveAsync();
-            return true;
+            return await _repository.UpdateAdAsync(adSchedule);
         }
 
         public async Task<bool> DeleteAdScheduleAsync(int id)
         {
-            var existing = await _repository.GetByIdAsync(id);
-            if (existing == null) return false;
-
-            _repository.Delete(existing);
-            await _repository.SaveAsync();
-            return true;
+            return await _repository.DeleteAdAsync(id);
         }
 
         public async Task<IEnumerable<AdSchedule>> FilterAdSchedulesAsync(DateTime start, DateTime end)

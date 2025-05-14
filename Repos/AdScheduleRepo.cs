@@ -20,6 +20,11 @@ namespace Repos
             AdScheduleDAO.Instance.Delete(adSchedule);
         }
 
+        public async Task<bool> DeleteAdAsync(int adScheduleId)
+        {
+            return await AdScheduleDAO.Instance.DeleteAdAsync(adScheduleId);
+        }
+
         public async Task<IEnumerable<AdSchedule>> FilterByDateRangeAsync(DateTime startTime, DateTime endTime)
         {
             return await AdScheduleDAO.Instance.FilterByDateRangeAsync(startTime, endTime);
@@ -30,9 +35,9 @@ namespace Repos
             return await AdScheduleDAO.Instance.GetAllAsync();
         }
 
-        public async Task<AdSchedule> GetByIdAsync(int id)
+        public async Task<AdSchedule?> GetByIdAsync(int id)
         {
-            return await AdScheduleDAO.Instance.GetByIdAsync(id);
+            return await AdScheduleDAO.Instance.GetAdScheduleByIdAsync(id);
         }
 
         public Task SaveAsync()
@@ -43,6 +48,11 @@ namespace Repos
         public void Update(AdSchedule adSchedule)
         {
             AdScheduleDAO.Instance.Update(adSchedule);
+        }
+
+        public async Task<bool> UpdateAdAsync(AdSchedule adSchedule)
+        {
+            return await AdScheduleDAO.Instance.UpdateAdAsync(adSchedule);
         }
     }
 }
