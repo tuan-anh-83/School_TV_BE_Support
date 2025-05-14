@@ -66,7 +66,7 @@ namespace School_TV_Show.HostedService
                         {
                             await MarkVideoAsLiveAsync(video, scope, localNow);
                             await MarkScheduleAsLiveAsync(video, scope, localNow);
-                            Console.WriteLine("Hello");
+                            _logger.LogInformation("Stream is starting!");
                         } 
                     }
 
@@ -195,18 +195,12 @@ namespace School_TV_Show.HostedService
 
             if (schedule != null && schedule.Status != "Live")
             {
+                schedule.VideoHistoryID = video.VideoHistoryID;
                 schedule.Status = now > schedule.StartTime.AddMinutes(5) ? "LateStart" : "Live";
                 schedule.LiveStreamStarted = true;
 
                 await scheduleRepo.UpdateScheduleAsync(schedule);
                 _logger.LogInformation($"🎬 Marked ScheduleID {schedule.ScheduleID} as Live (from VideoID {video.VideoHistoryID})");
-                /*                await _hubContext.Clients.All.SendAsync("StreamStarted", new
-                                {
-                                    scheduleId = schedule.ScheduleID,
-                                    videoId = video.VideoHistoryID,
-                                    url = video.URL,
-                                    playbackUrl = video.PlaybackUrl
-                                });*/
 
                 await NotifyToFollower(video, scope, now);
             }
