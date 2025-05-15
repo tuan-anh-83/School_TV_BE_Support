@@ -18,5 +18,8 @@ namespace Services
 
         Task<int> GetTotalViewsAsync();
         Task<Dictionary<int, int>> GetViewsPerVideoAsync();
+
+        Task<int> GetTotalViewsByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
+        Task<decimal> GetViewsComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
     }
 }

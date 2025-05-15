@@ -141,11 +141,12 @@ namespace DAOs
                 .FirstOrDefaultAsync(v => v.VideoHistoryID == id);
         }
 
-        public async Task<VideoHistory?> GetVideoHistoryByProgramIdAsync(int programId)
+        public async Task<VideoHistory?> GetVideoHistoryByProgramIdAsync(int programId, DateTime? date = null)
         {
             return await _context.VideoHistories.AsNoTracking()
             .OrderByDescending(v => v.CreatedAt)
-                .FirstOrDefaultAsync(v => v.ProgramID == programId && v.Type == "Live");
+            .Where(x => (date != null && x.StreamAt <= date) && x.ProgramID == programId && x.Type == "Live")
+            .FirstOrDefaultAsync();
         }
 
         public async Task<VideoHistory?> GetReadyVideoHistoryByProgramIdAsync(int programId)
@@ -256,6 +257,7 @@ namespace DAOs
               .Include(s => s.Program)
                 .ThenInclude(p => p.SchoolChannel)
                 .Where(s => s.Status == "Ready" && !s.LiveStreamStarted && s.StartTime <= time)
+                .Where(s => s.VideoHistoryID == null)
                 .ToListAsync();
         }
 
@@ -290,10 +292,10 @@ namespace DAOs
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Schedule>> GetLateStartSchedulesPastEndTimeAsync(DateTime now)
+        public async Task<List<Schedule>> GetSchedulesPastEndTimeAsync(DateTime now)
         {
             return await _context.Schedules.AsNoTracking()
-            .Where(s => s.Status == "LateStart" && s.EndTime < now && !s.LiveStreamEnded)
+            .Where(s => (s.Status != "Ended" || s.Status != "EndedEarly") && s.EndTime < now)
                 .ToListAsync();
         }
 

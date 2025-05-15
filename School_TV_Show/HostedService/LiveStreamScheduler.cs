@@ -260,7 +260,7 @@ namespace BLL.Services.LiveStream.Implements
                     var liveSchedules = await repository.GetLiveSchedulesAsync();
                     foreach (var schedule in liveSchedules)
                     {
-                        var videoHistory = await repository.GetVideoHistoryByProgramIdAsync(schedule.ProgramID);
+                        var videoHistory = await repository.GetVideoHistoryByProgramIdAsync(schedule.ProgramID, null);
                         if (videoHistory == null) continue;
 
                         bool isStillStreaming = await streamService.CheckStreamerStartedAsync(videoHistory.CloudflareStreamId);
@@ -365,47 +365,6 @@ namespace BLL.Services.LiveStream.Implements
             }
 
             _logger.LogInformation("LiveStreamScheduler stopped.");
-        }
-        private async Task CheckAndMarkEndedEarlySchedulesAsync(ILiveStreamRepo repository, ILiveStreamService streamService, DateTime now)
-        {
-            var lateSchedules = await repository.GetLateStartSchedulesPastEndTimeAsync(now);
-
-            foreach (var schedule in lateSchedules)
-            {
-                if (!schedule.LiveStreamEnded && schedule.Status == "LateStart")
-                {
-                    var video = await repository.GetVideoHistoryByProgramIdAsync(schedule.ProgramID);
-
-                    schedule.Status = "EndedEarly";
-                    schedule.LiveStreamEnded = true;
-                    schedule.VideoHistoryID = video?.VideoHistoryID;
-                    await repository.UpdateAsync(schedule);
-
-                    if (video != null && !string.IsNullOrEmpty(video.CloudflareStreamId))
-                    {
-                        try
-                        {
-                            var deleted = await streamService.EndLiveStreamAsync(video);
-                            if (deleted)
-                            {
-                                _logger.LogInformation("[Auto-End] Cloudflare input deleted for LateStart ScheduleID {ScheduleID}, StreamID {StreamID}.",
-                                    schedule.ScheduleID, video.VideoHistoryID);
-                            }
-                            else
-                            {
-                                _logger.LogWarning("[Auto-End] Failed to delete Cloudflare input for LateStart ScheduleID {ScheduleID}, StreamID {StreamID}.",
-                                    schedule.ScheduleID, video.VideoHistoryID);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, "[Auto-End] Error deleting Cloudflare input for ScheduleID {ScheduleID}", schedule.ScheduleID);
-                        }
-                    }
-
-                    _logger.LogInformation("[Auto-End] Schedule {ScheduleID} marked as EndedEarly (no stream detected).", schedule.ScheduleID);
-                }
-            }
         }
     }
 }

@@ -96,7 +96,7 @@ namespace Services
             return await _videoRepo.GetReplayVideoByProgramAndTimeAsync(programId, start, end);
         }
 
-        public async Task<bool> AddVideoWithCloudflareAsync(IFormFile file, VideoHistory videoHistory)
+        public async Task<VideoHistory?> AddVideoWithCloudflareAsync(IFormFile file, VideoHistory videoHistory)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace Services
                 var response = await httpClient.PostAsync(uploadUrl, requestContent);
 
                 if (!response.IsSuccessStatusCode)
-                    return false;
+                    return null;
 
                 var uploadResult = await response.Content.ReadAsStringAsync();
                 using var doc = JsonDocument.Parse(uploadResult);
@@ -160,18 +160,30 @@ namespace Services
                     _logger.LogWarning("Duration for video UID={Uid} could not be fetched after retries.", uid);
                 }
 
-                return await _videoRepo.AddVideoAsync(videoHistory);
+                var video = await _videoRepo.AddAndReturnVideoAsync(videoHistory);
+
+                return video;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error uploading video to Cloudflare.");
-                return false;
+                return null;
             }
         }
 
         public async Task<List<VideoHistory>> GetVideosByProgramIdAsync(int programId)
         {
             return await _videoRepo.GetVideosByProgramIdAsync(programId);
+        }
+
+        public async Task<double> GetTotalWatchTimeByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await _videoRepo.GetTotalWatchTimeByChannelAsync(channelId, startDate, endDate);
+        }
+
+        public async Task<decimal> GetWatchTimeComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await _videoRepo.GetWatchTimeComparisonPercentAsync(channelId, startDate, endDate);
         }
     }
 }

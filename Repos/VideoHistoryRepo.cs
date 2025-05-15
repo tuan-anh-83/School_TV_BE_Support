@@ -10,6 +10,11 @@ namespace Repos
 {
     public class VideoHistoryRepo : IVideoHistoryRepo
     {
+        public async Task<VideoHistory?> AddAndReturnVideoAsync(VideoHistory videoHistory)
+        {
+            return await VideoHistoryDAO.Instance.AddAndReturnVideoAsync(videoHistory);
+        }
+
         public async Task<bool> AddVideoAsync(VideoHistory videoHistory)
         {
             return await VideoHistoryDAO.Instance.AddVideoAsync(videoHistory);
@@ -80,6 +85,11 @@ namespace Repos
             return await VideoHistoryDAO.Instance.GetTotalViewsAndLikesAsync();
         }
 
+        public async Task<double> GetTotalWatchTimeByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await VideoHistoryDAO.Instance.GetTotalWatchTimeByChannelAsync(channelId, startDate, endDate);
+        }
+
         public async Task<VideoHistory?> GetVideoByIdAsync(int videoHistoryId)
         {
             return await VideoHistoryDAO.Instance.GetVideoByIdAsync(videoHistoryId);
@@ -98,6 +108,11 @@ namespace Repos
         public async Task<List<VideoHistory>> GetVideosUploadedAfterAsync(DateTime timestamp)
         {
             return await VideoHistoryDAO.Instance.GetVideosUploadedAfterAsync(timestamp);
+        }
+
+        public async Task<decimal> GetWatchTimeComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await VideoHistoryDAO.Instance.GetWatchTimeComparisonPercentAsync(channelId, startDate, endDate);
         }
 
         public async Task<bool> UpdateVideoAsync(VideoHistory videoHistory)

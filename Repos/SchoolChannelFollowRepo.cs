@@ -50,6 +50,16 @@ namespace Repos
             return SchoolChannelFollowDAO.Instance.GetFollowersBySchoolChannelIdAsync (schoolChannelId);
         }
 
+        public async Task<decimal> GetFollowersComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await SchoolChannelFollowDAO.Instance.GetFollowersComparisonPercentAsync(channelId, startDate, endDate);
+        }
+
+        public async Task<int> GetNewFollowersByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await SchoolChannelFollowDAO.Instance.GetNewFollowersByChannelAsync(channelId, startDate, endDate);
+        }
+
         public Task<bool> IsFollowingAsync(int accountId, int schoolChannelId)
         {
             return SchoolChannelFollowDAO.Instance.IsFollowingAsync (accountId, schoolChannelId);

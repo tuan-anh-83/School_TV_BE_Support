@@ -36,9 +36,9 @@ namespace Repos
         Task<int?> GetFallbackAdVideoHistoryIdAsync();
         Task AddScheduleAsync(Schedule schedule);
         Task SaveChangesAsync();
-        Task<List<Schedule>> GetLateStartSchedulesPastEndTimeAsync(DateTime now);
+        Task<List<Schedule>> GetSchedulesPastEndTimeAsync(DateTime now);
         Task UpdateAsync(Schedule schedule);
-        Task<VideoHistory?> GetVideoHistoryByProgramIdAsync(int programId);
+        Task<VideoHistory?> GetVideoHistoryByProgramIdAsync(int programId, DateTime? date = null);
         Task<SchoolChannel?> GetSchoolChannelByIdAsync(int schoolChannelId);
         Task<VideoHistory?> GetLiveVideoHistoryByStreamIdAsync(string liveInputId);
         Task<VideoHistory?> GetReadyVideoHistoryByProgramIdAsync(int programId);

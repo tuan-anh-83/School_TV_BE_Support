@@ -21,9 +21,11 @@ namespace Services
         Task<int> GetVideosByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<List<VideoHistory>> GetAllVideoHistoriesAsync();
         Task<List<VideoHistory>> GetVideosByDateAsync(DateTime date);
-        Task<bool> AddVideoWithCloudflareAsync(IFormFile videoFile, VideoHistory videoHistory);
+        Task<VideoHistory?> AddVideoWithCloudflareAsync(IFormFile videoFile, VideoHistory videoHistory);
         Task<VideoHistory?> GetReplayVideoByProgramAndTimeAsync(int programId, DateTime start, DateTime end);
         Task<VideoHistory?> GetReplayVideoAsync(int programId, DateTime startTime, DateTime endTime);
         Task<List<VideoHistory>> GetVideosByProgramIdAsync(int programId);
+        Task<double> GetTotalWatchTimeByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
+        Task<decimal> GetWatchTimeComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
     }
 }

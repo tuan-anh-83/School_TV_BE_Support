@@ -30,6 +30,11 @@ namespace Repos
             return await VideoViewDAO.Instance.GetAllVideoViewsAsync();
         }
 
+        public async Task<int> GetTotalViewsByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await VideoViewDAO.Instance.GetTotalViewsByChannelAsync(channelId, startDate, endDate);
+        }
+
         public async Task<int> GetTotalViewsForVideoAsync(int videoHistoryId)
         {
             return await VideoViewDAO.Instance.GetTotalViewsForVideoAsync(videoHistoryId);
@@ -38,6 +43,11 @@ namespace Repos
         public async Task<VideoView?> GetVideoViewByIdAsync(int videoViewId)
         {
             return await VideoViewDAO.Instance.GetVideoViewByIdAsync(videoViewId);
+        }
+
+        public async Task<decimal> GetViewsComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await VideoViewDAO.Instance.GetViewsComparisonPercentAsync((int)channelId, startDate, endDate);
         }
 
         public async Task<Dictionary<int, int>> GetViewsCountPerVideoAsync()

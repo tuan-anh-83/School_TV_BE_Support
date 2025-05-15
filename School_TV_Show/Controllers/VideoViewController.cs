@@ -138,9 +138,9 @@ namespace School_TV_Show.Controllers
                 if (!result)
                     return BadRequest("Invalid VideoHistoryID.");
 
-                var totalViews = await _videoViewService.GetTotalViewsForVideoAsync(video.VideoHistoryID);
+/*                var totalViews = await _videoViewService.GetTotalViewsForVideoAsync(video.VideoHistoryID);
                 await _hubContext.Clients.Group(video.CloudflareStreamId)
-                    .SendAsync("ViewerCountUpdated", video.CloudflareStreamId, totalViews);
+                    .SendAsync("ViewerCountUpdated", video.CloudflareStreamId, totalViews);*/
 
                 return CreatedAtAction(nameof(GetVideoViewById), new { id = videoView.ViewID }, videoView);
             }

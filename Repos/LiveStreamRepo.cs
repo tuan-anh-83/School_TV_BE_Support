@@ -65,9 +65,9 @@ namespace Repos
             return await LiveStreamDAO.Instance.GetLateStartCandidatesAsync(thresholdTime);
         }
 
-        public async Task<List<Schedule>> GetLateStartSchedulesPastEndTimeAsync(DateTime now)
+        public async Task<List<Schedule>> GetSchedulesPastEndTimeAsync(DateTime now)
         {
-            return await LiveStreamDAO.Instance.GetLateStartSchedulesPastEndTimeAsync(now);
+            return await LiveStreamDAO.Instance.GetSchedulesPastEndTimeAsync(now);
         }
 
         public async Task<List<Schedule>> GetLiveSchedulesAsync()
@@ -125,9 +125,9 @@ namespace Repos
             return await LiveStreamDAO.Instance.GetVideoHistoryByIdAsync(id);  
         }
 
-        public async Task<VideoHistory?> GetVideoHistoryByProgramIdAsync(int programId)
+        public async Task<VideoHistory?> GetVideoHistoryByProgramIdAsync(int programId, DateTime? date = null)
         {
-            return await LiveStreamDAO.Instance.GetVideoHistoryByProgramIdAsync(programId);
+            return await LiveStreamDAO.Instance.GetVideoHistoryByProgramIdAsync(programId, date);
         }
 
         public async Task<VideoHistory> GetVideoHistoryByStreamIdAsync(string cloudflareStreamId)

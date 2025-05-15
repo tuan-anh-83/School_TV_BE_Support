@@ -22,7 +22,9 @@ namespace School_TV_Show.Controllers
         private readonly INotificationService _notificationService;
         private readonly IProgramFollowRepo _programFollowRepository;
         private readonly IFollowRepo _schoolChannelFollowRepository;
+        private readonly IScheduleService _scheduleService;
         private readonly IProgramService _programService;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public VideoHistoryController(
             IVideoHistoryService videoService,
@@ -32,6 +34,7 @@ namespace School_TV_Show.Controllers
             INotificationService notificationService,
             IProgramFollowRepo programFollowRepository,
             IFollowRepo schoolChannelFollowRepository,
+            IScheduleService scheduleService,
             IProgramService programService)
         {
             _videoService = videoService;
@@ -41,6 +44,7 @@ namespace School_TV_Show.Controllers
             _notificationService = notificationService;
             _programFollowRepository = programFollowRepository;
             _schoolChannelFollowRepository = schoolChannelFollowRepository;
+            _scheduleService = scheduleService;
             _programService = programService;
         }
 
@@ -114,16 +118,16 @@ namespace School_TV_Show.Controllers
                 Description = request.Description,
                 Status = true,
                 StreamAt = request.StreamAt,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
 
             var result = await _videoService.AddVideoWithCloudflareAsync(request.VideoFile, videoHistory);
 
-            if (!result)
+            if (result == null)
                 return StatusCode(500, new { message = "Failed to upload video to Cloudflare." });
 
-            var program = videoHistory.Program ?? await _programService.GetProgramByIdAsync(videoHistory.ProgramID ?? 0);
+            BOs.Models.Program program = result.Program;
             int schoolChannelId = program.SchoolChannelID;
 
             var programFollowers = await _programFollowRepository.GetFollowersByProgramIdAsync(program.ProgramID);
@@ -142,7 +146,7 @@ namespace School_TV_Show.Controllers
                     AccountID = accountId,
                     Title = "New Video Uploaded",
                     Message = $"A new video has been uploaded to {program.ProgramName}.",
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
                 };
 
                 await _notificationService.CreateNotificationAsync(notification);
@@ -151,23 +155,21 @@ namespace School_TV_Show.Controllers
             }
 
             // === Auto create replay schedule if StreamAt & Duration exist ===
-            if (videoHistory.Duration != null && videoHistory.StreamAt != null)
+            if (result.Duration != null && result.StreamAt != null)
             {
-                var endTime = videoHistory.StreamAt.Value.AddSeconds(videoHistory.Duration.Value);
+                var endTime = videoHistory.StreamAt.Value.AddSeconds(result.Duration.Value);
 
                 var schedule = new Schedule
                 {
-                    ProgramID = videoHistory.ProgramID ?? 0,
-                    StartTime = videoHistory.StreamAt.Value,
+                    ProgramID = program.ProgramID,
+                    StartTime = result.StreamAt.Value,
                     EndTime = endTime,
                     IsReplay = true,
                     Status = "Pending",
-                    VideoHistoryID = videoHistory.VideoHistoryID
+                    VideoHistoryID = result.VideoHistoryID
                 };
 
-                using var scope = HttpContext.RequestServices.CreateScope();
-                var scheduleService = scope.ServiceProvider.GetRequiredService<IScheduleService>();
-                await scheduleService.CreateScheduleAsync(schedule);
+                await _scheduleService.CreateScheduleAsync(schedule);
             }
 
             return Ok(new

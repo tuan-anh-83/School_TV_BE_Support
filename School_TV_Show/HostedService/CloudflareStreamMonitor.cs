@@ -67,10 +67,10 @@ namespace School_TV_Show.HostedService
                             await MarkVideoAsLiveAsync(video, scope, localNow);
                             await MarkScheduleAsLiveAsync(video, scope, localNow);
                             _logger.LogInformation("Stream is starting!");
-                        } 
+                        }
                     }
 
-                    await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken); // Wating for checking expired
+                    await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken); // Wating for checking expired
 
                     var activeVideos = await videoRepo.GetActiveStreamsAsync();
                     foreach (var video in activeVideos)
@@ -87,16 +87,19 @@ namespace School_TV_Show.HostedService
                         }
                     }
 
-                    await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken); // Wating for checking expired
+                    await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken); // Wating for checking expired
 
                     await MarkScheduleLateStartAsync(scope, localNow);
+                    await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken); // Wating for checking past time
+
+                    await CheckAndMarkEndedEarlySchedulesAsync(scope, localNow);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "🔥 Error in CloudflareStreamMonitor loop.");
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken); // check per 5ms
+                await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken); // check per 2ms
             }
         }
 
@@ -134,9 +137,9 @@ namespace School_TV_Show.HostedService
 
             var programFollowers = await programFollowRepo.GetByProgramIdAsync(video.ProgramID.Value);
 
-            if(programFollowers.Count() > 0)
+            if (programFollowers.Count() > 0)
             {
-                foreach(var follower in programFollowers)
+                foreach (var follower in programFollowers)
                 {
                     var noti = new Notification
                     {
@@ -271,6 +274,42 @@ namespace School_TV_Show.HostedService
                     scheduleId = schedule?.ScheduleID,
                     videoId = video.VideoHistoryID
                 });
+            }
+        }
+
+        private async Task CheckAndMarkEndedEarlySchedulesAsync(IServiceScope scope, DateTime now)
+        {
+            var liveStreamRepo = scope.ServiceProvider.GetRequiredService<ILiveStreamRepo>();
+            var videoHistoryRepo = scope.ServiceProvider.GetRequiredService<IVideoHistoryRepo>();
+
+            var lateSchedules = await liveStreamRepo.GetSchedulesPastEndTimeAsync(now);
+
+            foreach (var schedule in lateSchedules)
+            {
+                VideoHistory? video = null;
+                if(schedule.VideoHistoryID != null)
+                {
+                    video = await videoHistoryRepo.GetVideoByIdAsync(schedule.VideoHistoryID.Value);
+                }
+                else
+                {
+                    video = await liveStreamRepo.GetVideoHistoryByProgramIdAsync(schedule.ProgramID, schedule.StartTime);
+                }
+
+                schedule.Status = "Ended";
+                schedule.LiveStreamEnded = true;
+                await liveStreamRepo.UpdateAsync(schedule);
+                _logger.LogInformation($"Updated past schedule - ID: {schedule.ScheduleID}");
+
+                if (video != null && !string.IsNullOrEmpty(video.CloudflareStreamId))
+                {
+                    video.Type = "Recorded";
+                    if(video.Duration == null) video.Duration = 0;
+                    await liveStreamRepo.UpdateVideoHistoryAsync(video);
+                    _logger.LogInformation($"Updated past video history - ID: {video.VideoHistoryID}");
+                }
+
+                _logger.LogInformation("[Auto-End] Schedule {ScheduleID} marked as EndedEarly (no stream detected).", schedule.ScheduleID);
             }
         }
     }

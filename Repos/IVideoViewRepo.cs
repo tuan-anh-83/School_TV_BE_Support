@@ -18,5 +18,8 @@ namespace Repos
 
         Task<int> CountTotalViewsAsync();
         Task<Dictionary<int, int>> GetViewsCountPerVideoAsync();
+
+        Task<int> GetTotalViewsByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
+        Task<decimal> GetViewsComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
     }
 }

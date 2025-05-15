@@ -19,5 +19,7 @@ namespace Repos
         Task<List<object>> GetAllFollowedSchoolChannelsAsync();
         Task<List<SchoolChannelFollow>> GetFollowersByChannelIdAsync(int channelId);
         Task<List<SchoolChannelFollow>> GetFollowersBySchoolChannelIdAsync(int schoolChannelId);
+        Task<int> GetNewFollowersByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
+        Task<decimal> GetFollowersComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
     }
 }

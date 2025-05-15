@@ -80,8 +80,15 @@ namespace DAOs
 
         public async Task<bool> AddVideoAsync(VideoHistory video)
         {
-            _context.VideoHistories.Add(video);
+            await _context.VideoHistories.AddAsync(video);
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<VideoHistory?> AddAndReturnVideoAsync(VideoHistory video)
+        {
+            await _context.VideoHistories.AddAsync(video);
+            if (await _context.SaveChangesAsync() > 0) return video;
+            return null;
         }
 
         public async Task<bool> UpdateVideoAsync(VideoHistory video)
@@ -179,6 +186,43 @@ namespace DAOs
             return _context.VideoHistories
                 .Where(v => v.Status && v.Type == "Live" && v.CloudflareStreamId != null)
                 .ToListAsync();
+        }
+
+        public async Task<double> GetTotalWatchTimeByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            // Assuming VideoHistory table has WatchDurationSeconds field that tracks how long a user watched a video
+            var totalWatchTimeSeconds = await _context.VideoHistories
+                .AsNoTracking()
+                .Where(vh => vh.Program.SchoolChannelID == channelId)
+                .Where(vh => vh.StreamAt >= startDate && vh.StreamAt <= endDate)
+                .Where(vh => vh.Duration > 0)
+                .SumAsync(vh => vh.Duration);
+
+            // Convert seconds to hours
+            double totalWatchTimeHours = (totalWatchTimeSeconds ?? 0) / 3600.0;
+
+            // Round to one decimal place
+            return Math.Round(totalWatchTimeHours, 1);
+        }
+
+        public async Task<decimal> GetWatchTimeComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            // Calculate previous period of the same length
+            var periodLength = (endDate - startDate).TotalDays;
+            var previousStartDate = startDate.AddDays(-periodLength);
+            var previousEndDate = startDate.AddSeconds(-1);
+
+            var currentPeriodWatchTime = await GetTotalWatchTimeByChannelAsync(channelId, startDate, endDate);
+            var previousPeriodWatchTime = await GetTotalWatchTimeByChannelAsync(channelId, previousStartDate, previousEndDate);
+
+            // Handle zero division and calculate percentage change
+            if (previousPeriodWatchTime == 0)
+                return currentPeriodWatchTime > 0 ? 100 : 0;
+
+            decimal percentChange = (decimal)((currentPeriodWatchTime - previousPeriodWatchTime) / previousPeriodWatchTime * 100);
+
+            // Round to one decimal place
+            return Math.Round(percentChange, 1);
         }
     }
 }

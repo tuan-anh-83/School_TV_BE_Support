@@ -124,5 +124,37 @@ namespace DAOs
                 .Cast<object>()
                 .ToListAsync();
         }
+
+        public async Task<int> GetNewFollowersByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            // Count new followers within the date range
+            var newFollowersCount = await _context.SchoolChannelFollows
+                .AsNoTracking()
+                .Where(f => f.SchoolChannelID == channelId)
+                .Where(f => f.FollowedAt >= startDate && f.FollowedAt <= endDate)
+                .CountAsync();
+
+            return newFollowersCount;
+        }
+
+        public async Task<decimal> GetFollowersComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            // Calculate previous period of the same length
+            var periodLength = (endDate - startDate).TotalDays;
+            var previousStartDate = startDate.AddDays(-periodLength);
+            var previousEndDate = startDate.AddSeconds(-1);
+
+            var currentPeriodFollowers = await GetNewFollowersByChannelAsync(channelId, startDate, endDate);
+            var previousPeriodFollowers = await GetNewFollowersByChannelAsync(channelId, previousStartDate, previousEndDate);
+
+            // Handle zero division and calculate percentage change
+            if (previousPeriodFollowers == 0)
+                return currentPeriodFollowers > 0 ? 100m : 0m;
+
+            decimal percentChange = ((decimal)currentPeriodFollowers - previousPeriodFollowers) / previousPeriodFollowers * 100m;
+
+            // Round to one decimal place
+            return Math.Round(percentChange, 1);
+        }
     }
 }

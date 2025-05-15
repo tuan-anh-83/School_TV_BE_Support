@@ -49,13 +49,15 @@ namespace DAOs
         {
             bool vhExists = await _context.VideoHistories.AsNoTracking()
                .AnyAsync(v => v.VideoHistoryID == videoView.VideoHistoryID);
-            if (!vhExists) return false;
-
             bool accountExists = await _context.Accounts.AsNoTracking()
-         .AnyAsync(a => a.AccountID == videoView.AccountID);
-            if (!accountExists) return false;
+                .AnyAsync(a => a.AccountID == videoView.AccountID);
+            if (!accountExists || !vhExists) return false;
 
-            _context.VideoViews.Add(videoView);
+            var viewExists = await _context.VideoViews.AsNoTracking().AnyAsync(x => x.VideoHistoryID == videoView.VideoHistoryID && x.AccountID == videoView.AccountID);
+
+            if (viewExists) return true;
+
+            await _context.VideoViews.AddAsync(videoView);
             return await _context.SaveChangesAsync() > 0;
         }
 
@@ -103,6 +105,31 @@ namespace DAOs
                 .GroupBy(v => v.VideoHistoryID)
                 .Select(g => new { VideoId = g.Key, TotalViews = g.Sum(v => v.Quantity) })
                 .ToDictionaryAsync(g => g.VideoId, g => g.TotalViews);
+        }
+
+        public async Task<int> GetTotalViewsByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await _context.VideoViews
+             .AsNoTracking()
+             .Where(v => v.VideoHistory.Program.SchoolChannel.SchoolChannelID == channelId)
+             .Where(v => v.VideoHistory.StreamAt >= startDate && v.VideoHistory.StreamAt <= endDate)
+             .CountAsync();
+        }
+
+        public async Task<decimal> GetViewsComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            // Calculate previous period of the same length
+            var periodLength = (endDate - startDate).TotalDays;
+            var previousStartDate = startDate.AddDays(-periodLength);
+            var previousEndDate = startDate.AddSeconds(-1);
+
+            var currentPeriodViews = await GetTotalViewsByChannelAsync(channelId, startDate, endDate);
+            var previousPeriodViews = await GetTotalViewsByChannelAsync(channelId, previousStartDate, previousEndDate);
+
+            if (previousPeriodViews == 0)
+                return currentPeriodViews > 0 ? 100 : 0;
+
+            return Math.Round(((decimal)currentPeriodViews - previousPeriodViews) / previousPeriodViews * 100, 1);
         }
     }
 }

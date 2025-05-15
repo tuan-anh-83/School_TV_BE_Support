@@ -59,6 +59,14 @@ namespace Services
             return await _followRepository.GetAllFollowedSchoolChannelsAsync();
         }
 
+        public async Task<int> GetNewFollowersByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await _followRepository.GetNewFollowersByChannelAsync(channelId, startDate, endDate);
+        }
 
+        public async Task<decimal> GetFollowersComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await _followRepository.GetFollowersComparisonPercentAsync(channelId, startDate, endDate);
+        }
     }
 }

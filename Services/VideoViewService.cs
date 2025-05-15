@@ -56,5 +56,15 @@ namespace Services
         {
             return await _videoViewRepo.GetViewsCountPerVideoAsync();
         }
+
+        public async Task<int> GetTotalViewsByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await _videoViewRepo.GetTotalViewsByChannelAsync(channelId, startDate, endDate);
+        }
+
+        public async Task<decimal> GetViewsComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            return await _videoViewRepo.GetViewsComparisonPercentAsync(channelId, startDate, endDate);
+        }
     }
 }

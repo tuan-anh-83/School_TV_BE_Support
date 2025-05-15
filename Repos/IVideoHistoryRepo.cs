@@ -12,6 +12,7 @@ namespace Repos
         Task<List<VideoHistory>> GetAllVideosAsync();
         Task<VideoHistory?> GetVideoByIdAsync(int videoHistoryId);
         Task<bool> AddVideoAsync(VideoHistory videoHistory);
+        Task<VideoHistory?> AddAndReturnVideoAsync(VideoHistory videoHistory);
         Task<bool> UpdateVideoAsync(VideoHistory videoHistory);
         Task<bool> DeleteVideoAsync(int videoHistoryId);
         Task<int> CountByStatusAsync(bool status);
@@ -28,5 +29,7 @@ namespace Repos
         Task<List<VideoHistory>> GetVideosUploadedAfterAsync(DateTime timestamp);
         Task<List<VideoHistory>> GetActiveUnconfirmedStreamsAsync();
         Task<List<VideoHistory>> GetActiveStreamsAsync();
+        Task<double> GetTotalWatchTimeByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
+        Task<decimal> GetWatchTimeComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
     }
 }
