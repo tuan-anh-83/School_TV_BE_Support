@@ -295,14 +295,24 @@ namespace DAOs
         public async Task<List<Schedule>> GetSchedulesPastEndTimeAsync(DateTime now)
         {
             return await _context.Schedules.AsNoTracking()
-            .Where(s => (s.Status != "Ended" || s.Status != "EndedEarly") && s.EndTime < now)
+            .Where(s => (s.Status != "Ended" && s.Status != "EndedEarly") && s.EndTime < now)
                 .ToListAsync();
         }
 
         public async Task UpdateAsync(Schedule schedule)
         {
-            _context.Schedules.Update(schedule);
-            await Task.CompletedTask;
+            var existingEntity = await _context.Schedules.FindAsync(schedule.ScheduleID);
+
+            if (existingEntity != null)
+            {
+                _context.Entry(existingEntity).CurrentValues.SetValues(schedule);
+            }
+            else
+            {
+                _context.Entry(schedule).State = EntityState.Modified;
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }
