@@ -33,7 +33,13 @@ builder.Logging.AddProvider(new FileLoggerProvider(logPath));
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(
+    options =>
+    {
+        // Send detailed errors to the client
+        options.EnableDetailedErrors = true;
+    }
+);
 
 // 🛠 Cấu hình Swagger với hỗ trợ Bearer Token
 builder.Services.AddSwaggerGen(c =>

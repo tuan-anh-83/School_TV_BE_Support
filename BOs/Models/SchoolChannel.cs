@@ -19,6 +19,7 @@ namespace BOs.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public int? TotalDuration { get; set; }
+        public string? LogoUrl { get; set; }
         public virtual Account Account { get; set; }
         public virtual ICollection<News> News { get; set; } = new List<News>();
 

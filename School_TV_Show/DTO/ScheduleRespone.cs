@@ -9,5 +9,6 @@
         public bool LiveStreamStarted { get; set; }
         public bool LiveStreamEnded { get; set; }
         public int ProgramID { get; set; }
+        public string Thumbnail { get; set; }
     }
 }

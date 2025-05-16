@@ -8,5 +8,6 @@
         public double? Duration { get; set; }
         public string? Description { get; set; }
         public int? VideoHistoryID { get; set; }
+        public string Thumbnail { get; set; }
     }
 }

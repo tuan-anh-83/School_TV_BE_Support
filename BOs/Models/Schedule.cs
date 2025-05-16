@@ -17,6 +17,7 @@ namespace BOs.Models
         public bool LiveStreamStarted { get; set; }
         public bool LiveStreamEnded { get; set; }
         public bool IsReplay { get; set; }
+        public string Thumbnail { get; set; }
         public int? VideoHistoryID { get; set; }
         public Program Program { get; set; }
 

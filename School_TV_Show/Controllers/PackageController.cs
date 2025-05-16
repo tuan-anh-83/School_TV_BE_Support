@@ -15,6 +15,7 @@ namespace School_TV_Show.Controllers
     {
         private readonly IPackageService _packageService;
         private readonly ILogger<PackageController> _logger;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public PackageController(IPackageService packageService, ILogger<PackageController> logger)
         {
@@ -110,15 +111,14 @@ namespace School_TV_Show.Controllers
                 var existingPackage = await _packageService.GetPackageByIdAsync(id);
                 if (existingPackage == null)
                     return NotFound("Package not found");
-                if (existingPackage.Status == "Inactive")
-                    return Unauthorized("Inactive packagee cannot be updated.");
 
                 existingPackage.Name = request.Name;
                 existingPackage.Description = request.Description;
                 existingPackage.Price = request.Price;
                 existingPackage.Duration = request.Duration;
                 existingPackage.TimeDuration = request.TimeDuration;
-                existingPackage.UpdatedAt = DateTime.UtcNow;
+                existingPackage.Status = request.Status;
+                existingPackage.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
                 existingPackage.ForType = request.ForType;
 
                 bool isUpdated = await _packageService.UpdatePackageAsync(existingPackage);

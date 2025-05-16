@@ -174,6 +174,7 @@ namespace BOs.Data
                 entity.Property(e => e.Status).HasColumnType("bit");
                 entity.Property(e => e.Website).HasMaxLength(255).IsRequired(false);
                 entity.Property(e => e.Email).HasMaxLength(255).IsRequired(false);
+                entity.Property(e => e.LogoUrl);
                 entity.Property(e => e.Address).HasMaxLength(255).IsRequired(false);
                 entity.Property(e => e.CreatedAt)
                       .HasColumnType("datetime2")
@@ -257,6 +258,7 @@ namespace BOs.Data
                 entity.Property(e => e.ScheduleID).ValueGeneratedOnAdd();
                 entity.Property(e => e.StartTime).IsRequired();
                 entity.Property(e => e.EndTime).IsRequired();
+                entity.Property(e => e.Thumbnail).IsRequired().HasDefaultValue(string.Empty);
                 entity.Property(e => e.Status)
                       .HasMaxLength(50)
                       .HasDefaultValue("Pending");

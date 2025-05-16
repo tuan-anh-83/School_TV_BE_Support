@@ -13,5 +13,8 @@ namespace School_TV_Show.DTO
         [Required(ErrorMessage = "EndTime is required.")]
         public string EndTime { get; set; }
         public bool IsReplay { get; set; } = false;
+
+        [Required(ErrorMessage = "Thumbnail is required.")]
+        public IFormFile ThumbnailFile { get; set; }
     }
 }

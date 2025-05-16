@@ -16,5 +16,7 @@ namespace School_TV_Show.DTO
 
         [StringLength(500, ErrorMessage = "Address cannot exceed 500 characters.")]
         public string? Address { get; set; }
+
+        public IFormFile? LogoFile { get; set; }
     }
 }

@@ -83,7 +83,8 @@ namespace School_TV_Show.Controllers
                     Description = p.SchoolChannel.Description,
                     Website = p.SchoolChannel.Website,
                     Email = p.SchoolChannel.Email,
-                    Address = p.SchoolChannel.Address
+                    Address = p.SchoolChannel.Address,
+                    LogoUrl = p.SchoolChannel.LogoUrl
                 },
                 Schedules = p.Schedules?.Select(s => new ScheduleResponse
                 {

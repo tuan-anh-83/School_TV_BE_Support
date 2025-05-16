@@ -15,5 +15,7 @@ namespace School_TV_Show.DTO
 
         [StringLength(255, ErrorMessage = "Website cannot exceed 255 characters.")]
         public string? Website { get; set; }
+
+        public IFormFile? LogoFile { get; set; }
     }
 }

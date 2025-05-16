@@ -91,15 +91,28 @@ namespace DAOs
 
         public async Task UpdateAsync(SchoolChannel schoolChannel)
         {
-            _context.SchoolChannels.Update(schoolChannel);
-            try
+            var tracked = _context.ChangeTracker.Entries<SchoolChannel>()
+                .FirstOrDefault(e => e.Entity.SchoolChannelID == schoolChannel.SchoolChannelID);
+
+            if (tracked != null)
             {
-                await _context.SaveChangesAsync();
+                tracked.State = EntityState.Detached;
             }
-            catch (DbUpdateConcurrencyException)
+
+            if (schoolChannel.Account != null)
             {
-                throw;
+                var trackedAccount = _context.ChangeTracker.Entries<Account>()
+                    .FirstOrDefault(e => e.Entity.AccountID == schoolChannel.Account.AccountID);
+                if (trackedAccount != null)
+                {
+                    trackedAccount.State = EntityState.Detached;
+                }
             }
+
+            _context.SchoolChannels.Attach(schoolChannel);
+            _context.Entry(schoolChannel).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteByNameAsync(string name)

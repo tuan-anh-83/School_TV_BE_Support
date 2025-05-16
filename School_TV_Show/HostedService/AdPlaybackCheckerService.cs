@@ -51,24 +51,18 @@ namespace School_TV_Show.HostedService
                 {
                     if (ad.AdSchedule != null && ad.Schedule?.ProgramID != null)
                     {
-                        // 2. Lấy danh sách followers của chương trình
-                        var followers = await programFollowRepo.GetByProgramIdAsync(ad.Schedule.ProgramID);
-
-                        foreach (var follower in followers)
-                        {
-                            // 3. Gửi quảng cáo cho từng follower (theo account ID group)
-                            await _hubContext.Clients.Group(follower.AccountID.ToString())
-                                .SendAsync("Ad", new
-                                {
-                                    adScheduleId = ad.AdScheduleID,
-                                    adLiveStreamId = ad.AdLiveStreamID,
-                                    videoUrl = ad.AdSchedule?.VideoUrl,
-                                    startTime = ad.PlayAt,
-                                    endTime = ad.AdSchedule != null ? ad.PlayAt.AddSeconds(ad.AdSchedule.DurationSeconds) : ad.PlayAt.AddSeconds(10),
-                                    title = ad.AdSchedule?.Title,
-                                    ownerId = ad.AdSchedule?.AccountID
-                                });
-                        }
+                        // 2. Gửi quảng cáo cho những ai đang trong buổi live theo schedule ID
+                        await _hubContext.Clients.Group(ad.ScheduleID.ToString())
+                            .SendAsync("Ad", new
+                            {
+                                adScheduleId = ad.AdScheduleID,
+                                adLiveStreamId = ad.AdLiveStreamID,
+                                videoUrl = ad.AdSchedule?.VideoUrl,
+                                startTime = ad.PlayAt,
+                                endTime = ad.AdSchedule != null ? ad.PlayAt.AddSeconds(ad.AdSchedule.DurationSeconds) : ad.PlayAt.AddSeconds(10),
+                                title = ad.AdSchedule?.Title,
+                                ownerId = ad.AdSchedule?.AccountID
+                            });
                     }
 
                     _logger.LogInformation($"✅ Gửi quảng cáo ID {ad.AdLiveStreamID} thành công.");
@@ -92,7 +86,7 @@ namespace School_TV_Show.HostedService
 
                 if (expiredAds.Any())
                 {
-                    foreach(var expiredAd in expiredAds)
+                    foreach (var expiredAd in expiredAds)
                     {
                         await adLiveStreamRepo.UpdateStatusAlternative(expiredAd.AdLiveStreamID);
                         _logger.LogInformation($"⏹ Đã vô hiệu hóa quảng cáo #{expiredAd.AdLiveStreamID}");

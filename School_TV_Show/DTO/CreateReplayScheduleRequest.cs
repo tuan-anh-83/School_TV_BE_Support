@@ -12,5 +12,8 @@ namespace School_TV_Show.DTO
 
         [Required]
         public DateTime EndTime { get; set; }
+
+        [Required]
+        public IFormFile ThumbnailFile { get; set; }
     }
 }

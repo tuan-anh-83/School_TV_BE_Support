@@ -52,6 +52,7 @@ namespace BLL.Services.LiveStream.Implements
 
                 using var scope = _scopeFactory.CreateScope();
                 var repository = scope.ServiceProvider.GetRequiredService<ILiveStreamRepo>();
+                var scheduleRepo = scope.ServiceProvider.GetRequiredService<IScheduleRepo>();
                 var streamService = scope.ServiceProvider.GetRequiredService<ILiveStreamService>();
                 var adService = scope.ServiceProvider.GetRequiredService<IAdScheduleService>();
                 var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
@@ -62,16 +63,14 @@ namespace BLL.Services.LiveStream.Implements
                 {
                     var pending = await repository.GetPendingSchedulesAsync(localNow.AddMinutes(5));
                     _logger.LogInformation("Pending schedules to prepare: {Count}", pending.Count);
-                    bool hasReadySchedules = false;
 
                     foreach (var s in pending)
                     {
                         if (s.StartTime > localNow)
                         {
                             s.Status = "Ready";
-                            repository.UpdateSchedule(s);
-                            _logger.LogInformation("Schedule {ScheduleID} marked as READY.", s.ScheduleID);
-                            hasReadySchedules = true;
+                            await scheduleRepo.UpdateScheduleAsync(s);
+                            _logger.LogInformation("✅ Saved READY schedules to database.");
                         }
                         else
                         {
@@ -127,12 +126,6 @@ namespace BLL.Services.LiveStream.Implements
                         {
                             _logger.LogError(ex, "Error sending notification to followers for ScheduleID {ScheduleID}", s.ScheduleID);
                         }
-                    }
-
-                    if (hasReadySchedules)
-                    {
-                        await repository.SaveChangesAsync(); // ✅ Chỉ gọi khi thực sự có thay đổi
-                        _logger.LogInformation("✅ Saved READY schedules to database.");
                     }
 
                     var toStart = await repository.GetReadySchedulesAsync(localNow.AddMinutes(5));
@@ -228,6 +221,8 @@ namespace BLL.Services.LiveStream.Implements
                                 schedule.Status = schedule.Status != "LateStart" ? "Ready" : "LateStart";
                                 schedule.LiveStreamStarted = false;
 
+                                await scheduleRepo.UpdateScheduleAsync(schedule);
+
                                 var streamerEmail = program.SchoolChannel?.Email;
                                 if (!string.IsNullOrEmpty(streamerEmail))
                                 {
@@ -254,8 +249,6 @@ namespace BLL.Services.LiveStream.Implements
                             }
                         }
                     }
-
-                    await repository.SaveChangesAsync();
 
                     var liveSchedules = await repository.GetLiveSchedulesAsync();
                     foreach (var schedule in liveSchedules)

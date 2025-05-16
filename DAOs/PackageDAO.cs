@@ -35,19 +35,18 @@ namespace DAOs
         public async Task<List<Package>> GetAllPackagesAsync()
         {
             return await _context.Packages.AsNoTracking()
-                .Where(p => p.Status == "Active")
                 .ToListAsync();
         }
 
         public async Task<List<Package>> GetAllActivePackagesAsync()
         {
-            return await _context.Packages.ToListAsync();
+            return await _context.Packages.Where(p => p.Status == "Active").ToListAsync();
         }
 
         public async Task<Package?> GetPackageByIdAsync(int packageId)
         {
             return await _context.Packages.AsNoTracking()
-         .FirstOrDefaultAsync(p => p.PackageID == packageId && p.Status == "Active");
+         .FirstOrDefaultAsync(p => p.PackageID == packageId);
         }
         public async Task<List<Package>> SearchPackagesByNameAsync(string name)
         {

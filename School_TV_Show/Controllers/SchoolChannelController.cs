@@ -14,14 +14,21 @@ namespace School_TV_Show.Controllers
     {
         private readonly ISchoolChannelService _service;
         private readonly ILogger<SchoolChannelController> _logger;
+        private readonly ICloudflareUploadService _cloudflareUploadService;
         private readonly IAccountService _accountService;
         TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
-        public SchoolChannelController(ISchoolChannelService service, IAccountService accountService, ILogger<SchoolChannelController> logger)
+        public SchoolChannelController(
+            ISchoolChannelService service, 
+            IAccountService accountService, 
+            ILogger<SchoolChannelController> logger,
+            ICloudflareUploadService cloudflareUploadService
+        )
         {
             _service = service;
             _accountService = accountService;
             _logger = logger;
+            _cloudflareUploadService = cloudflareUploadService;
         }
 
 
@@ -86,10 +93,18 @@ namespace School_TV_Show.Controllers
             }
         }
 
+        [HttpPost("upload-image")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadImage([FromForm] IFormFile file)
+        {
+            var url = await _cloudflareUploadService.UploadImageAsync(file);
+            return Ok(new {url});
+        }
+
         // POST: api/schoolchannels
         [Authorize(Roles = "SchoolOwner")]
         [HttpPost]
-        public async Task<IActionResult> CreateSchoolChannel([FromBody] CreateSchoolChannelRequestDTO request)
+        public async Task<IActionResult> CreateSchoolChannel([FromForm] CreateSchoolChannelRequestDTO request)
         {
             if (!ModelState.IsValid)
             {
@@ -118,19 +133,28 @@ namespace School_TV_Show.Controllers
             {
                 return BadRequest("Each account can only create one school channel.");
             }
+
             var account = await _accountService.GetAccountByIdAsync(accountId.Value);
             if (account == null || string.IsNullOrWhiteSpace(account.Email))
                 return BadRequest("Unable to retrieve email from account.");
+
+            string? logoUrl = null;
+
+            if(request.LogoFile != null)
+            {
+                logoUrl = await _cloudflareUploadService.UploadImageAsync(request.LogoFile);
+            }
 
             var schoolChannel = new SchoolChannel
             {
                 Name = request.Name,
                 Description = request.Description,
-                Website = request.Website,
+                Website = request.Website ?? string.Empty,
                 Email = account.Email,
-                Address = request.Address,
+                Address = request.Address ?? string.Empty,
                 AccountID = accountId.Value,
                 Status = true,
+                LogoUrl = logoUrl,
                 CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
                 UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
@@ -150,7 +174,7 @@ namespace School_TV_Show.Controllers
         }
         [Authorize(Roles = "SchoolOwner")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSchoolChannel(int id, [FromBody] UpdateSchoolChannelRequestDTO request)
+        public async Task<IActionResult> UpdateSchoolChannel(int id, [FromForm] UpdateSchoolChannelRequestDTO request)
         {
             var (hasViolation, message) = ContentModerationHelper.ValidateAllStringProperties(request);
 
@@ -189,7 +213,14 @@ namespace School_TV_Show.Controllers
             if (!string.IsNullOrWhiteSpace(request.Website))
                 schoolChannel.Website = request.Website;
 
+            string? logoUrl = null;
+            if(request.LogoFile != null)
+            {
+                logoUrl = await _cloudflareUploadService.UploadImageAsync(request.LogoFile);
+            }
+
             schoolChannel.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+            schoolChannel.LogoUrl = logoUrl;
 
             try
             {
@@ -279,6 +310,7 @@ namespace School_TV_Show.Controllers
                 sc.Address,
                 sc.CreatedAt,
                 sc.UpdatedAt,
+                sc.LogoUrl,
                 Account = sc.Account != null ? new
                 {
                     sc.Account.AccountID,

@@ -107,6 +107,7 @@ namespace DAOs
             existingSchedule.LiveStreamStarted = schedule.LiveStreamStarted;
             existingSchedule.LiveStreamEnded = schedule.LiveStreamEnded;
             existingSchedule.VideoHistoryID = schedule.VideoHistoryID;
+            existingSchedule.Thumbnail = schedule.Thumbnail;
 
             _context.Schedules.Update(existingSchedule);
             return await _context.SaveChangesAsync() > 0;
@@ -163,7 +164,7 @@ namespace DAOs
         public async Task<IEnumerable<Schedule>> GetSuitableSchedulesAsync(DateTime now)
         {
             return await _context.Schedules.AsNoTracking()
-            .Where(s => ((s.Status == "Pending" || s.Status == "Ready") && s.StartTime > now) || s.Status == "Live")
+            .Where(s => ((s.Status == "Pending" || s.Status == "Ready") && s.StartTime > now) || s.Status == "Live" || s.Status == "LateStart")
                 .Include(s => s.Program)
                     .ThenInclude(p => p.SchoolChannel)
                 .Include(s => s.AdLiveStreams)

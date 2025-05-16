@@ -28,6 +28,7 @@ namespace School_TV_Show.Controllers
         private readonly ISchoolChannelFollowRepo _schoolChannelFollowRepository;
         private readonly INotificationService _notificationService;
         private readonly IPackageService _packageService;
+        private readonly ICloudflareUploadService _cloudflareUploadService;
         TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public ScheduleController(
@@ -39,6 +40,7 @@ namespace School_TV_Show.Controllers
             ISchoolChannelFollowRepo schoolChannelFollowRepository,
             INotificationService notificationService,
             IPackageService packageService,
+            ICloudflareUploadService cloudflareUploadService,
             IOptions<CloudflareSettings> cloudflareOptions)
         {
             _scheduleService = scheduleService;
@@ -49,11 +51,12 @@ namespace School_TV_Show.Controllers
             _schoolChannelFollowRepository = schoolChannelFollowRepository;
             _notificationService = notificationService;
             _packageService = packageService;
+            _cloudflareUploadService = cloudflareUploadService;
             _cloudflareSettings = cloudflareOptions.Value;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSchedule([FromBody] CreateScheduleRequest request)
+        public async Task<IActionResult> CreateSchedule([FromForm] CreateScheduleRequest request)
         {
             DateTime startDate = DateTime.ParseExact(request.StartTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
             DateTime endDate = DateTime.ParseExact(request.EndTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
@@ -77,13 +80,16 @@ namespace School_TV_Show.Controllers
             if (isOverlap)
                 return Conflict(new ApiResponse(false, "Schedule time overlaps with another program on the same school channel."));
 
+            string? thumbnail = await _cloudflareUploadService.UploadImageAsync(request.ThumbnailFile); 
+
             var schedule = new Schedule
             {
                 ProgramID = request.ProgramID,
                 StartTime = startDate,
                 EndTime = endDate,
                 IsReplay = request.IsReplay,
-                Status = "Pending"
+                Status = "Pending",
+                Thumbnail = thumbnail ?? string.Empty
             };
 
             var created = await _scheduleService.CreateScheduleAsync(schedule);
@@ -124,7 +130,7 @@ namespace School_TV_Show.Controllers
 
 
         [HttpPost("replay-from-video")]
-        public async Task<IActionResult> CreateReplayScheduleFromVideo([FromBody] CreateReplayScheduleRequest request)
+        public async Task<IActionResult> CreateReplayScheduleFromVideo([FromForm] CreateReplayScheduleRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input"));
@@ -133,6 +139,8 @@ namespace School_TV_Show.Controllers
             if (video == null || video.ProgramID == null)
                 return NotFound(new ApiResponse(false, "Video not found or missing ProgramID"));
 
+            string? thumbnail = await _cloudflareUploadService.UploadImageAsync(request.ThumbnailFile);
+
             var schedule = new Schedule
             {
                 ProgramID = video.ProgramID.Value,
@@ -140,7 +148,8 @@ namespace School_TV_Show.Controllers
                 EndTime = request.EndTime,
                 Status = "Ready",
                 IsReplay = true,
-                VideoHistoryID = video.VideoHistoryID
+                VideoHistoryID = video.VideoHistoryID,
+                Thumbnail = thumbnail ?? string.Empty
             };
 
             var created = await _scheduleService.CreateScheduleAsync(schedule);
@@ -161,7 +170,8 @@ namespace School_TV_Show.Controllers
                 program = video.Program?.ProgramName ?? "No program",
                 channel = video.Program?.SchoolChannel?.Name ?? "No channel",
                 startTime = created.StartTime,
-                endTime = created.EndTime
+                endTime = created.EndTime,
+                thumbnail = thumbnail ?? string.Empty
             }));
         }
 
@@ -176,6 +186,7 @@ namespace School_TV_Show.Controllers
                 EndTime = s.EndTime,
                 s.Status,
                 s.IsReplay,
+                s.Thumbnail,
                 Program = new
                 {
                     s.Program.ProgramID,
@@ -233,7 +244,8 @@ namespace School_TV_Show.Controllers
                 s.StartTime,
                 s.EndTime,
                 s.LiveStreamStarted,
-                s.LiveStreamEnded
+                s.LiveStreamEnded,
+                s.Thumbnail
             });
 
             return Ok(new ApiResponse(true, "Schedules for program", result));
@@ -250,7 +262,7 @@ namespace School_TV_Show.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSchedule(int id, [FromBody] UpdateScheduleRequest request)
+        public async Task<IActionResult> UpdateSchedule(int id, [FromForm] UpdateScheduleRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input"));
@@ -262,8 +274,11 @@ namespace School_TV_Show.Controllers
             if (!existingSchedule.Status.Equals("Pending", StringComparison.OrdinalIgnoreCase))
                 return BadRequest(new ApiResponse(false, "Only 'Pending' schedules can be updated"));
 
+            string? thumbnail = await _cloudflareUploadService.UploadImageAsync(request.ThumbnailFile);
+
             existingSchedule.StartTime = request.StartTime;
             existingSchedule.EndTime = request.EndTime;
+            existingSchedule.Thumbnail = thumbnail ?? string.Empty;
 
             var updated = await _scheduleService.UpdateScheduleAsync(existingSchedule);
             return updated
@@ -312,6 +327,7 @@ namespace School_TV_Show.Controllers
                     schedule.LiveStreamStarted,
                     schedule.LiveStreamEnded,
                     schedule.ProgramID,
+                    schedule.Thumbnail,
                     videoHistoryIdFromSchedule = schedule.VideoHistoryID,
                     videoHistoryId = videoInfo.VideoHistoryID,
                     iframeUrl = videoInfo.IframeUrl,
@@ -348,7 +364,8 @@ namespace School_TV_Show.Controllers
                 MP4Url = video.MP4Url,
                 Duration = video.Duration,
                 Description = video.Description,
-                VideoHistoryID = video.VideoHistoryID
+                VideoHistoryID = video.VideoHistoryID,
+                Thumbnail = schedule.Thumbnail
             };
         }
 
@@ -368,13 +385,15 @@ namespace School_TV_Show.Controllers
                         MP4Url = video.MP4Url,
                         Duration = video.Duration,
                         Description = video.Description,
-                        VideoHistoryID = video.VideoHistoryID
+                        VideoHistoryID = video.VideoHistoryID,
+                        Thumbnail = schedule.Thumbnail
                     };
                 }
             }
 
             return new VideoInfo
             {
+                Thumbnail = schedule.Thumbnail,
                 IframeUrl = !string.IsNullOrEmpty(schedule.Program?.CloudflareStreamId)
                     ? $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{schedule.Program.CloudflareStreamId}/iframe"
                     : null
@@ -401,6 +420,7 @@ namespace School_TV_Show.Controllers
                 s.Status,
                 s.IsReplay,
                 s.ProgramID,
+                s.Thumbnail,
                 Program = new
                 {
                     s.Program?.ProgramID,
