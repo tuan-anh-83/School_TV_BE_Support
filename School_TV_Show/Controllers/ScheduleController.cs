@@ -329,6 +329,7 @@ namespace School_TV_Show.Controllers
                     schedule.ProgramID,
                     schedule.Thumbnail,
                     videoHistoryIdFromSchedule = schedule.VideoHistoryID,
+                    videoHistoryPlaybackUrl = videoInfo.PlaybackUrl,
                     videoHistoryId = videoInfo.VideoHistoryID,
                     iframeUrl = videoInfo.IframeUrl,
                     duration = videoInfo.Duration,

@@ -116,13 +116,11 @@ namespace Services
                 var uploadResult = await response.Content.ReadAsStringAsync();
                 using var doc = JsonDocument.Parse(uploadResult);
                 var uid = doc.RootElement.GetProperty("result").GetProperty("uid").GetString();
-                var playbackUrl = $"https://videodelivery.net/{uid}/manifest/video.m3u8";
-                var mp4Url = $"https://videodelivery.net/{uid}/downloads/default.mp4";
 
                 videoHistory.CloudflareStreamId = uid;
-                videoHistory.URL = playbackUrl;
-                videoHistory.PlaybackUrl = playbackUrl;
-                videoHistory.MP4Url = mp4Url;
+                videoHistory.URL = $"rtmps://live.cloudflare.com:443/live";
+                videoHistory.PlaybackUrl = $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{uid}/iframe";
+                videoHistory.MP4Url = $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{uid}/downloads/default.mp4";
 
                 double? duration = null;
                 for (int i = 0; i < 5; i++)

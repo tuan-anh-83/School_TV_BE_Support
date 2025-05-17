@@ -41,7 +41,7 @@ namespace Services.Hubs
             }
         }
 
-        public async Task LeavenNotiGroup(string scheduleId)
+        public async Task LeaveNotiGroup(string scheduleId)
         {
             try
             {

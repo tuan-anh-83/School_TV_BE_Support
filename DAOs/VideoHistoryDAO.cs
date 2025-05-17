@@ -88,7 +88,12 @@ namespace DAOs
         public async Task<VideoHistory?> AddAndReturnVideoAsync(VideoHistory video)
         {
             await _context.VideoHistories.AddAsync(video);
-            if (await _context.SaveChangesAsync() > 0) return video;
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return await _context.VideoHistories
+                    .Include(v => v.Program)
+                    .FirstOrDefaultAsync(v => v.VideoHistoryID == video.VideoHistoryID);
+                }
             return null;
         }
 

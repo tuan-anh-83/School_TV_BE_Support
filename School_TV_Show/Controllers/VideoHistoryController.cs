@@ -8,6 +8,7 @@ using School_TV_Show.DTO;
 using School_TV_Show.Helpers;
 using Services;
 using Services.Hubs;
+using System.Globalization;
 
 namespace School_TV_Show.Controllers
 {
@@ -101,6 +102,8 @@ namespace School_TV_Show.Controllers
         [Authorize(Roles = "SchoolOwner")]
         public async Task<IActionResult> UploadVideoToCloudflare([FromForm] UploadVideoHistoryRequest request)
         {
+            DateTime streamAt = DateTime.ParseExact(request.StreamAt, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+
             if (request.VideoFile == null || request.VideoFile.Length == 0)
                 return BadRequest(new { message = "No video file provided." });
 
@@ -117,7 +120,7 @@ namespace School_TV_Show.Controllers
                 Type = request.Type,
                 Description = request.Description,
                 Status = true,
-                StreamAt = request.StreamAt,
+                StreamAt = streamAt,
                 CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
                 UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
@@ -166,6 +169,7 @@ namespace School_TV_Show.Controllers
                     EndTime = endTime,
                     IsReplay = true,
                     Status = "Pending",
+                    Thumbnail = string.IsNullOrEmpty(result.CloudflareStreamId) ? "https://www.keytechinc.com/wp-content/uploads/2022/01/video-thumbnail.jpg" : $"https://videodelivery.net/{result.CloudflareStreamId}/thumbnails/thumbnail.jpg",
                     VideoHistoryID = result.VideoHistoryID
                 };
 
