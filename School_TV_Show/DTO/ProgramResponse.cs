@@ -1,4 +1,6 @@
-﻿namespace School_TV_Show.DTO
+﻿using BOs.Models;
+
+namespace School_TV_Show.DTO
 {
     public class ProgramResponse
     {
@@ -13,5 +15,7 @@
         public SchoolChannelResponse? SchoolChannel { get; set; }
 
         public List<ScheduleResponse>? Schedules { get; set; }
+        public List<ProgramFollow>? Followers { get; set; }
+        public ScheduleResponse? CurrentSchedule { get; set; }
     }
 }

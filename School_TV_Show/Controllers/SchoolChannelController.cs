@@ -311,6 +311,7 @@ namespace School_TV_Show.Controllers
                 sc.CreatedAt,
                 sc.UpdatedAt,
                 sc.LogoUrl,
+                Followers = sc.Followers?.Count() ?? 0,
                 Account = sc.Account != null ? new
                 {
                     sc.Account.AccountID,

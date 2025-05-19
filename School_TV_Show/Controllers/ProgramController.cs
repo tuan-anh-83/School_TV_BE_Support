@@ -94,8 +94,20 @@ namespace School_TV_Show.Controllers
                     Status = s.Status,
                     LiveStreamStarted = s.LiveStreamStarted,
                     LiveStreamEnded = s.LiveStreamEnded,
-                    ProgramID = s.ProgramID
-                }).ToList()
+                    ProgramID = s.ProgramID,
+                    Thumbnail = s.Thumbnail
+                }).ToList(),
+                CurrentSchedule = p.Schedules?.Where(s => s.Status == "Pending" || s.Status == "LateStart" || s.Status == "Ready" || s.Status == "Live").Select(s => new ScheduleResponse
+                {
+                    ScheduleID = s.ScheduleID,
+                    StartTime = s.StartTime,
+                    EndTime = s.EndTime,
+                    Status = s.Status,
+                    LiveStreamStarted = s.LiveStreamStarted,
+                    LiveStreamEnded = s.LiveStreamEnded,
+                    ProgramID = s.ProgramID,
+                    Thumbnail = s.Thumbnail
+                }).FirstOrDefault()
             });
 
             return Ok(new ApiResponse(true, "All programs with schedule & channel", result));
@@ -201,6 +213,7 @@ namespace School_TV_Show.Controllers
                 CreatedAt = p.CreatedAt,
                 UpdatedAt = p.UpdatedAt,
                 SchoolChannelID = p.SchoolChannelID,
+                Followers = p.ProgramFollows.ToList(),
                 SchoolChannel = p.SchoolChannel == null ? null : new SchoolChannelResponse
                 {
                     SchoolChannelID = p.SchoolChannel.SchoolChannelID,
@@ -208,7 +221,8 @@ namespace School_TV_Show.Controllers
                     Description = p.SchoolChannel.Description,
                     Website = p.SchoolChannel.Website,
                     Email = p.SchoolChannel.Email,
-                    Address = p.SchoolChannel.Address
+                    Address = p.SchoolChannel.Address,
+                    LogoUrl = p.SchoolChannel.LogoUrl
                 },
                 Schedules = p.Schedules?.Select(s => new ScheduleResponse
                 {
@@ -218,8 +232,20 @@ namespace School_TV_Show.Controllers
                     Status = s.Status,
                     LiveStreamStarted = s.LiveStreamStarted,
                     LiveStreamEnded = s.LiveStreamEnded,
-                    ProgramID = s.ProgramID
-                }).ToList()
+                    ProgramID = s.ProgramID,
+                    Thumbnail = s.Thumbnail
+                }).ToList(),
+                CurrentSchedule = p.Schedules?.Where(s => s.Status == "Pending" || s.Status == "LateStart" || s.Status == "Ready" || s.Status == "Live").Select(s => new ScheduleResponse
+                {
+                    ScheduleID = s.ScheduleID,
+                    StartTime = s.StartTime,
+                    EndTime = s.EndTime,
+                    Status = s.Status,
+                    LiveStreamStarted = s.LiveStreamStarted,
+                    LiveStreamEnded = s.LiveStreamEnded,
+                    ProgramID = s.ProgramID,
+                    Thumbnail = s.Thumbnail
+                }).FirstOrDefault()
             };
 
             return Ok(new ApiResponse(true, "Program found", response));

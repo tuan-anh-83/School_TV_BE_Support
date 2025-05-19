@@ -60,10 +60,11 @@ namespace DAOs
         public async Task<IEnumerable<SchoolChannel>> SearchAsync(string? keyword, string? address, int? accountId)
         {
             var query = _context.SchoolChannels.AsNoTracking()
+                          .Include(sc => sc.Followers)
                           .Include(sc => sc.Account)
                             .ThenInclude(a => a.AccountPackages)
-                                .Where(sc => sc.Status == true)
-                                .AsQueryable();
+                          .Where(sc => sc.Status == true)
+                          .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(keyword))
             {
