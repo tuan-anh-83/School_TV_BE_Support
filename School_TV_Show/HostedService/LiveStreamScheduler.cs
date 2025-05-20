@@ -157,8 +157,8 @@ namespace BLL.Services.LiveStream.Implements
 
                                 _logger.LogInformation("Replay schedule {ScheduleID} marked as Ended.", schedule.ScheduleID);
 
-                                string playbackUrl = replayVideo?.PlaybackUrl;
-                                string iframeUrl = !string.IsNullOrEmpty(replayVideo?.CloudflareStreamId)
+                                string? playbackUrl = replayVideo?.PlaybackUrl;
+                                string? iframeUrl = !string.IsNullOrEmpty(replayVideo?.CloudflareStreamId)
                                     ? $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{replayVideo.CloudflareStreamId}/iframe"
                                     : null;
 

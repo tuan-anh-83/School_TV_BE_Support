@@ -78,6 +78,29 @@ namespace School_TV_Show.Controllers
             return Ok(new ApiResponse(true, "List of ad schedules", response));
         }
 
+        [Authorize(Roles = "Advertiser")]
+        [HttpGet("my")]
+        public async Task<IActionResult> GetAllForAdvertiser()
+        {
+            var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                return Unauthorized("Invalid account");
+
+            var ads = await _service.GetAllForAdvertiserAsync(accountId);
+
+            var response = ads.Select(ad => new AdScheduleResponseDTO
+            {
+                AdScheduleID = ad.AdScheduleID,
+                Title = ad.Title,
+                DurationSeconds = ad.DurationSeconds,
+                VideoUrl = ad.VideoUrl,
+                CreatedAt = ad.CreatedAt
+            });
+
+            return Ok(new ApiResponse(true, "List of ad schedules", response));
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -179,7 +202,7 @@ namespace School_TV_Show.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateAdScheduleRequestDTO request)
+        public async Task<IActionResult> Update(int id, [FromForm] UpdateAdScheduleRequestDTO request)
         {
             var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
@@ -191,7 +214,11 @@ namespace School_TV_Show.Controllers
 
             existing.Title = request.Title;
             existing.DurationSeconds = request.DurationSeconds;
-            existing.VideoUrl = request.VideoUrl;
+            
+            if(request.VideoUrl != null)
+            {
+
+            }
 
             var success = await _service.UpdateAdScheduleAsync(existing);
             if (!success)

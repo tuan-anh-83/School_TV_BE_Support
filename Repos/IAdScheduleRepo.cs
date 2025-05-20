@@ -10,6 +10,7 @@ namespace Repos
     public interface IAdScheduleRepo
     {
         Task<IEnumerable<AdSchedule>> GetAllAsync();
+        Task<IEnumerable<AdSchedule>> GetAllForAdvertiserAsync(int accountId);
         Task<AdSchedule?> GetByIdAsync(int id);
         Task AddAsync(AdSchedule adSchedule);
         void Update(AdSchedule adSchedule);

@@ -10,35 +10,31 @@ using System.Threading.Tasks;
 
 namespace Services.HostedServices
 {
-    public class ExpiredOrderCheckerService : IHostedService, IDisposable
+    public class ExpiredOrderCheckerService : BackgroundService
     {
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<ExpiredOrderCheckerService> _logger;
-        private Timer _timer;
 
-        public ExpiredOrderCheckerService(IServiceScopeFactory scopeFactory, ILogger<ExpiredOrderCheckerService> logger)
+        public ExpiredOrderCheckerService(
+            IServiceScopeFactory scopeFactory, 
+            ILogger<ExpiredOrderCheckerService> logger
+        )
         {
             _scopeFactory = scopeFactory;
             _logger = logger;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("⏳ Starting Expired Order Checker Service...");
-            _timer = new Timer(async _ => await MarkExpiredOrdersAsFailedAsync(), null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
-            return Task.CompletedTask;
-        }
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                using var scope = _scopeFactory.CreateScope();
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("⏹️ Stopping Expired Order Checker Service...");
-            _timer?.Change(Timeout.Infinite, 0);
-            return Task.CompletedTask;
-        }
+                await MarkExpiredOrdersAsFailedAsync();
 
-        public void Dispose()
-        {
-            _timer?.Dispose();
+                // Delay 10s để lặp lại
+                await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+            }
         }
 
         private async Task MarkExpiredOrdersAsFailedAsync()

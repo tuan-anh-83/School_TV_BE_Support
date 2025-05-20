@@ -54,5 +54,10 @@ namespace Services
             var allAds = await _repository.GetAllAsync();
             return allAds.OrderByDescending(a => a.CreatedAt).FirstOrDefault();
         }
+
+        public async Task<IEnumerable<AdSchedule>> GetAllForAdvertiserAsync(int accountId)
+        {
+            return await _repository.GetAllForAdvertiserAsync(accountId);
+        }
     }
 }

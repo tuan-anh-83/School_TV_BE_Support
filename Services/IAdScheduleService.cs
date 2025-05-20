@@ -10,6 +10,7 @@ namespace Services
     public interface IAdScheduleService
     {
         Task<IEnumerable<AdSchedule>> GetAllAdSchedulesAsync();
+        Task<IEnumerable<AdSchedule>> GetAllForAdvertiserAsync(int accountId);
         Task<AdSchedule?> GetAdScheduleByIdAsync(int id);
         Task<bool> CreateAdScheduleAsync(AdSchedule adSchedule);
         Task<bool> UpdateAdScheduleAsync(AdSchedule adSchedule);

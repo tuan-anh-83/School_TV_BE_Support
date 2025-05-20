@@ -100,6 +100,7 @@ namespace School_TV_Show.Controllers
 
         [HttpPost("UploadCloudflare")]
         [Authorize(Roles = "SchoolOwner")]
+        [RequestSizeLimit(1_000_000_000)]
         public async Task<IActionResult> UploadVideoToCloudflare([FromForm] UploadVideoHistoryRequest request)
         {
             DateTime streamAt = DateTime.ParseExact(request.StreamAt, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);

@@ -4,6 +4,6 @@
     {
         public string Title { get; set; }
         public int DurationSeconds { get; set; }
-        public string VideoUrl { get; set; }
+        public IFormFile? VideoUrl { get; set; }
     }
 }
