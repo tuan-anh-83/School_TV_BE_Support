@@ -219,5 +219,10 @@ namespace DAOs
 
             return video?.Program;
         }
+
+        public async Task<bool> CheckIsInSchedule(DateTime streamAt)
+        {
+            return await _context.Schedules.AsNoTracking().AnyAsync(s => streamAt >= s.StartTime && streamAt < s.EndTime);
+        }
     }
 }

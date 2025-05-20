@@ -10,6 +10,10 @@ namespace Repos
 {
     public class ScheduleRepo : IScheduleRepo
     {
+        public async Task<bool> CheckIsInSchedule(DateTime streamAt)
+        {
+            return await ScheduleDAO.Instance.CheckIsInSchedule(streamAt);
+        }
 
         public Task<Schedule> CreateScheduleAsync(Schedule schedule)
         {

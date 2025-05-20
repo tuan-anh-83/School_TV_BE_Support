@@ -137,5 +137,10 @@ namespace Services
         {
             return await _scheduleRepository.GetSuitableSchedulesAsync(now);
         }
+
+        public async Task<bool> CheckIsInSchedule(DateTime streamAt)
+        {
+            return await _scheduleRepository.CheckIsInSchedule(streamAt);
+        }
     }
 }

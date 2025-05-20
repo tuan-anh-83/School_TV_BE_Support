@@ -145,8 +145,8 @@ namespace School_TV_Show.Controllers
                 ProgramName = request.ProgramName,
                 Title = request.Title,
                 Status = "Active",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
                 SchoolChannelID = request.SchoolChannelID
             };
 

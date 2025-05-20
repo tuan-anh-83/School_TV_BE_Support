@@ -115,9 +115,29 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { message });
             }
 
+            if(await _scheduleService.CheckIsInSchedule(streamAt))
+            {
+                return BadRequest(new { message = "Đã có lịch phát trong thời gian này." });
+            }
+
+            var program = new BOs.Models.Program
+            {
+                SchoolChannelID = request.SchoolChannelId,
+                ProgramName = request.ProgramName,
+                Title = request.ProgramTitle,
+                Status = "Active",
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+            };
+
+            var programResult = await _programService.CreateProgramAsync(program);
+
+            if (programResult == null)
+                return StatusCode(500, new { message = "Failed to create program." });
+
             var videoHistory = new VideoHistory
             {
-                ProgramID = request.ProgramID,
+                ProgramID = request.ProgramID == null ? program.ProgramID : request.ProgramID,
                 Type = request.Type,
                 Description = request.Description,
                 Status = true,
@@ -131,7 +151,6 @@ namespace School_TV_Show.Controllers
             if (result == null)
                 return StatusCode(500, new { message = "Failed to upload video to Cloudflare." });
 
-            BOs.Models.Program program = result.Program;
             int schoolChannelId = program.SchoolChannelID;
 
             var programFollowers = await _programFollowRepository.GetFollowersByProgramIdAsync(program.ProgramID);
