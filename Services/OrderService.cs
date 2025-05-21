@@ -51,9 +51,9 @@ namespace Services
             return await _orderService.GetOrderStatisticsAsync(startDate, endDate, interval);
         }
 
-        public async Task<IEnumerable<Order>> GetPendingOrdersOlderThanAsync(TimeSpan timeSpan)
+        public async Task<IEnumerable<Order>> GetPendingOrdersOlderThanAsync(DateTime now)
         {
-            return await _orderService.GetPendingOrdersOlderThanAsync(timeSpan);
+            return await _orderService.GetPendingOrdersOlderThanAsync(now);
         }
 
         public async Task<Order> UpdateOrderAsync(Order order)

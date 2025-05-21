@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Repos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,17 +34,18 @@ namespace Services.HostedServices
                 await MarkExpiredOrdersAsFailedAsync();
 
                 // Delay 10s để lặp lại
-                await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }
 
         private async Task MarkExpiredOrdersAsFailedAsync()
         {
             using var scope = _scopeFactory.CreateScope();
-            var orderService = scope.ServiceProvider.GetRequiredService<IOrderService>();
+            var orderRepo = scope.ServiceProvider.GetRequiredService<IOrderRepo>();
+            var accountPackageRepo = scope.ServiceProvider.GetRequiredService<IAccountPackageRepo>();
             var httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
 
-            var expiredOrders = await orderService.GetPendingOrdersOlderThanAsync(TimeSpan.FromMinutes(5));
+            var expiredOrders = await orderRepo.GetPendingOrdersOlderThanAsync(TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddMinutes(2.5));
 
             foreach (var order in expiredOrders)
             {
@@ -75,6 +77,34 @@ namespace Services.HostedServices
                         {
                             _logger.LogInformation($"✅ Order {order.OrderID} was paid on PayOS. Marking as 'Completed'.");
                             order.Status = "Completed";
+                            if(order.OrderDetails.Count() > 0)
+                            {
+                                var orderDetail = order.OrderDetails.FirstOrDefault();
+                                var accountPackage = await accountPackageRepo.GetActiveAccountPackageAsync(order.AccountID);
+                                if (accountPackage != null)
+                                {
+                                    accountPackage.TotalMinutesAllowed += orderDetail?.Package.TimeDuration ?? 0;
+                                    accountPackage.RemainingMinutes += orderDetail?.Package.TimeDuration ?? 0;
+                                    accountPackage.ExpiredAt = accountPackage.ExpiredAt != null ?
+                                        accountPackage.ExpiredAt.Value.AddDays(orderDetail?.Package.Duration ?? 0) :
+                                        TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddDays(orderDetail?.Package?.Duration ?? 0);
+
+                                    await accountPackageRepo.UpdateAccountPackageAsync(accountPackage);
+                                }
+                                else if(orderDetail != null)
+                                {
+                                    await accountPackageRepo.CreateAccountPackageAsync(new BOs.Models.AccountPackage
+                                    {
+                                        AccountID = order.AccountID,
+                                        PackageID = orderDetail.Package.PackageID,
+                                        TotalMinutesAllowed = orderDetail.Package.TimeDuration,
+                                        MinutesUsed = 0,
+                                        RemainingMinutes = orderDetail.Package.TimeDuration,
+                                        StartDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
+                                        ExpiredAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddDays(orderDetail.Package.Duration)
+                                    });
+                                }
+                            }
                         }
                         else
                         {
@@ -83,7 +113,7 @@ namespace Services.HostedServices
                         }
                     }
 
-                    await orderService.UpdateOrderAsync(order);
+                    await orderRepo.UpdateOrderAsync(order);
                     _logger.LogWarning($"✅ Updated status for order: {order.OrderID}");
                 }
                 catch (Exception ex)

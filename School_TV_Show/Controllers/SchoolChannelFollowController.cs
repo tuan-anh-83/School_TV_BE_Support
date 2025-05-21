@@ -8,7 +8,7 @@ namespace School_TV_Show.Controllers
 {
     [Route("api/schoolchannelfollow")]
     [ApiController]
-    [Authorize(Roles = "User,SchoolOwner,Admin")]
+    [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
     public class SchoolChannelFollowController : ControllerBase
     {
         private readonly IFollowService _followService;

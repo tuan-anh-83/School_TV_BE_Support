@@ -54,7 +54,7 @@ namespace School_TV_Show.Controllers
         }
 
         // GET: api/schoolchannels/active
-        [Authorize(Roles = "User,SchoolOwner,Admin")]
+        [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveSchoolChannels()
         {

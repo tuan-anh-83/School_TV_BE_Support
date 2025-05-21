@@ -141,11 +141,12 @@ namespace DAOs
             return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
-        public async Task<IEnumerable<Order>> GetPendingOrdersOlderThanAsync(TimeSpan timeSpan)
+        public async Task<IEnumerable<Order>> GetPendingOrdersOlderThanAsync(DateTime now)
         {
-            var thresholdTime = DateTime.UtcNow - timeSpan;
             return await _context.Orders.AsNoTracking()
-                .Where(o => o.Status == "Pending" && o.CreatedAt <= thresholdTime)
+                .Where(o => o.Status == "Pending" && o.CreatedAt <= now)
+                .Include(od => od.OrderDetails)
+                .ThenInclude(od => od.Package)
                 .ToListAsync();
         }
     }
