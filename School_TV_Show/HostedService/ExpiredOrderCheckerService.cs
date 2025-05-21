@@ -45,72 +45,106 @@ namespace Services.HostedServices
             var accountPackageRepo = scope.ServiceProvider.GetRequiredService<IAccountPackageRepo>();
             var httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
 
-            var expiredOrders = await orderRepo.GetPendingOrdersOlderThanAsync(TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddMinutes(2.5));
+            var expiredOrders = await orderRepo.GetPendingOrdersOlderThanAsync(
+                TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddMinutes(2.5));
 
             foreach (var order in expiredOrders)
             {
                 try
                 {
-                    var httpClient = httpClientFactory.CreateClient();
+                    string[] clientIds = {
+                        "c8f279c5-3703-4413-b5b8-1f856e7066f5",
+                        "dfa1d0da-865f-445a-8717-e4c4f17a169d"
+                    };
 
-                    var request = new HttpRequestMessage(HttpMethod.Get, $"https://api-merchant.payos.vn/v2/payment-requests/{order.OrderCode}");
-                    request.Headers.Add("x-client-id", "c8f279c5-3703-4413-b5b8-1f856e7066f5");
-                    request.Headers.Add("x-api-key", "6b8a5e5e-8e32-4b0b-b9a5-a3075d7075f8");
+                    string[] apiKeys = {
+                        "6b8a5e5e-8e32-4b0b-b9a5-a3075d7075f8",
+                        "7d961009-05bd-4d3b-843d-1f0e81a625b0"
+                    };
 
-                    var response = await httpClient.SendAsync(request);
+                    string? status = null;
+                    bool success = false;
 
-                    if (!response.IsSuccessStatusCode)
+                    for (int i = 0; i < clientIds.Length; i++)
                     {
-                        _logger.LogError($"❌ Failed to fetch PayOS status for Order {order.OrderID}. HTTP {(int)response.StatusCode}");
+                        try
+                        {
+                            var httpClient = httpClientFactory.CreateClient();
+                            var request = new HttpRequestMessage(HttpMethod.Get, $"https://api-merchant.payos.vn/v2/payment-requests/{order.OrderCode}");
+                            request.Headers.Add("x-client-id", clientIds[i]);
+                            request.Headers.Add("x-api-key", apiKeys[i]);
+
+                            var response = await httpClient.SendAsync(request);
+
+                            if (!response.IsSuccessStatusCode)
+                            {
+                                _logger.LogWarning($"⚠️ Channel {i + 1} failed with status code {(int)response.StatusCode}");
+                                continue;
+                            }
+
+                            var json = await response.Content.ReadAsStringAsync();
+                            var result = JsonDocument.Parse(json);
+
+                            if (result.RootElement.TryGetProperty("data", out var dataProp) &&
+                                dataProp.TryGetProperty("status", out var statusProp))
+                            {
+                                status = statusProp.GetString();
+                                success = true;
+                                break;
+                            }
+
+                            _logger.LogWarning($"⚠️ Channel {i + 1} did not return 'data.status'");
+                        }
+                        catch (Exception exInner)
+                        {
+                            _logger.LogWarning(exInner, $"⚠️ Exception when calling PayOS channel {i + 1}");
+                        }
+                    }
+
+                    if (!success || string.IsNullOrEmpty(status))
+                    {
+                        _logger.LogWarning($"⚠️ Could not retrieve payment status for order {order.OrderID}. Marking as 'Failed'.");
                         order.Status = "Failed";
+                    }
+                    else if (status == "PAID")
+                    {
+                        _logger.LogInformation($"✅ Order {order.OrderID} was paid on PayOS. Marking as 'Completed'.");
+                        order.Status = "Completed";
+
+                        if (order.OrderDetails.Count() > 0)
+                        {
+                            var orderDetail = order.OrderDetails.FirstOrDefault();
+                            var accountPackage = await accountPackageRepo.GetActiveAccountPackageAsync(order.AccountID);
+
+                            if (accountPackage != null)
+                            {
+                                accountPackage.TotalMinutesAllowed += orderDetail?.Package.TimeDuration ?? 0;
+                                accountPackage.RemainingMinutes += orderDetail?.Package.TimeDuration ?? 0;
+                                accountPackage.ExpiredAt = accountPackage.ExpiredAt != null
+                                    ? accountPackage.ExpiredAt.Value.AddDays(orderDetail?.Package.Duration ?? 0)
+                                    : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddDays(orderDetail?.Package.Duration ?? 0);
+
+                                await accountPackageRepo.UpdateAccountPackageAsync(accountPackage);
+                            }
+                            else if (orderDetail != null)
+                            {
+                                await accountPackageRepo.CreateAccountPackageAsync(new BOs.Models.AccountPackage
+                                {
+                                    AccountID = order.AccountID,
+                                    PackageID = orderDetail.Package.PackageID,
+                                    TotalMinutesAllowed = orderDetail.Package.TimeDuration,
+                                    MinutesUsed = 0,
+                                    RemainingMinutes = orderDetail.Package.TimeDuration,
+                                    StartDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
+                                    ExpiredAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddDays(orderDetail.Package.Duration)
+                                });
+                            }
+                        }
                     }
                     else
                     {
-                        var json = await response.Content.ReadAsStringAsync();
-                        var result = JsonDocument.Parse(json);
-                        var status = result.RootElement
-                            .GetProperty("data")
-                            .GetProperty("status")
-                            .GetString();
-
-                        if (status == "PAID")
-                        {
-                            _logger.LogInformation($"✅ Order {order.OrderID} was paid on PayOS. Marking as 'Completed'.");
-                            order.Status = "Completed";
-                            if(order.OrderDetails.Count() > 0)
-                            {
-                                var orderDetail = order.OrderDetails.FirstOrDefault();
-                                var accountPackage = await accountPackageRepo.GetActiveAccountPackageAsync(order.AccountID);
-                                if (accountPackage != null)
-                                {
-                                    accountPackage.TotalMinutesAllowed += orderDetail?.Package.TimeDuration ?? 0;
-                                    accountPackage.RemainingMinutes += orderDetail?.Package.TimeDuration ?? 0;
-                                    accountPackage.ExpiredAt = accountPackage.ExpiredAt != null ?
-                                        accountPackage.ExpiredAt.Value.AddDays(orderDetail?.Package.Duration ?? 0) :
-                                        TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddDays(orderDetail?.Package?.Duration ?? 0);
-
-                                    await accountPackageRepo.UpdateAccountPackageAsync(accountPackage);
-                                }
-                                else if(orderDetail != null)
-                                {
-                                    await accountPackageRepo.CreateAccountPackageAsync(new BOs.Models.AccountPackage
-                                    {
-                                        AccountID = order.AccountID,
-                                        PackageID = orderDetail.Package.PackageID,
-                                        TotalMinutesAllowed = orderDetail.Package.TimeDuration,
-                                        MinutesUsed = 0,
-                                        RemainingMinutes = orderDetail.Package.TimeDuration,
-                                        StartDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
-                                        ExpiredAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddDays(orderDetail.Package.Duration)
-                                    });
-                                }
-                            }
-                        }
-                        else
-                        {
-                            _logger.LogWarning($"⚠️ Order {order.OrderID} was not paid (status: {status}). Marking as 'Failed'.");
-                            order.Status = "Failed";
-                        }
+                        _logger.LogWarning($"⚠️ Order {order.OrderID} was not paid (status: {status}). Marking as 'Failed'.");
+                        order.Status = "Failed";
                     }
 
                     await orderRepo.UpdateOrderAsync(order);
