@@ -41,12 +41,12 @@ namespace Services.HostedServices
         private async Task MarkExpiredOrdersAsFailedAsync()
         {
             using var scope = _scopeFactory.CreateScope();
+            DateTime now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
             var orderRepo = scope.ServiceProvider.GetRequiredService<IOrderRepo>();
             var accountPackageRepo = scope.ServiceProvider.GetRequiredService<IAccountPackageRepo>();
             var httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
 
-            var expiredOrders = await orderRepo.GetPendingOrdersOlderThanAsync(
-                TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddMinutes(2.5));
+            var expiredOrders = await orderRepo.GetPendingOrdersOlderThanAsync(now.AddMinutes(2.5));
 
             foreach (var order in expiredOrders)
             {
@@ -103,8 +103,15 @@ namespace Services.HostedServices
 
                     if (!success || string.IsNullOrEmpty(status))
                     {
-                        _logger.LogWarning($"⚠️ Could not retrieve payment status for order {order.OrderID}. Marking as 'Failed'.");
-                        order.Status = "Failed";
+                        if ((now - order.CreatedAt).TotalMinutes > 5)
+                        {
+                            _logger.LogWarning($"⚠️ Could not retrieve payment status for order {order.OrderID}. Marking as 'Failed'.");
+                            order.Status = "Failed";
+                        }
+                        else
+                        {
+                            _logger.LogInformation($"⏳ Order {order.OrderID} is too recent (less than 5 minutes), skipping failure marking.");
+                        }
                     }
                     else if (status == "PAID")
                     {
@@ -122,7 +129,7 @@ namespace Services.HostedServices
                                 accountPackage.RemainingMinutes += orderDetail?.Package.TimeDuration ?? 0;
                                 accountPackage.ExpiredAt = accountPackage.ExpiredAt != null
                                     ? accountPackage.ExpiredAt.Value.AddDays(orderDetail?.Package.Duration ?? 0)
-                                    : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddDays(orderDetail?.Package.Duration ?? 0);
+                                    : now.AddDays(orderDetail?.Package.Duration ?? 0);
 
                                 await accountPackageRepo.UpdateAccountPackageAsync(accountPackage);
                             }
@@ -135,16 +142,23 @@ namespace Services.HostedServices
                                     TotalMinutesAllowed = orderDetail.Package.TimeDuration,
                                     MinutesUsed = 0,
                                     RemainingMinutes = orderDetail.Package.TimeDuration,
-                                    StartDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
-                                    ExpiredAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddDays(orderDetail.Package.Duration)
+                                    StartDate = now,
+                                    ExpiredAt = now.AddDays(orderDetail.Package.Duration)
                                 });
                             }
                         }
                     }
                     else
                     {
-                        _logger.LogWarning($"⚠️ Order {order.OrderID} was not paid (status: {status}). Marking as 'Failed'.");
-                        order.Status = "Failed";
+                        if ((now - order.CreatedAt).TotalMinutes > 5)
+                        {
+                            _logger.LogWarning($"⚠️ Order {order.OrderID} was not paid (status: {status}). Marking as 'Failed'.");
+                            order.Status = "Failed";
+                        }
+                        else
+                        {
+                            _logger.LogInformation($"⏳ Order {order.OrderID} is too recent (less than 5 minutes), skipping failure marking.");
+                        }
                     }
 
                     await orderRepo.UpdateOrderAsync(order);

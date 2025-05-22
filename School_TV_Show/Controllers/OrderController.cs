@@ -56,7 +56,6 @@ namespace School_TV_Show.Controllers
                 }
 
                 var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                var usernameClaim = User.FindFirst(ClaimTypes.Name)?.Value;
                 if (!int.TryParse(accountIdClaim, out int accountId))
                 {
                     return Unauthorized("Invalid account information.");
@@ -96,7 +95,7 @@ namespace School_TV_Show.Controllers
 
                 long uniquePaymentId = createdOrder.OrderCode; // Use OrderCode
 
-                string description = $"{usernameClaim}-'{package.Name}'";
+                string description = $"-{package.Name}";
 
                 List<ItemData> items = new()
                 {
