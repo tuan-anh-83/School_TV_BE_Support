@@ -65,10 +65,23 @@ namespace DAOs
                 _context.Entry(tracked.Entity).State = EntityState.Detached;
             }
 
+            foreach (var detail in order.OrderDetails ?? Enumerable.Empty<OrderDetail>())
+            {
+                if (detail.Package != null)
+                {
+                    var trackedPackage = _context.ChangeTracker.Entries<Package>()
+                        .FirstOrDefault(e => e.Entity.PackageID == detail.Package.PackageID);
+
+                    if (trackedPackage != null)
+                        _context.Entry(trackedPackage.Entity).State = EntityState.Detached;
+                }
+            }
+
             _context.Orders.Update(order);
             await _context.SaveChangesAsync();
             return order;
         }
+
         public async Task<IEnumerable<Order>> GetOrdersByAccountIdAsync(int accountId)
         {
             return await _context.Orders.AsNoTracking()
