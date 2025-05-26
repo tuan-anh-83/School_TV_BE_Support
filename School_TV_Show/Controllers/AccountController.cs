@@ -754,6 +754,8 @@ namespace School_TV_Show.Controllers
             // Set the new password (will be hashed in DAO)
             account.Password = changePasswordRequest.NewPassword;
             account.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+            // Ensure Status remains unchanged
+            // account.Status is already loaded from database, so no need to change it
             
             bool updateResult = await _accountService.UpdateAccountAsync(account);
             if (!updateResult)

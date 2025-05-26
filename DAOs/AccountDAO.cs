@@ -118,21 +118,38 @@ namespace DAOs
             if (existingAccount == null || existingAccount.RoleID == 0)
                 return false;
 
+            bool hasChanges = false;
+
             // Update all relevant fields
-            if (!string.IsNullOrEmpty(account.Username))
+            if (!string.IsNullOrEmpty(account.Username) && !account.Username.Equals(existingAccount.Username))
+            {
                 existingAccount.Username = account.Username;
+                hasChanges = true;
+            }
             
-            if (!string.IsNullOrEmpty(account.Email))
+            if (!string.IsNullOrEmpty(account.Email) && !account.Email.Equals(existingAccount.Email))
+            {
                 existingAccount.Email = account.Email;
+                hasChanges = true;
+            }
                 
-            if (!string.IsNullOrEmpty(account.Fullname))
+            if (!string.IsNullOrEmpty(account.Fullname) && !account.Fullname.Equals(existingAccount.Fullname))
+            {
                 existingAccount.Fullname = account.Fullname;
+                hasChanges = true;
+            }
                 
-            if (account.Address != null)
+            if (account.Address != null && !account.Address.Equals(existingAccount.Address))
+            {
                 existingAccount.Address = account.Address;
+                hasChanges = true;
+            }
                 
-            if (!string.IsNullOrEmpty(account.PhoneNumber))
+            if (!string.IsNullOrEmpty(account.PhoneNumber) && !account.PhoneNumber.Equals(existingAccount.PhoneNumber))
+            {
                 existingAccount.PhoneNumber = account.PhoneNumber;
+                hasChanges = true;
+            }
 
             // Handle password update
             if (!string.IsNullOrEmpty(account.Password))
@@ -141,17 +158,36 @@ namespace DAOs
                 if (account.Password.StartsWith("$2a$") || account.Password.StartsWith("$2b$") || account.Password.StartsWith("$2x$") || account.Password.StartsWith("$2y$"))
                 {
                     // Password is already hashed, use as is
-                    existingAccount.Password = account.Password;
+                    if (!account.Password.Equals(existingAccount.Password))
+                    {
+                        existingAccount.Password = account.Password;
+                        hasChanges = true;
+                    }
                 }
                 else
                 {
                     // Password is plain text, hash it
-                    existingAccount.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
+                    var hashedPassword = BCrypt.Net.BCrypt.HashPassword(account.Password);
+                    if (!hashedPassword.Equals(existingAccount.Password))
+                    {
+                        existingAccount.Password = hashedPassword;
+                        hasChanges = true;
+                    }
                 }
             }
 
-            existingAccount.Status = account.Status;
-            existingAccount.UpdatedAt = account.UpdatedAt;
+            // Only update Status if it's explicitly provided and different
+            if (!string.IsNullOrEmpty(account.Status) && !account.Status.Equals(existingAccount.Status, StringComparison.OrdinalIgnoreCase))
+            {
+                existingAccount.Status = account.Status;
+                hasChanges = true;
+            }
+            
+            // Always update UpdatedAt when there are changes
+            if (hasChanges)
+            {
+                existingAccount.UpdatedAt = account.UpdatedAt;
+            }
 
             return await _context.SaveChangesAsync() > 0;
         }
