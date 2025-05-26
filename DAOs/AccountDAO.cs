@@ -118,17 +118,40 @@ namespace DAOs
             if (existingAccount == null || existingAccount.RoleID == 0)
                 return false;
 
-            // Cập nhật từng trường cần thiết
-            if (!string.IsNullOrEmpty(account.Password) && !account.Password.StartsWith("$2"))
+            // Update all relevant fields
+            if (!string.IsNullOrEmpty(account.Username))
+                existingAccount.Username = account.Username;
+            
+            if (!string.IsNullOrEmpty(account.Email))
+                existingAccount.Email = account.Email;
+                
+            if (!string.IsNullOrEmpty(account.Fullname))
+                existingAccount.Fullname = account.Fullname;
+                
+            if (account.Address != null)
+                existingAccount.Address = account.Address;
+                
+            if (!string.IsNullOrEmpty(account.PhoneNumber))
+                existingAccount.PhoneNumber = account.PhoneNumber;
+
+            // Handle password update
+            if (!string.IsNullOrEmpty(account.Password))
             {
-                existingAccount.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
+                // Check if password is already hashed (BCrypt format starts with $2a$, $2b$, $2x$, etc.)
+                if (account.Password.StartsWith("$2a$") || account.Password.StartsWith("$2b$") || account.Password.StartsWith("$2x$") || account.Password.StartsWith("$2y$"))
+                {
+                    // Password is already hashed, use as is
+                    existingAccount.Password = account.Password;
+                }
+                else
+                {
+                    // Password is plain text, hash it
+                    existingAccount.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
+                }
             }
 
             existingAccount.Status = account.Status;
             existingAccount.UpdatedAt = account.UpdatedAt;
-
-            // Thêm log debug nếu cần
-            // Console.WriteLine($"Cập nhật status từ {existingAccount.Status} → {account.Status}");
 
             return await _context.SaveChangesAsync() > 0;
         }
