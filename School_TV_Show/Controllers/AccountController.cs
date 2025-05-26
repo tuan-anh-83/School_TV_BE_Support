@@ -669,6 +669,14 @@ namespace School_TV_Show.Controllers
         [Authorize(Roles = "User,SchoolOwner,Admin,Advertiser")]
         public async Task<IActionResult> UpdateAccount([FromBody] PartialAccountUpdateRequest updateRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage)
+                                              .ToList();
+                return BadRequest(new { errors });
+            }
+
             var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
                 return Unauthorized("Invalid or missing token.");
@@ -691,13 +699,20 @@ namespace School_TV_Show.Controllers
             }
             if (!string.IsNullOrEmpty(updateRequest.Fullname))
                 account.Fullname = updateRequest.Fullname;
-            if (!string.IsNullOrEmpty(updateRequest.Address))
+            if (updateRequest.Address != null)
                 account.Address = updateRequest.Address;
             if (!string.IsNullOrEmpty(updateRequest.PhoneNumber))
                 account.PhoneNumber = updateRequest.PhoneNumber;
+            
+            // Update the UpdatedAt timestamp
+            account.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+            
             bool updateResult = await _accountService.UpdateAccountAsync(account);
             if (!updateResult)
+            {
+                _logger.LogError("Failed to update account for AccountID: {AccountId}", accountId);
                 return StatusCode(500, "A problem occurred while processing your request.");
+            }
             return Ok(new
             {
                 message = "Account updated successfully.",
@@ -735,10 +750,17 @@ namespace School_TV_Show.Controllers
                 return BadRequest("Current password is incorrect.");
             if (BCrypt.Net.BCrypt.Verify(changePasswordRequest.NewPassword, account.Password))
                 return BadRequest("New password cannot be the same as the current password.");
-            account.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordRequest.NewPassword);
+            
+            // Set the new password (will be hashed in DAO)
+            account.Password = changePasswordRequest.NewPassword;
+            account.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+            
             bool updateResult = await _accountService.UpdateAccountAsync(account);
             if (!updateResult)
+            {
+                _logger.LogError("Failed to change password for AccountID: {AccountId}", accountId);
                 return StatusCode(500, "A problem occurred while processing your request.");
+            }
             return Ok(new { message = "Password successfully changed." });
         }
 
@@ -781,7 +803,11 @@ namespace School_TV_Show.Controllers
             var tokenValid = await _accountService.VerifyPasswordResetTokenAsync(account.AccountID, request.Token);
             if (!tokenValid)
                 return BadRequest("Invalid or expired token.");
-            account.Password = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+            
+            // Set the new password (will be hashed in DAO)
+            account.Password = request.NewPassword;
+            account.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+            
             await _accountService.UpdateAccountAsync(account);
             await _accountService.InvalidatePasswordResetTokenAsync(account.AccountID, request.Token);
             return Ok(new { message = "Password reset successfully." });
