@@ -118,17 +118,76 @@ namespace DAOs
             if (existingAccount == null || existingAccount.RoleID == 0)
                 return false;
 
-            // Cập nhật từng trường cần thiết
-            if (!string.IsNullOrEmpty(account.Password) && !account.Password.StartsWith("$2"))
+            bool hasChanges = false;
+
+            // Update all relevant fields
+            if (!string.IsNullOrEmpty(account.Username) && !account.Username.Equals(existingAccount.Username))
             {
-                existingAccount.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
+                existingAccount.Username = account.Username;
+                hasChanges = true;
+            }
+            
+            if (!string.IsNullOrEmpty(account.Email) && !account.Email.Equals(existingAccount.Email))
+            {
+                existingAccount.Email = account.Email;
+                hasChanges = true;
+            }
+                
+            if (!string.IsNullOrEmpty(account.Fullname) && !account.Fullname.Equals(existingAccount.Fullname))
+            {
+                existingAccount.Fullname = account.Fullname;
+                hasChanges = true;
+            }
+                
+            if (account.Address != null && !account.Address.Equals(existingAccount.Address))
+            {
+                existingAccount.Address = account.Address;
+                hasChanges = true;
+            }
+                
+            if (!string.IsNullOrEmpty(account.PhoneNumber) && !account.PhoneNumber.Equals(existingAccount.PhoneNumber))
+            {
+                existingAccount.PhoneNumber = account.PhoneNumber;
+                hasChanges = true;
             }
 
-            existingAccount.Status = account.Status;
-            existingAccount.UpdatedAt = account.UpdatedAt;
+            // Handle password update
+            if (!string.IsNullOrEmpty(account.Password))
+            {
+                // Check if password is already hashed (BCrypt format starts with $2a$, $2b$, $2x$, etc.)
+                if (account.Password.StartsWith("$2a$") || account.Password.StartsWith("$2b$") || account.Password.StartsWith("$2x$") || account.Password.StartsWith("$2y$"))
+                {
+                    // Password is already hashed, use as is
+                    if (!account.Password.Equals(existingAccount.Password))
+                    {
+                        existingAccount.Password = account.Password;
+                        hasChanges = true;
+                    }
+                }
+                else
+                {
+                    // Password is plain text, hash it
+                    var hashedPassword = BCrypt.Net.BCrypt.HashPassword(account.Password);
+                    if (!hashedPassword.Equals(existingAccount.Password))
+                    {
+                        existingAccount.Password = hashedPassword;
+                        hasChanges = true;
+                    }
+                }
+            }
 
-            // Thêm log debug nếu cần
-            // Console.WriteLine($"Cập nhật status từ {existingAccount.Status} → {account.Status}");
+            // Only update Status if it's explicitly provided and different
+            if (!string.IsNullOrEmpty(account.Status) && !account.Status.Equals(existingAccount.Status, StringComparison.OrdinalIgnoreCase))
+            {
+                existingAccount.Status = account.Status;
+                hasChanges = true;
+            }
+            
+            // Always update UpdatedAt when there are changes
+            if (hasChanges)
+            {
+                existingAccount.UpdatedAt = account.UpdatedAt;
+            }
 
             return await _context.SaveChangesAsync() > 0;
         }
