@@ -8,5 +8,6 @@
         public string Content { get; set; } = string.Empty;
         public int? ProgramID { get; set; }
         public int? SchoolChannelID { get; set; }
+        public bool IsForSchoolChannel { get; set; }
     }
 }

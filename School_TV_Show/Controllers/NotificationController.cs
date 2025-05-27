@@ -57,6 +57,8 @@ namespace School_TV_Show.Controllers
         [HttpPost("broadcast")]
         public async Task<IActionResult> Broadcast([FromBody] BroadcastNotificationInput input)
         {
+            int accountId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
             if (input.AccountIds == null || !input.AccountIds.Any())
                 return BadRequest("Account list cannot be empty.");
 
@@ -64,7 +66,7 @@ namespace School_TV_Show.Controllers
 
             var notifications = input.AccountIds.Distinct().Select(id => new Notification
             {
-                AccountID = id,
+                AccountID = input.IsForSchoolChannel ? accountId : id,
                 Title = input.Title,
                 Message = input.Message,
                 Content = input.Content,
