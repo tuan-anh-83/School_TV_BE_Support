@@ -16,9 +16,9 @@ namespace School_TV_Show.DTO
 
         public string StreamAt { get; set; }
 
-        public string ProgramName { get; set; }
+        public string? ProgramName { get; set; }
 
-        public string ProgramTitle { get; set; }
+        public string? ProgramTitle { get; set; }
 
         public int SchoolChannelId { get; set; }
     }

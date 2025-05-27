@@ -115,29 +115,44 @@ namespace School_TV_Show.Controllers
                 return BadRequest(new { message });
             }
 
-            if(await _scheduleService.CheckIsInSchedule(streamAt))
+            if (await _scheduleService.CheckIsInSchedule(streamAt))
             {
                 return BadRequest(new { message = "Đã có lịch phát trong thời gian này." });
             }
 
-            var program = new BOs.Models.Program
+            BOs.Models.Program? programResult = new BOs.Models.Program();
+
+            if (request.ProgramName != null && request.ProgramTitle != null)
             {
-                SchoolChannelID = request.SchoolChannelId,
-                ProgramName = request.ProgramName,
-                Title = request.ProgramTitle,
-                Status = "Active",
-                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
-                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
-            };
+                var program = new BOs.Models.Program
+                {
+                    SchoolChannelID = request.SchoolChannelId,
+                    ProgramName = request.ProgramName,
+                    Title = request.ProgramTitle,
+                    Status = "Active",
+                    CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                    UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
+                };
 
-            var programResult = await _programService.CreateProgramAsync(program);
+                programResult = await _programService.CreateProgramAsync(program);
 
-            if (programResult == null)
-                return StatusCode(500, new { message = "Failed to create program." });
+                if (programResult == null)
+                    return StatusCode(500, new { message = "Failed to create program." });
+            }
+            else if (request.ProgramID != null)
+            {
+                programResult = await _programService.GetProgramByIdAsync((int)request.ProgramID);
+            }
+            else
+            {
+                return StatusCode(400, new { message = "Failed to fetch program." });
+            }
+
+            if(programResult == null) return StatusCode(400, new { message = "Failed to fetch program." });
 
             var videoHistory = new VideoHistory
             {
-                ProgramID = request.ProgramID == null ? program.ProgramID : request.ProgramID,
+                ProgramID = programResult.ProgramID,
                 Type = request.Type,
                 Description = request.Description,
                 Status = true,
@@ -151,9 +166,9 @@ namespace School_TV_Show.Controllers
             if (result == null)
                 return StatusCode(500, new { message = "Failed to upload video to Cloudflare." });
 
-            int schoolChannelId = program.SchoolChannelID;
+            int schoolChannelId = request.SchoolChannelId;
 
-            var programFollowers = await _programFollowRepository.GetFollowersByProgramIdAsync(program.ProgramID);
+            var programFollowers = await _programFollowRepository.GetFollowersByProgramIdAsync(programResult.ProgramID);
             var channelFollowers = await _schoolChannelFollowRepository.GetFollowersByChannelIdAsync(schoolChannelId);
 
             var allFollowerIds = programFollowers.Select(f => f.AccountID)
@@ -164,11 +179,11 @@ namespace School_TV_Show.Controllers
             {
                 var notification = new Notification
                 {
-                    ProgramID = program.ProgramID,
+                    ProgramID = request.ProgramID ?? programResult.ProgramID,
                     SchoolChannelID = schoolChannelId,
                     AccountID = accountId,
                     Title = "New Video Uploaded",
-                    Message = $"A new video has been uploaded to {program.ProgramName}.",
+                    Message = $"A new video has been uploaded to {programResult.ProgramName}.",
                     CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
                 };
 
@@ -184,7 +199,7 @@ namespace School_TV_Show.Controllers
 
                 var schedule = new Schedule
                 {
-                    ProgramID = program.ProgramID,
+                    ProgramID = programResult.ProgramID,
                     StartTime = result.StreamAt.Value,
                     EndTime = endTime,
                     IsReplay = true,
