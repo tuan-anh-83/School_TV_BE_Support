@@ -3,6 +3,7 @@ using BOs.Data;
 using BOs.Models;
 using DAOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -197,6 +198,16 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowCredentials();           // ✅ Cho phép credentials
     });
+});
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 1_000_000_000; // 1GB
+});
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 1_000_000_000;
 });
 
 
