@@ -27,7 +27,7 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: 
+        run: |
             dotnet publish ./School_TV_Show/School_TV_Show.csproj -c Release -o "${{env.DOTNET_ROOT}}/myapp"
             copy .\School_TV_Show\web.config "${{env.DOTNET_ROOT}}/myapp\web.config"
 
