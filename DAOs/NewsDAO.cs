@@ -176,7 +176,8 @@ namespace DAOs
             var query = _context.News
                .AsNoTracking().Include(n => n.NewsPictures)
                 .Include(n => n.SchoolChannel)
-                .Where(n => n.Status)
+                    .ThenInclude(sc => sc.Account)
+                .Where(n => n.Status && n.SchoolChannel != null && n.SchoolChannel.Account != null && !string.IsNullOrWhiteSpace(n.SchoolChannel.Account.Status) && n.SchoolChannel.Account.Status.Trim().ToLower() == "active")
                 .AsQueryable();
 
             if (accountId != null)

@@ -69,9 +69,11 @@ namespace DAOs
         {
             return await _context.Programs.AsNoTracking()
               .Include(p => p.SchoolChannel)
+                .ThenInclude(sc => sc.Account)
                 .Include(p => p.Schedules)
                 .Include(p => p.VideoHistories)
                 .Include(p => p.ProgramFollows)
+                .Where(p => p.SchoolChannel.Account.Status == "Active")
                 .ToListAsync();
         }
 

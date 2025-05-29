@@ -86,7 +86,7 @@ namespace Services
 
         public async Task<Dictionary<string, List<Schedule>>> GetSchedulesGroupedTimelineAsync()
         {
-            var all = await _scheduleRepository.GetAllSchedulesAsync();
+            var all = (await _scheduleRepository.GetAllSchedulesAsync()).ToList();
 
             return new Dictionary<string, List<Schedule>>
             {
