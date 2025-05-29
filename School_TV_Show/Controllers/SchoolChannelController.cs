@@ -84,6 +84,12 @@ namespace School_TV_Show.Controllers
                 if (schoolChannel == null)
                     return NotFound("School channel not found");
 
+                if (schoolChannel.Account == null || 
+                    !schoolChannel.Account.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
+                {
+                    return NotFound("School channel not found");
+                }
+
                 return Ok(FormatSchoolChannelResponse(schoolChannel));
             }
             catch (Exception ex)
