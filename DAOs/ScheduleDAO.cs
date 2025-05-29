@@ -224,5 +224,14 @@ namespace DAOs
         {
             return await _context.Schedules.AsNoTracking().AnyAsync(s => streamAt >= s.StartTime && streamAt < s.EndTime);
         }
+
+        public async Task<IEnumerable<Schedule>> GetSchedulesBySchoolIdAsync(int channelId)
+        {
+            return await _context.Schedules.AsNoTracking()
+                .Include(s => s.Program)
+                .Where(s => s.Program.SchoolChannelID == channelId)
+                .OrderByDescending(s => s.StartTime)
+                .ToListAsync();
+        }
     }
 }

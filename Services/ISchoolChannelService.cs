@@ -19,5 +19,6 @@ namespace Services
         Task<bool> SchoolChannelExistsAsync(int schoolChannelId);
         Task<IEnumerable<object>> GetAllChannelsAsync();
         Task<bool> DoesAccountHaveSchoolChannelAsync(int accountId);
+        Task<bool> IsOwner(int accountId, int schoolChannelId);
     }
 }

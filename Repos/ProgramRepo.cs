@@ -76,5 +76,10 @@ namespace Repos
         {
             return await ProgramDAO.Instance.UpdateProgramAsync(program);
         }
+
+        public async Task<bool> IsOwner(int accountId, int programId)
+        {
+            return await ProgramDAO.Instance.IsOwner(accountId, programId);
+        }
     }
 }

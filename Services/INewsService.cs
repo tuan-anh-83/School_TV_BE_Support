@@ -11,7 +11,7 @@ namespace Services
     public interface INewsService
     {
         Task<int> CreateNewsAsync(News news, List<IFormFile> imageFiles);
-        Task<int> UpdateNewsAsync(News news, List<IFormFile> imageFiles);
+        Task<int> UpdateNewsAsync(News news, List<IFormFile>? imageFiles, List<int>? existingImageIds);
         Task<List<News>> GetNewsByChannelAsync(int schoolChannelId);
         Task<bool> ValidateSchoolChannelOwnershipAsync(int schoolChannelId, int accountId);
         Task<News> GetNewsByIdAsync(int id);

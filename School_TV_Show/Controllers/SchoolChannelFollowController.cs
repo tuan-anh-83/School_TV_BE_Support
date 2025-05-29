@@ -72,6 +72,11 @@ namespace School_TV_Show.Controllers
                 return NotFound($"SchoolChannel with ID {schoolChannelId} does not exist.");
             }
 
+            if(await _schoolChannelService.IsOwner(accountId, schoolChannelId))
+            {
+                return BadRequest("You cannot follow yourself");
+            }
+
             await _followService.AddFollowAsync(new SchoolChannelFollow
             {
                 AccountID = accountId,
@@ -100,6 +105,11 @@ namespace School_TV_Show.Controllers
                 return NotFound($"SchoolChannel with ID {schoolChannelId} does not exist.");
             }
 
+            if (await _schoolChannelService.IsOwner(accountId, schoolChannelId))
+            {
+                return BadRequest("You cannot unfollow yourself");
+            }
+
             var follow = await _followService.GetFollowAsync(accountId, schoolChannelId);
             if (follow == null)
             {
@@ -121,7 +131,7 @@ namespace School_TV_Show.Controllers
         {
             var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (accountIdClaim == null)
-            {
+            { 
                 return Unauthorized("Invalid token. Account ID not found.");
             }
 
@@ -133,6 +143,11 @@ namespace School_TV_Show.Controllers
             if (!await _schoolChannelService.SchoolChannelExistsAsync(schoolChannelId))
             {
                 return NotFound($"SchoolChannel with ID {schoolChannelId} does not exist.");
+            }
+
+            if (await _schoolChannelService.IsOwner(accountId, schoolChannelId))
+            {
+                return BadRequest("You cannot refollow yourself");
             }
 
             var follow = await _followService.GetFollowAsync(accountId, schoolChannelId);

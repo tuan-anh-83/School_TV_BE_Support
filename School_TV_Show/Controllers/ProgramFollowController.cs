@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using BOs.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using School_TV_Show.DTO;
 using School_TV_Show.Helpers;
@@ -12,10 +13,12 @@ namespace School_TV_Show.Controllers
     public class ProgramFollowController : ControllerBase
     {
         private readonly IProgramFollowService _programFollowService;
+        private readonly IProgramService _programService;
 
-        public ProgramFollowController(IProgramFollowService programFollowService)
+        public ProgramFollowController(IProgramFollowService programFollowService, IProgramService programService)
         {
             _programFollowService = programFollowService;
+            _programService = programService;
         }
 
         [HttpGet]
@@ -40,6 +43,11 @@ namespace School_TV_Show.Controllers
         [HttpPost("follow")]
         public async Task<IActionResult> Follow([FromBody] CreateProgramFollowRequest request)
         {
+            if(await _programService.IsOwner(request.AccountID, request.ProgramID))
+            {
+                return BadRequest("You cannot follow yourself");
+            }
+
             var result = await _programFollowService.CreateOrRefollowAsync(request.AccountID, request.ProgramID);
             return Ok(result);
         }

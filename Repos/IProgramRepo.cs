@@ -22,5 +22,6 @@ namespace Repos
         Task<List<Program>> GetProgramsWithVideoHistoryAsync();
         Task<List<Program>> GetProgramsWithoutVideoHistoryAsync();
         Task<List<Program>> GetProgramsByChannelIdWithIncludesAsync(int channelId);
+        Task<bool> IsOwner(int accountId, int programId);
     }
 }

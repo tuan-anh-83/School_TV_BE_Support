@@ -17,5 +17,6 @@ namespace Repos
         Task UpdateAsync(SchoolChannel schoolChannel);
         Task<bool> DeleteByNameAsync(string name);
         Task<bool> DoesAccountHaveSchoolChannelAsync(int accountId);
+        Task<bool> IsOwner(int accountId, int schoolChannelId);
     }
 }

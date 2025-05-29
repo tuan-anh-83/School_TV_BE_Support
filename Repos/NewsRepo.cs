@@ -51,9 +51,9 @@ namespace Repos
             return await NewsDAO.Instance.GetNewsBySchoolChannelAsync(schoolChannelId, accountId, isFollowing);
         }
 
-        public async Task<int> UpdateNewsAsync(News news, List<NewsPicture> pictures)
+        public async Task<int> UpdateNewsAsync(News news, List<NewsPicture> pictures, List<int>? existingImageIds)
         {
-            return await NewsDAO.Instance.UpdateNewsAsync(news, pictures);
+            return await NewsDAO.Instance.UpdateNewsAsync(news, pictures, existingImageIds);
         }
 
         public async Task<bool> ValidateSchoolChannelOwnershipAsync(int schoolChannelId, int accountId)

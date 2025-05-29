@@ -206,10 +206,6 @@ namespace School_TV_Show.Controllers
                 }
 
                 var orders = await _orderService.GetOrdersByAccountIdAsync(accountId);
-                if (orders == null || !orders.Any())
-                {
-                    return NotFound(new { message = "No orders found for this account." });
-                }
 
                 return Ok(orders);
             }

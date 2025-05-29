@@ -80,7 +80,7 @@ namespace School_TV_Show.Controllers
 
 
 
-        [HttpPut("UpdateNews/{id}")]
+        [HttpPost("UpdateNews/{id}")]
         [Authorize(Roles = "SchoolOwner")]
         public async Task<IActionResult> UpdateNews(int id, [FromForm] UpdateNewsRequest request)
         {
@@ -134,7 +134,7 @@ namespace School_TV_Show.Controllers
                     CategoryNewsID = request.CategoryNewsID ?? existingNews.CategoryNewsID
                 };
 
-                int updatedNewsId = await _newsService.UpdateNewsAsync(updatedNews, request.ImageFiles);
+                int updatedNewsId = await _newsService.UpdateNewsAsync(updatedNews, request.ImageFiles, request.ExistingImageIDs);
 
                 if (updatedNewsId == 0)
                 {

@@ -21,5 +21,6 @@ namespace Services
         Task<IEnumerable<Program>> GetProgramsByChannelIdAsync(int channelId);
         Task<List<Program>> GetProgramsWithVideosAsync();
         Task<List<Program>> GetProgramsWithoutVideosAsync();
+        Task<bool> IsOwner(int accountId, int programId);
     }
 }

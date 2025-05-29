@@ -200,6 +200,24 @@ namespace School_TV_Show.Controllers
             }));
         }
 
+        [Authorize(Roles = "SchoolOwner")]
+        [HttpGet("by-channel/{id}")]
+        public async Task<IActionResult> GetSchedulesBySchoolId(int id)
+        {
+            var schedules = await _scheduleService.GetSchedulesBySchoolIdAsync(id);
+            return Ok(schedules.Select(s => new
+            {
+                s.ScheduleID,
+                StartTime = s.StartTime,
+                EndTime = s.EndTime,
+                s.Status,
+                s.IsReplay,
+                s.Thumbnail,
+                Title = s.Program.Title,
+                ProgramID = s.Program.ProgramID
+            }));
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpGet("suitable")]
         public async Task<IActionResult> GetSuitableSchedules()
@@ -264,6 +282,9 @@ namespace School_TV_Show.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSchedule(int id, [FromForm] UpdateScheduleRequest request)
         {
+            DateTime startDate = DateTime.ParseExact(request.StartTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            DateTime endDate = DateTime.ParseExact(request.EndTime, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse(false, "Invalid input"));
 
@@ -276,8 +297,8 @@ namespace School_TV_Show.Controllers
 
             string? thumbnail = await _cloudflareUploadService.UploadImageAsync(request.ThumbnailFile);
 
-            existingSchedule.StartTime = request.StartTime;
-            existingSchedule.EndTime = request.EndTime;
+            existingSchedule.StartTime = startDate;
+            existingSchedule.EndTime = endDate;
             existingSchedule.Thumbnail = thumbnail ?? string.Empty;
 
             var updated = await _scheduleService.UpdateScheduleAsync(existingSchedule);

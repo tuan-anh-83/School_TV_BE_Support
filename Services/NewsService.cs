@@ -37,7 +37,7 @@ namespace Services
             return await _newsRepo.CreateNewsAsync(news, pictures);
         }
 
-        public async Task<int> UpdateNewsAsync(News news, List<IFormFile> imageFiles)
+        public async Task<int> UpdateNewsAsync(News news, List<IFormFile>? imageFiles, List<int>? existingImageIds)
         {
             var pictures = new List<NewsPicture>();
 
@@ -56,7 +56,7 @@ namespace Services
                 }
             }
 
-            return await _newsRepo.UpdateNewsAsync(news, pictures);
+            return await _newsRepo.UpdateNewsAsync(news, pictures, existingImageIds);
         }
 
         public async Task<List<News>> GetNewsByChannelAsync(int schoolChannelId)

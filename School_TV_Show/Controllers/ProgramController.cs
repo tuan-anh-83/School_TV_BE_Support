@@ -174,7 +174,7 @@ namespace School_TV_Show.Controllers
 
             program.ProgramName = request.ProgramName;
             program.Title = request.Title;
-            program.UpdatedAt = DateTime.UtcNow;
+            program.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
 
             var success = await _programService.UpdateProgramAsync(program);
             if (!success)

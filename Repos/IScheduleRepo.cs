@@ -27,7 +27,7 @@ namespace Repos
         Task<Schedule?> GetActiveScheduleByProgramIdAsync(int programId);
         Task<bool> IsScheduleOverlappingAsync(int schoolChannelId, DateTime startTime, DateTime endTime);
         Task<bool> CheckIsInSchedule(DateTime streamAt);
-
+        Task<IEnumerable<Schedule>> GetSchedulesBySchoolIdAsync(int channelId);
 
     }
 }

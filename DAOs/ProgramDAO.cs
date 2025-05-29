@@ -124,7 +124,7 @@ namespace DAOs
             if (program == null || program.ProgramID <= 0)
                 throw new ArgumentException("Invalid Program data.");
 
-            var existingProgram = await _context.Programs.AsNoTracking()
+            var existingProgram = await _context.Programs
                                     .Include(p => p.Schedules)
                                         .FirstOrDefaultAsync(p => p.ProgramID == program.ProgramID);
             if (existingProgram == null)
@@ -152,7 +152,7 @@ namespace DAOs
             if (programId <= 0)
                 throw new ArgumentException("Program ID must be greater than zero.");
 
-            var program = await _context.Programs.AsNoTracking()
+            var program = await _context.Programs
                              .Include(p => p.Schedules)
                               .FirstOrDefaultAsync(p => p.ProgramID == programId);
             if (program == null)
@@ -196,5 +196,12 @@ namespace DAOs
                 .CountAsync();
         }
 
+        public async Task<bool> IsOwner(int accountId, int programId)
+        {
+            return await _context
+                .Programs
+                .Include(p => p.SchoolChannel)
+                .AnyAsync(p => p.SchoolChannel != null && p.SchoolChannel.AccountID == accountId && p.ProgramID == programId);
+        }
     }
 }

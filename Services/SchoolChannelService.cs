@@ -67,5 +67,9 @@ namespace Services
             return await _repository.DoesAccountHaveSchoolChannelAsync(accountId);
         }
 
+        public async Task<bool> IsOwner(int accountId, int schoolChannelId)
+        {
+            return await _repository.IsOwner(accountId, schoolChannelId);
+        }
     }
 }

@@ -134,5 +134,9 @@ namespace DAOs
             return await _context.SchoolChannels.AnyAsync(sc => sc.AccountID == accountId);
         }
 
+        public async Task<bool> IsOwner(int accountId, int schoolChannelId)
+        {
+            return await _context.SchoolChannels.AnyAsync(sc => sc.AccountID == accountId && sc.SchoolChannelID == schoolChannelId);
+        }
     }
 }

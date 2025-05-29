@@ -61,7 +61,7 @@ namespace DAOs
         }
 
 
-        public async Task<int> UpdateNewsAsync(News news, List<NewsPicture> pictures)
+        public async Task<int> UpdateNewsAsync(News news, List<NewsPicture> pictures, List<int>? existingImageIds)
         {
             var strategy = _context.Database.CreateExecutionStrategy();
             return await strategy.ExecuteAsync(async () =>
@@ -84,9 +84,17 @@ namespace DAOs
                     existingNews.Status = news.Status;
                     existingNews.CategoryNewsID = news.CategoryNewsID;
 
+                    if (existingImageIds != null && existingImageIds.Any())
+                    {
+                        var imagesToDelete = existingNews.NewsPictures
+                            .Where(np => !existingImageIds.Contains(np.PictureID))
+                            .ToList();
+
+                        _context.NewsPictures.RemoveRange(imagesToDelete);
+                    }
+
                     if (pictures != null && pictures.Count > 0)
                     {
-                        _context.NewsPictures.RemoveRange(existingNews.NewsPictures);
                         foreach (var picture in pictures)
                         {
                             picture.NewsID = news.NewsID;

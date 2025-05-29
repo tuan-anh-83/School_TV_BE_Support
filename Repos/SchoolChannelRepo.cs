@@ -54,5 +54,10 @@ namespace Repos
         {
             await SchoolChannelDAO.Instance.UpdateAsync(schoolChannel);
         }
+
+        public async Task<bool> IsOwner(int accountId, int schoolChannelId)
+        {
+            return await SchoolChannelDAO.Instance.IsOwner(accountId, schoolChannelId);
+        }
     }
 }

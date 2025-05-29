@@ -66,6 +66,11 @@ namespace Services
             return await _scheduleRepository.GetAllSchedulesAsync();
         }
 
+        public async Task<IEnumerable<Schedule>> GetSchedulesBySchoolIdAsync(int channelId)
+        {
+            return await _scheduleRepository.GetSchedulesBySchoolIdAsync(channelId);
+        }
+
         public async Task<bool> UpdateScheduleAsync(Schedule schedule)
         {
             if (schedule.StartTime >= schedule.EndTime)

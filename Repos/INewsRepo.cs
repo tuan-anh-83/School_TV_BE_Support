@@ -10,7 +10,7 @@ namespace Repos
     public interface INewsRepo
     {
         Task<int> CreateNewsAsync(News news, List<NewsPicture> pictures);
-        Task<int> UpdateNewsAsync(News news, List<NewsPicture> pictures);
+        Task<int> UpdateNewsAsync(News news, List<NewsPicture> pictures, List<int>? existingImageIds);
         Task<bool> ValidateSchoolChannelOwnershipAsync(int schoolChannelId, int accountId);
         Task<List<News>> GetNewsByChannelIdAsync(int schoolChannelId);
         Task<News> GetNewsByIdAsync(int id);

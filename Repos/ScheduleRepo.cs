@@ -102,6 +102,9 @@ namespace Repos
             return ScheduleDAO.Instance.UpdateScheduleAsync(schedule);
         }
 
-
+        public async Task<IEnumerable<Schedule>> GetSchedulesBySchoolIdAsync(int channelId)
+        {
+            return await ScheduleDAO.Instance.GetSchedulesBySchoolIdAsync(channelId);
+        }
     }
 }

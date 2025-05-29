@@ -6,6 +6,7 @@
         public string Title { get; set; }
         public string Content { get; set; }
         public bool? FollowerMode { get; set; }
-        public List<IFormFile> ImageFiles { get; set; }
+        public List<IFormFile>? ImageFiles { get; set; }
+        public List<int>? ExistingImageIDs { get; set; }
     }
 }

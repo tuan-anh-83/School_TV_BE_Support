@@ -94,5 +94,10 @@ namespace Services
 
             return await _programRepository.CountProgramsByScheduleAsync(scheduleId);
         }
+
+        public async Task<bool> IsOwner(int accountId, int programId)
+        {
+            return await _programRepository.IsOwner(accountId, programId);
+        }
     }
 }
