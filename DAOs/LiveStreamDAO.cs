@@ -160,6 +160,8 @@ namespace DAOs
         {
             return await _context.VideoHistories
                 .AsNoTracking()
+                .Include(v => v.Program)
+                    .ThenInclude(p => p.SchoolChannel)
                 .Where(v => v.Status && v.Type == "Live")
                 .ToListAsync();
         }
