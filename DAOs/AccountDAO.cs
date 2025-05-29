@@ -70,11 +70,10 @@ namespace DAOs
 
         public async Task<bool> DeleteAccountAsync(int accountId)
         {
-            var account = await GetAccountByIdAsync(accountId);
+            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountID == accountId);
             if (account == null)
                 return false;
             account.Status = "InActive";
-            _context.Accounts.Update(account);
             return await _context.SaveChangesAsync() > 0;
         }
 

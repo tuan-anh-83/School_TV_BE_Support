@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using School_TV_Show.DTO;
 using School_TV_Show.Helpers;
 using Services;
 using Services.Email;
 using Services.Token;
+using Services.Hubs;
 using System.Security.Claims;
 
 namespace School_TV_Show.Controllers
@@ -29,7 +31,8 @@ namespace School_TV_Show.Controllers
         private readonly IPasswordHasher<Account> _passwordHasher;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AccountController> _logger;
-        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+        private readonly IHubContext<AccountStatusHub> _accountStatusHub;
+        private readonly TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public AccountController(
             IAccountService accountService,
@@ -38,7 +41,8 @@ namespace School_TV_Show.Controllers
             IAccountPackageService accountPackageService,
             IPasswordHasher<Account> passwordHasher,
             ILogger<AccountController> logger,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IHubContext<AccountStatusHub> accountStatusHub)
         {
             _accountService = accountService;
             _tokenService = tokenService;
@@ -47,6 +51,7 @@ namespace School_TV_Show.Controllers
             _passwordHasher = passwordHasher;
             _logger = logger;
             _configuration = configuration;
+            _accountStatusHub = accountStatusHub;
         }
 
         #region Registration Endpoints
@@ -856,6 +861,11 @@ namespace School_TV_Show.Controllers
             bool result = await _accountService.UpdateAccountStatusAsync(account, request.Status);
             if (!result)
                 return StatusCode(500, "Failed to update account status.");
+
+            // Send SignalR notification about status change
+            await _accountStatusHub.Clients.Group($"Account_{id}")
+                .SendAsync("AccountStatusChanged", new { accountId = id, newStatus = request.Status });
+
             return Ok(new { message = "Account status updated successfully." });
         }
 
@@ -906,7 +916,14 @@ namespace School_TV_Show.Controllers
         public async Task<IActionResult> DeleteAccount(int id)
         {
             bool result = await _accountService.DeleteAccountAsync(id);
-            return result ? Ok("Account deleted successfully.") : NotFound("Account not found.");
+            if (result)
+            {
+                // Send SignalR notification about account inactivation
+                await _accountStatusHub.Clients.Group($"Account_{id}")
+                    .SendAsync("AccountStatusChanged", new { accountId = id, newStatus = "InActive" });
+                return Ok("Account deleted successfully.");
+            }
+            return NotFound("Account not found.");
         }
 
         [Authorize(Roles = "Admin")]

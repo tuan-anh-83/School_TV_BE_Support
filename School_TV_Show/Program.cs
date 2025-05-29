@@ -263,6 +263,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapHub<LiveStreamHub>("/hubs/livestream");
 app.MapHub<NotificationHub>("/hubs/notification");
+app.MapHub<AccountStatusHub>("/hubs/accountStatus");
 app.MapControllers();
 app.MapGet("/", (ILogger<Program> logger) =>
 {
