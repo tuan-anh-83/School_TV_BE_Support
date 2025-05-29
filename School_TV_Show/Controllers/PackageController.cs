@@ -212,7 +212,7 @@ namespace School_TV_Show.Controllers
                 var result = await _packageService.GetCurrentPackageAndDurationByAccountIdAsync(accountId);
 
                 if (result == null || result.Value.Item1 == null)
-                    return NotFound("No active package found.");
+                    return NotFound("Chưa có gói đăng kí, vui lòng đăng kí gói để tạo quảng cáo.");
 
                 var (package, remainingDuration, expiredAt) = result.Value;
 
