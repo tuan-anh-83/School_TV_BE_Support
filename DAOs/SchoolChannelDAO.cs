@@ -44,7 +44,8 @@ namespace DAOs
             return await _context.SchoolChannels
                                  .AsNoTracking()
                                  .Include(s => s.News)
-                                 .Where(s => s.Status == true)
+                                 .Include(s => s.Account)
+                                 .Where(s => s.Status == true && s.Account != null && !string.IsNullOrWhiteSpace(s.Account.Status) && s.Account.Status.Trim().ToLower() == "active")
                                  .ToListAsync();
         }
 
