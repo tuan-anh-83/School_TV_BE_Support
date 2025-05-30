@@ -183,5 +183,10 @@ namespace Services
         {
             return await _videoRepo.GetWatchTimeComparisonPercentAsync(channelId, startDate, endDate);
         }
+
+        public async Task<List<VideoHistory>> GetAllVideosByChannelAsync(int channelId)
+        {
+            return await _videoRepo.GetAllVideosByChannelAsync(channelId);
+        }
     }
 }

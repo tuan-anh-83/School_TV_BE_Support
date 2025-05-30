@@ -230,5 +230,17 @@ namespace DAOs
             // Round to one decimal place
             return Math.Round(percentChange, 1);
         }
+
+        public async Task<List<VideoHistory>> GetAllVideosByChannelAsync(int channelId)
+        {
+            return await _context.VideoHistories.AsNoTracking()
+                .Include(v => v.Program)
+                .Include(v => v.VideoLikes)
+                .Include(v => v.Shares)
+                .Include(v => v.VideoViews)
+                .Include(v => v.Comments)
+                .Where(v => v.Program.SchoolChannelID == channelId)
+                .ToListAsync();
+        }
     }
 }

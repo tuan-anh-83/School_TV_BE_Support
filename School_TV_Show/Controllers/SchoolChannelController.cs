@@ -247,8 +247,6 @@ namespace School_TV_Show.Controllers
             try
             {
                 var schoolChannels = await _service.SearchAsync(keyword, address, accountId);
-                if (!schoolChannels.Any())
-                    return NotFound("No active school channels matched your search criteria.");
 
                 var response = schoolChannels.Select(sc => FormatSchoolChannelResponse(sc));
                 return Ok(response);

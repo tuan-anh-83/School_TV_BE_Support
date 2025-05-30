@@ -119,5 +119,10 @@ namespace Repos
         {
             return await VideoHistoryDAO.Instance.UpdateVideoAsync(videoHistory);
         }
+
+        public async Task<List<VideoHistory>> GetAllVideosByChannelAsync(int channelId)
+        {
+            return await VideoHistoryDAO.Instance.GetAllVideosByChannelAsync(channelId);
+        }
     }
 }

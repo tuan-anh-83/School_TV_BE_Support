@@ -9,6 +9,7 @@ using School_TV_Show.Helpers;
 using Services;
 using Services.Hubs;
 using System.Globalization;
+using System.Security.Claims;
 
 namespace School_TV_Show.Controllers
 {
@@ -25,6 +26,7 @@ namespace School_TV_Show.Controllers
         private readonly IFollowRepo _schoolChannelFollowRepository;
         private readonly IScheduleService _scheduleService;
         private readonly IProgramService _programService;
+        private readonly IPackageService _packageService;
         TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public VideoHistoryController(
@@ -36,7 +38,9 @@ namespace School_TV_Show.Controllers
             IProgramFollowRepo programFollowRepository,
             IFollowRepo schoolChannelFollowRepository,
             IScheduleService scheduleService,
-            IProgramService programService)
+            IProgramService programService,
+            IPackageService packageService
+        )
         {
             _videoService = videoService;
             _cloudflareSettings = cloudflareOptions.Value;
@@ -47,6 +51,7 @@ namespace School_TV_Show.Controllers
             _schoolChannelFollowRepository = schoolChannelFollowRepository;
             _scheduleService = scheduleService;
             _programService = programService;
+            _packageService = packageService;
         }
 
         [HttpGet("all")]
@@ -56,6 +61,34 @@ namespace School_TV_Show.Controllers
             var videos = await _videoService.GetAllVideosAsync();
             return Ok(videos);
         }
+
+        [HttpGet("by-channel/{id}")]
+        [Authorize(Roles = "SchoolOwner")]
+        public async Task<IActionResult> GetAllVideosByChannel(int id)
+        {
+            var videos = await _videoService.GetAllVideosByChannelAsync(id);
+
+            var result = videos.Select(v => new
+            {
+                v.VideoHistoryID,
+                v.Description,
+                v.Type,
+                v.URL,
+                v.PlaybackUrl,
+                v.MP4Url,
+                v.Duration,
+                v.CreatedAt,
+                v.Status,
+                v.Program,
+                LikeCount = v.VideoLikes.Count(),
+                CommentCount = v.Comments.Count(),
+                ShareCount = v.Shares.Count(),
+                ViewCount = v.VideoViews.Count()
+            });
+
+            return Ok(result);
+        }
+
         [HttpGet("program/{programId}/videos")]
         [Authorize(Roles = "SchoolOwner,Admin")]
         public async Task<IActionResult> GetVideosByProgramId(int programId)
@@ -104,6 +137,20 @@ namespace School_TV_Show.Controllers
         public async Task<IActionResult> UploadVideoToCloudflare([FromForm] UploadVideoHistoryRequest request)
         {
             DateTime streamAt = DateTime.ParseExact(request.StreamAt, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+
+            var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int id))
+                return Unauthorized("Invalid account");
+
+            var currentPackage = await _packageService.GetCurrentPackageAndDurationByAccountIdAsync(id);
+
+            if (currentPackage == null)
+                return NotFound(new { message = "No active package found." });
+
+            var (package, remainingDuration, expiredAt) = currentPackage.Value;
+
+            if (remainingDuration == null || remainingDuration <= 0 || expiredAt < TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone))
+                return BadRequest(new { message = "Your package was expired." });
 
             if (request.VideoFile == null || request.VideoFile.Length == 0)
                 return BadRequest(new { message = "No video file provided." });
@@ -243,7 +290,7 @@ namespace School_TV_Show.Controllers
 
             videoHistory.URL = request.URL;
             videoHistory.Type = request.Type;
-            videoHistory.Description = request.Description;
+            videoHistory.Description = request.Description ?? string.Empty;
             videoHistory.ProgramID = request.ProgramID;
             videoHistory.UpdatedAt = DateTime.UtcNow;
 

@@ -27,5 +27,6 @@ namespace Services
         Task<List<VideoHistory>> GetVideosByProgramIdAsync(int programId);
         Task<double> GetTotalWatchTimeByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
         Task<decimal> GetWatchTimeComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
+        Task<List<VideoHistory>> GetAllVideosByChannelAsync(int channelId);
     }
 }
