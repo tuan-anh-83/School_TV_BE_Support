@@ -32,6 +32,7 @@ namespace School_TV_Show.Controllers
         private readonly IConfiguration _configuration;
         private readonly ILogger<AccountController> _logger;
         private readonly IHubContext<AccountStatusHub> _accountStatusHub;
+        private readonly ILiveStreamService _liveStreamService;
         private readonly TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public AccountController(
@@ -42,7 +43,8 @@ namespace School_TV_Show.Controllers
             IPasswordHasher<Account> passwordHasher,
             ILogger<AccountController> logger,
             IConfiguration configuration,
-            IHubContext<AccountStatusHub> accountStatusHub)
+            IHubContext<AccountStatusHub> accountStatusHub,
+            ILiveStreamService liveStreamService)
         {
             _accountService = accountService;
             _tokenService = tokenService;
@@ -52,6 +54,7 @@ namespace School_TV_Show.Controllers
             _logger = logger;
             _configuration = configuration;
             _accountStatusHub = accountStatusHub;
+            _liveStreamService = liveStreamService;
         }
 
         #region Registration Endpoints
@@ -866,6 +869,19 @@ namespace School_TV_Show.Controllers
             await _accountStatusHub.Clients.Group($"Account_{id}")
                 .SendAsync("AccountStatusChanged", new { accountId = id, newStatus = request.Status });
 
+            // Nếu là SchoolOwner và bị ban (status khác Active), tắt tất cả live stream đang active
+            if (account.RoleID == 2 && !request.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
+            {
+                // Lấy tất cả live stream đang active của SchoolOwner
+                var activeStreams = (await _liveStreamService.GetActiveLiveStreamsAsync())
+                    .Where(v => v.Program != null && v.Program.SchoolChannel != null && v.Program.SchoolChannel.AccountID == id)
+                    .ToList();
+                foreach (var stream in activeStreams)
+                {
+                    await _liveStreamService.EndStreamAndReturnLinksAsync(stream);
+                }
+            }
+
             return Ok(new { message = "Account status updated successfully." });
         }
 
@@ -915,12 +931,25 @@ namespace School_TV_Show.Controllers
         [HttpDelete("admin/delete/{id}")]
         public async Task<IActionResult> DeleteAccount(int id)
         {
+            var account = await _accountService.GetAccountByIdAsync(id);
             bool result = await _accountService.DeleteAccountAsync(id);
             if (result)
             {
                 // Send SignalR notification about account inactivation
                 await _accountStatusHub.Clients.Group($"Account_{id}")
                     .SendAsync("AccountStatusChanged", new { accountId = id, newStatus = "InActive" });
+
+                // Nếu là SchoolOwner, tắt tất cả live stream đang active
+                if (account != null && account.RoleID == 2)
+                {
+                    var activeStreams = (await _liveStreamService.GetActiveLiveStreamsAsync())
+                        .Where(v => v.Program != null && v.Program.SchoolChannel != null && v.Program.SchoolChannel.AccountID == id)
+                        .ToList();
+                    foreach (var stream in activeStreams)
+                    {
+                        await _liveStreamService.EndStreamAndReturnLinksAsync(stream);
+                    }
+                }
                 return Ok("Account deleted successfully.");
             }
             return NotFound("Account not found.");

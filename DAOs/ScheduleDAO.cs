@@ -88,7 +88,9 @@ namespace DAOs
             return await _context.Schedules
               .Include(s => s.Program)
                 .ThenInclude(p => p.SchoolChannel)
-                .AsNoTracking()  // Thêm AsNoTracking() để tránh cache
+                    .ThenInclude(sc => sc.Account)
+                .AsNoTracking()
+                .Where(s => s.Program != null && s.Program.SchoolChannel != null && s.Program.SchoolChannel.Account != null && !string.IsNullOrWhiteSpace(s.Program.SchoolChannel.Account.Status) && s.Program.SchoolChannel.Account.Status.Trim().ToLower() == "active")
                 .ToListAsync();
         }
 

@@ -59,7 +59,9 @@ namespace DAOs
                 .Where(v => v.Status)
                 .Include(v => v.Program)
                     .ThenInclude(p => p.SchoolChannel)
+                        .ThenInclude(sc => sc.Account)
                 .AsNoTracking()
+                .Where(v => v.Program != null && v.Program.SchoolChannel != null && v.Program.SchoolChannel.Account != null && v.Program.SchoolChannel.Account.Status.Trim().ToLower() == "active")
                 .ToListAsync();
         }
 
