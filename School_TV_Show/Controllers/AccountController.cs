@@ -522,8 +522,14 @@ namespace School_TV_Show.Controllers
             }
 
             var account = await _accountService.Login(loginRequest.Email, loginRequest.Password);
-            if (account == null || !account.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
+            if (account == null)
                 return Unauthorized("Invalid login information or account is inactive.");
+            if (!account.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
+                return BadRequest(new
+                {
+                    message = "Tài khoản của bạn đã bị khóa, nếu bạn nghĩ đây là một sự hiểu lầm, hãy gửi yêu cầu mở khóa cho chúng tôi.",
+                    url = "mailto:admin@example.com?subject=Yêu cầu hỗ trợ mở tài khoản&body=Chào bạn,%0ATôi cần hỗ trợ về vấn đề mở tài khoản với lí do:"
+                });
             if (account.RoleID == 0)
                 return Unauthorized("Account is not permitted to login due to invalid role.");
             var token = _tokenService.GenerateToken(account);
@@ -711,10 +717,10 @@ namespace School_TV_Show.Controllers
                 account.Address = updateRequest.Address;
             if (!string.IsNullOrEmpty(updateRequest.PhoneNumber))
                 account.PhoneNumber = updateRequest.PhoneNumber;
-            
+
             // Update the UpdatedAt timestamp
             account.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
-            
+
             bool updateResult = await _accountService.UpdateAccountAsync(account);
             if (!updateResult)
             {
@@ -758,13 +764,13 @@ namespace School_TV_Show.Controllers
                 return BadRequest("Current password is incorrect.");
             if (BCrypt.Net.BCrypt.Verify(changePasswordRequest.NewPassword, account.Password))
                 return BadRequest("New password cannot be the same as the current password.");
-            
+
             // Set the new password (will be hashed in DAO)
             account.Password = changePasswordRequest.NewPassword;
             account.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
             // Ensure Status remains unchanged
             // account.Status is already loaded from database, so no need to change it
-            
+
             bool updateResult = await _accountService.UpdateAccountAsync(account);
             if (!updateResult)
             {
@@ -813,11 +819,11 @@ namespace School_TV_Show.Controllers
             var tokenValid = await _accountService.VerifyPasswordResetTokenAsync(account.AccountID, request.Token);
             if (!tokenValid)
                 return BadRequest("Invalid or expired token.");
-            
+
             // Set the new password (will be hashed in DAO)
             account.Password = request.NewPassword;
             account.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
-            
+
             await _accountService.UpdateAccountAsync(account);
             await _accountService.InvalidatePasswordResetTokenAsync(account.AccountID, request.Token);
             return Ok(new { message = "Password reset successfully." });
@@ -881,6 +887,8 @@ namespace School_TV_Show.Controllers
                     await _liveStreamService.EndStreamAndReturnLinksAsync(stream);
                 }
             }
+
+            await _emailService.SendStatusUserAsync(account.Email, request.Status);
 
             return Ok(new { message = "Account status updated successfully." });
         }
@@ -949,7 +957,10 @@ namespace School_TV_Show.Controllers
                     {
                         await _liveStreamService.EndStreamAndReturnLinksAsync(stream);
                     }
+
+                    await _emailService.SendStatusUserAsync(account.Email, "InActive");
                 }
+
                 return Ok("Account deleted successfully.");
             }
             return NotFound("Account not found.");

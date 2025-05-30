@@ -197,7 +197,7 @@ namespace DAOs
                                         .AsNoTracking()
                                         .Include(a => a.Role)
                                         .FirstOrDefaultAsync(a => a.Email == email && a.RoleID != 0);
-            if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password) || !account.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
+            if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password))
                 return null;
             return account;
         }
