@@ -1,0 +1,199 @@
+﻿[2025-05-30 09:36:43] [Information] Services.HostedServices.PendingAccountReminderService: PendingAccountReminderService started.
+[2025-05-30 09:36:44] [Information] Services.HostedServices.DurationTrackingService: DurationTrackingService started.
+[2025-05-30 09:36:44] [Information] School_TV_Show.HostedService.CloudflareStreamMonitor: 📡 CloudflareStreamMonitor started.
+[2025-05-30 09:36:44] [Error] School_TV_Show.HostedService.CloudflareStreamMonitor: 🔥 Error in CloudflareStreamMonitor loop.
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Repos.VideoHistoryRepo.GetActiveUnconfirmedStreamsAsync() in F:\Workspace\School_TV_BE\Repos\VideoHistoryRepo.cs:line 50
+   at School_TV_Show.HostedService.CloudflareStreamMonitor.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\CloudflareStreamMonitor.cs:line 56
+[2025-05-30 09:36:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: LiveStreamScheduler is starting.
+[2025-05-30 09:36:44] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/30/2025 09:36:44
+[2025-05-30 09:36:45] [Information] Services.HostedServices.PendingAccountReminderService: Reminder process completed. Total reminders sent: 0
+[2025-05-30 09:36:45] [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7085
+[2025-05-30 09:36:45] [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5226
+[2025-05-30 09:36:45] [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+[2025-05-30 09:36:45] [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+[2025-05-30 09:36:45] [Information] Microsoft.Hosting.Lifetime: Content root path: F:\Workspace\School_TV_BE\School_TV_Show
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 1 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 2 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 3 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 4 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 5 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 6 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 7 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 8 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 10 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 13 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 15 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 16 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 17 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 18 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 20 marked as inactive.
+[2025-05-30 09:36:45] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 21 marked as inactive.
+[2025-05-30 09:37:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/30/2025 09:37:15
+[2025-05-30 09:37:15] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 1 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 2 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 3 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 4 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 5 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 6 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 7 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 8 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 10 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 13 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 15 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 16 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 17 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 18 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 20 marked as inactive.
+[2025-05-30 09:37:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 21 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/30/2025 09:37:46
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 1 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 2 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 3 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 4 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 5 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 6 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 7 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 8 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 10 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 13 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 15 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 16 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 17 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 18 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 20 marked as inactive.
+[2025-05-30 09:37:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 21 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/30/2025 09:38:16
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 1 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 2 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 3 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 4 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 5 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 6 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 7 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 8 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 10 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 13 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 15 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 16 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 17 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 18 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 20 marked as inactive.
+[2025-05-30 09:38:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 21 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/30/2025 09:38:46
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 1 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 2 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 3 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 4 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 5 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 6 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 7 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 8 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 10 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 13 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 15 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 16 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 17 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 18 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 20 marked as inactive.
+[2025-05-30 09:38:46] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 21 marked as inactive.
+[2025-05-30 09:39:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/30/2025 09:39:16
+[2025-05-30 09:39:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-30 09:39:16] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 1 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 2 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 3 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 4 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 5 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 6 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 7 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 8 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 10 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 13 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 15 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 16 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 17 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 18 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 20 marked as inactive.
+[2025-05-30 09:39:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 21 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/30/2025 09:39:47
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 1 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 2 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 3 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 4 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 5 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 6 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 7 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 8 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 10 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 13 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 15 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 16 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 17 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 18 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 20 marked as inactive.
+[2025-05-30 09:39:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 21 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/30/2025 09:40:17
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 1 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 2 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 3 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 4 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 5 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 6 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 7 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 8 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 10 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 13 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 15 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 16 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 17 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 18 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 20 marked as inactive.
+[2025-05-30 09:40:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 21 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/30/2025 09:40:47
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Pending schedules to prepare: 0
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Schedules to start: 0
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 1 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 2 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 3 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 4 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 5 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 6 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 7 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 8 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 10 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 13 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 15 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 16 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 17 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 18 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 20 marked as inactive.
+[2025-05-30 09:40:47] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Expire] Uploaded video 21 marked as inactive.
+[2025-05-30 09:41:17] [Information] BLL.Services.LiveStream.Implements.LiveStreamScheduler: [Scheduler Tick] Vietnam time now: 05/30/2025 09:41:17
+[2025-05-30 09:41:17] [Error] BLL.Services.LiveStream.Implements.LiveStreamScheduler: Error during LiveStreamScheduler tick
+Exception: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at DAOs.LiveStreamDAO.GetPendingSchedulesAsync(DateTime time) in F:\Workspace\School_TV_BE\DAOs\LiveStreamDAO.cs:line 251
+   at Repos.LiveStreamRepo.GetPendingSchedulesAsync(DateTime time) in F:\Workspace\School_TV_BE\Repos\LiveStreamRepo.cs:line 95
+   at BLL.Services.LiveStream.Implements.LiveStreamScheduler.ExecuteAsync(CancellationToken stoppingToken) in F:\Workspace\School_TV_BE\School_TV_Show\HostedService\LiveStreamScheduler.cs:line 64
