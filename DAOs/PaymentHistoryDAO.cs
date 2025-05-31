@@ -67,8 +67,13 @@ namespace DAOs
         }
         public async Task<List<PaymentHistory>> GetAllPaymentHistoriesAsync()
         {
-            return await _context.PaymentHistories.AsNoTracking()
-            .OrderByDescending(ph => ph.Timestamp)
+            return await _context.PaymentHistories
+                .AsNoTracking()
+                .Include(ph => ph.Payment)
+                    .ThenInclude(p => p.Order)
+                        .ThenInclude(o => o.Account)
+                            .ThenInclude(a => a.Role)
+                .OrderByDescending(ph => ph.Timestamp)
                 .ToListAsync();
         }
 

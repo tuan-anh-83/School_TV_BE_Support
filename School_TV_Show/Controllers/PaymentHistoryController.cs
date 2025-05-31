@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using System.Security.Claims;
+using System.Linq;
 
 namespace School_TV_Show.Controllers
 {
@@ -21,7 +22,20 @@ namespace School_TV_Show.Controllers
         public async Task<IActionResult> GetAllPaymentHistoriesForAdmin()
         {
             var paymentHistories = await _paymentHistoryService.GetAllPaymentHistoriesAsync();
-            return Ok(paymentHistories);
+            var result = paymentHistories.Select(ph => new {
+                ph.PaymentHistoryID,
+                ph.PaymentID,
+                ph.Amount,
+                ph.Status,
+                ph.Timestamp,
+                User = ph.Payment?.Order?.Account == null ? null : new {
+                    ph.Payment.Order.Account.AccountID,
+                    ph.Payment.Order.Account.Username,
+                    ph.Payment.Order.Account.Fullname,
+                    RoleName = ph.Payment.Order.Account.Role?.RoleName
+                }
+            });
+            return Ok(result);
         }
 
         [HttpGet("school-owner")]
