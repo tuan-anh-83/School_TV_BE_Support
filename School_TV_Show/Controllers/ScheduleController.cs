@@ -355,7 +355,7 @@ namespace School_TV_Show.Controllers
                     iframeUrl = videoInfo.IframeUrl,
                     duration = videoInfo.Duration,
                     description = videoInfo.Description,
-                    mp4Url = videoInfo.MP4Url,
+                    mp4Url = ExtractM3u8UrlFromCloudflareMp4(videoInfo.MP4Url),
                     program = new
                     {
                         schedule.Program?.ProgramID,
@@ -367,6 +367,30 @@ namespace School_TV_Show.Controllers
             }
 
             return Ok(new ApiResponse(true, "Schedules for channel and date", result));
+        }
+
+        private string ExtractM3u8UrlFromCloudflareMp4(string? mp4Url)
+        {
+            if (string.IsNullOrWhiteSpace(mp4Url))
+                return "https://videodelivery.net/1e37a2af080347d2a9f272aadf0f28fa/manifest/video.m3u8";
+
+            try
+            {
+                var uri = new Uri(mp4Url);
+                var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+                var videoId = segments.FirstOrDefault(seg =>
+                    seg.Length == 32 && seg.All(c => Uri.IsHexDigit(c)));
+
+                if (string.IsNullOrEmpty(videoId))
+                    return "https://videodelivery.net/1e37a2af080347d2a9f272aadf0f28fa/manifest/video.m3u8";
+
+                return $"https://videodelivery.net/{videoId}/manifest/video.m3u8";
+            }
+            catch
+            {
+                return "https://videodelivery.net/1e37a2af080347d2a9f272aadf0f28fa/manifest/video.m3u8";
+            }
         }
 
         private async Task<VideoInfo> GetReplayVideoInfoAsync(Schedule schedule)
@@ -418,7 +442,8 @@ namespace School_TV_Show.Controllers
                 Thumbnail = schedule.Thumbnail,
                 IframeUrl = !string.IsNullOrEmpty(schedule.Program?.CloudflareStreamId)
                     ? $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{schedule.Program.CloudflareStreamId}/iframe"
-                    : null
+                    : null,
+                MP4Url = !string.IsNullOrEmpty(schedule.Program?.CloudflareStreamId) ? $"https://customer-nohgu8m8j4ms2pjk.cloudflarestream.com/{schedule.Program.CloudflareStreamId}/downloads/default.mp4" : null
             };
         }
 

@@ -1,16 +1,12 @@
 ﻿using BOs.Models;
-using Microsoft.Identity.Client;
-using Repos;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Text.Json;
-using Microsoft.Extensions.Options;
-using School_TV_Show.DTO;
 using Microsoft.AspNetCore.SignalR;
-using Services.Hubs;
+using Microsoft.Extensions.Options;
+using Repos;
+using School_TV_Show.DTO;
 using Services;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Text;
+using Services.Hubs;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace School_TV_Show.HostedService
 {
@@ -60,11 +56,11 @@ namespace School_TV_Show.HostedService
                         if (string.IsNullOrEmpty(video.CloudflareStreamId)) continue;
 
                         var httpClient = CreateCloudflareHttpClient(scope);
-                        var streamState = await GetStreamStateAsync(httpClient, video.CloudflareStreamId, stoppingToken);
+                        var (uid, streamState) = await GetStreamStateAsync(httpClient, video.CloudflareStreamId, stoppingToken);
 
                         if (streamState == "connected")
                         {
-                            await MarkVideoAsLiveAsync(video, scope, localNow);
+                            await MarkVideoAsLiveAsync(uid, video, scope, localNow);
                             await MarkScheduleAsLiveAsync(video, scope, localNow);
                             _logger.LogInformation("Stream is starting!");
                         }
@@ -78,7 +74,7 @@ namespace School_TV_Show.HostedService
                         if (string.IsNullOrEmpty(video.CloudflareStreamId)) continue;
 
                         var httpClient = CreateCloudflareHttpClient(scope);
-                        var streamState = await GetStreamStateAsync(httpClient, video.CloudflareStreamId, stoppingToken);
+                        var (uid, streamState) = await GetStreamStateAsync(httpClient, video.CloudflareStreamId, stoppingToken);
 
                         if (streamState == "connected")
                         {
@@ -111,17 +107,20 @@ namespace School_TV_Show.HostedService
             return client;
         }
 
-        private async Task<string?> GetStreamStateAsync(HttpClient client, string streamId, CancellationToken token)
+        private async Task<(string? Uid, string? State)> GetStreamStateAsync(HttpClient client, string streamId, CancellationToken token)
         {
             var url = $"https://api.cloudflare.com/client/v4/accounts/{_cloudflareSettings.AccountId}/stream/live_inputs/{streamId}";
             var response = await client.GetAsync(url, token);
-            if (!response.IsSuccessStatusCode) return null;
+            if (!response.IsSuccessStatusCode) return (null, null);
 
             var json = await response.Content.ReadAsStringAsync(token);
             var result = JsonSerializer.Deserialize<CloudflareLiveInputResponse>(json,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            return result?.Result?.Status?.Current?.State;
+            return (
+                result?.Result?.Uid,
+                result?.Result?.Status?.Current?.State
+            );
         }
 
         private async Task NotifyToFollower(VideoHistory video, IServiceScope scope, DateTime now)
@@ -157,12 +156,13 @@ namespace School_TV_Show.HostedService
             }
         }
 
-        private async Task MarkVideoAsLiveAsync(VideoHistory video, IServiceScope scope, DateTime now)
+        private async Task MarkVideoAsLiveAsync(string? uid, VideoHistory video, IServiceScope scope, DateTime now)
         {
             var videoRepo = scope.ServiceProvider.GetRequiredService<IVideoHistoryRepo>();
 
             video.Type = "Live";
             video.UpdatedAt = now;
+            video.MP4Url = $"https://customer-nohgu8m8j4ms2pjk.cloudflarestream.com/{uid}/downloads/default.mp4";
 
             await videoRepo.UpdateVideoAsync(video);
             _logger.LogInformation($"✅ Marked VideoID {video.VideoHistoryID} as Live");
@@ -287,7 +287,7 @@ namespace School_TV_Show.HostedService
             foreach (var schedule in lateSchedules)
             {
                 VideoHistory? video = null;
-                if(schedule.VideoHistoryID != null)
+                if (schedule.VideoHistoryID != null)
                 {
                     video = await videoHistoryRepo.GetVideoByIdAsync(schedule.VideoHistoryID.Value);
                 }
@@ -304,7 +304,7 @@ namespace School_TV_Show.HostedService
                 if (video != null && !string.IsNullOrEmpty(video.CloudflareStreamId))
                 {
                     video.Type = "Recorded";
-                    if(video.Duration == null) video.Duration = 0;
+                    if (video.Duration == null) video.Duration = 0;
                     await liveStreamRepo.UpdateVideoHistoryAsync(video);
                     _logger.LogInformation($"Updated past video history - ID: {video.VideoHistoryID}");
                 }
