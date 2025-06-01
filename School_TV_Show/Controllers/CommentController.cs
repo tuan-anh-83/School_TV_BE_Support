@@ -18,6 +18,7 @@ namespace School_TV_Show.Controllers
         private readonly ICommentService _commentService;
         private readonly IVideoHistoryService _videoHistoryService;
         private readonly IHubContext<LiveStreamHub> _hubContext;
+        TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
         private readonly ILogger<CommentController> _logger;
 
         public CommentController(
@@ -151,7 +152,7 @@ namespace School_TV_Show.Controllers
                 VideoHistoryID = request.VideoHistoryID,
                 AccountID = accountId,
                 Content = request.Content,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone),
                 Quantity = 1,
                 Status = "Active"
             };
