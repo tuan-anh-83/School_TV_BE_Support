@@ -29,7 +29,10 @@ namespace DAOs
 
         public async Task<List<Report>> GetAllReportAsync()
         {
-            return await _context.Reports.AsNoTracking().ToListAsync();
+            return await _context.Reports.AsNoTracking()
+                .Include(r => r.Account)
+                .Include(r => r.VideoHistory)
+                .ToListAsync();
         }
 
         public async Task<Report?> GetReportByIdAsync(int reportId)
