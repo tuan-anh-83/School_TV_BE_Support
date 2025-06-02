@@ -13,7 +13,7 @@ namespace BOs.Models
         public int VideoHistoryID { get; set; }
         public string Reason { get; set; }
         public DateTime CreatedAt { get; set; }
-        public Account Account { get; set; }
-        public VideoHistory VideoHistory { get; set; }
+        public Account? Account { get; set; }
+        public VideoHistory? VideoHistory { get; set; }
     }
 }

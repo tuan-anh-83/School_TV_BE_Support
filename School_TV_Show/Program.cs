@@ -124,6 +124,7 @@ builder.Services.AddScoped<IVideoLikeService, VideoLikeService>();
 builder.Services.AddScoped<IShareService, ShareService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddHttpClient<ILiveStreamService, LiveStreamService>();
 builder.Services.AddScoped<IFollowRepo, FollowRepo>();
 builder.Services.AddScoped<IPaymentHistoryService, PaymentHistoryService>();
@@ -148,7 +149,7 @@ builder.Services.AddScoped<IProgramFollowService, ProgramFollowService>();
 builder.Services.AddScoped<ICategoryNewsService, CategoryNewsService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<ISchoolChannelFollowRepo, SchoolChannelFollowRepo>();
-
+builder.Services.AddScoped<IReportRepo, ReportRepo>();
 
 builder.Services.AddHttpClient<ICloudflareUploadService, CloudflareUploadService>();
 

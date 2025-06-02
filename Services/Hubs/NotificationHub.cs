@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.Hubs
 {
@@ -16,6 +11,7 @@ namespace Services.Hubs
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, accountId);
             }
+
             await base.OnConnectedAsync();
         }
 
@@ -59,6 +55,40 @@ namespace Services.Hubs
             catch (Exception ex)
             {
                 Console.WriteLine($"[EXCEPTION] Error leaving group {scheduleId}: {ex.Message}");
+                throw; // re-throw to send error to client
+            }
+        }
+
+        public async Task JoinAdminGroup()
+        {
+            try
+            {
+                Console.WriteLine($"[JoinGroup] ConnectionId: {Context.ConnectionId}, admin");
+
+                await Groups.AddToGroupAsync(Context.ConnectionId, "admins");
+
+                Console.WriteLine($"[SUCCESS] Added to group admin, ConnectionId: {Context.ConnectionId}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[EXCEPTION] Error joining group admin: {ex.Message}");
+                throw; // re-throw to send error to client
+            }
+        }
+
+        public async Task LeaveAdminGroup()
+        {
+            try
+            {
+                Console.WriteLine($"[LeaveGroup] ConnectionId: {Context.ConnectionId}, admin");
+
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, "admins");
+
+                Console.WriteLine($"[SUCCESS] Removed from group admin, ConnectionId: {Context.ConnectionId}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[EXCEPTION] Error leaving group admin: {ex.Message}");
                 throw; // re-throw to send error to client
             }
         }
