@@ -5,6 +5,8 @@ using Repos;
 using School_TV_Show.DTO;
 using Services;
 using Services.Hubs;
+using System.IO;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -18,6 +20,7 @@ namespace School_TV_Show.HostedService
         private readonly CloudflareSettings _cloudflareSettings;
         private readonly IHubContext<LiveStreamHub> _hubContext;
         private readonly IHubContext<NotificationHub> _notiHubContext;
+        public static TaskCompletionSource<bool> StartupCompleted = new();
 
         public CloudflareStreamMonitor(
             IServiceScopeFactory scopeFactory,
@@ -38,6 +41,8 @@ namespace School_TV_Show.HostedService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            StartupCompleted.TrySetResult(true);
+
             _logger.LogInformation("📡 CloudflareStreamMonitor started.");
             var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
@@ -63,6 +68,12 @@ namespace School_TV_Show.HostedService
                             await MarkVideoAsLiveAsync(uid, video, scope, localNow);
                             await MarkScheduleAsLiveAsync(video, scope, localNow);
                             _logger.LogInformation("Stream is starting!");
+                        }
+
+                        if(video.Status && video.StreamAt <= localNow)
+                        {
+                            await MarkVideoAsLiveAsync(null, video, scope, localNow);
+                            await MarkScheduleAsLiveAsync(video, scope, localNow);
                         }
                     }
 
@@ -162,7 +173,11 @@ namespace School_TV_Show.HostedService
 
             video.Type = "Live";
             video.UpdatedAt = now;
-            video.MP4Url = $"https://customer-nohgu8m8j4ms2pjk.cloudflarestream.com/{uid}/downloads/default.mp4";
+            
+            if(!string.IsNullOrEmpty(uid))
+            {
+                video.MP4Url = $"https://customer-nohgu8m8j4ms2pjk.cloudflarestream.com/{uid}/downloads/default.mp4";
+            }
 
             await videoRepo.UpdateVideoAsync(video);
             _logger.LogInformation($"✅ Marked VideoID {video.VideoHistoryID} as Live");
@@ -213,12 +228,53 @@ namespace School_TV_Show.HostedService
         {
             var scheduleRepo = scope.ServiceProvider.GetRequiredService<IScheduleRepo>();
             var liveStreamService = scope.ServiceProvider.GetRequiredService<ILiveStreamService>();
+            var liveStreamRepo = scope.ServiceProvider.GetRequiredService<ILiveStreamRepo>();
+            var packageRepo = scope.ServiceProvider.GetRequiredService<IPackageRepo>();
+            var accountPackageRepo = scope.ServiceProvider.GetRequiredService<IAccountPackageRepo>();
 
             if (video.ProgramID == null) return;
 
             var schedule = await scheduleRepo.GetActiveScheduleByProgramIdAsync(video.ProgramID.Value);
 
             if (schedule == null || schedule.LiveStreamEnded || schedule.EndTime > now) return;
+
+            if(video.Status && video.Duration > 0 && video.StreamAt.HasValue)
+            {
+                DateTime end = video.StreamAt.Value.AddSeconds(video.Duration.Value);
+                if(now >= end)
+                {
+                    video.Type = "Recorded";
+                    video.UpdatedAt = now;
+                    var updated = await liveStreamRepo.UpdateVideoHistoryAsync(video);
+
+                    if (video.ProgramID != null)
+                    {
+                        var accountPackage = await packageRepo.GetCurrentPackageAndDurationByProgramIdAsync(video.ProgramID.Value);
+                        if (accountPackage != null)
+                        {
+                            accountPackage.MinutesUsed += (video.Duration.Value / 60.0);
+                            accountPackage.RemainingMinutes = accountPackage.TotalMinutesAllowed - accountPackage.MinutesUsed;
+                            await accountPackageRepo.UpdateAccountPackageAsync(accountPackage);
+
+                            _logger.LogInformation($"Updated account package - Minutes used: {accountPackage.MinutesUsed}, Remaining: {accountPackage.RemainingMinutes}");
+                        }
+                    }
+
+                    schedule.LiveStreamEnded = true;
+                    schedule.Status = "EndedEarly";
+                    schedule.VideoHistoryID = video.VideoHistoryID;
+                    await scheduleRepo.UpdateScheduleAsync(schedule);
+
+                    await _hubContext.Clients.All.SendAsync("StreamEnded", new
+                    {
+                        scheduleId = schedule.ScheduleID,
+                        videoId = video.VideoHistoryID
+                    });
+
+                    Console.WriteLine($"✅ Ended overdue schedule stream: ProgramID {schedule.ProgramID}");
+                }
+                return;
+            }
 
             var success = await liveStreamService.EndStreamAndReturnLinksAsync(video);
             if (success)

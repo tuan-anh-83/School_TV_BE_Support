@@ -32,5 +32,7 @@ namespace Repos
         Task<double> GetTotalWatchTimeByChannelAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
         Task<decimal> GetWatchTimeComparisonPercentAsync(int channelId, DateTimeOffset startDate, DateTimeOffset endDate);
         Task<List<VideoHistory>> GetAllVideosByChannelAsync(int channelId);
+        Task<List<VideoHistory>> GetUpcomingVideosWithoutDownloadUrlAsync();
+        Task<bool> UpdateMp4UrlAsync(int videoId, string mp4Url);
     }
 }

@@ -248,6 +248,12 @@ namespace BLL.Services.LiveStream.Implements
                                 _logger.LogWarning("Failed to create stream URL for ScheduleID {ScheduleID}", schedule.ScheduleID);
                             }
                         }
+                        else
+                        {
+                            existingVideo.Type = "Ready";
+                            existingVideo.UpdatedAt = localNow;
+                            await repository.UpdateVideoHistoryAsync(existingVideo);
+                        }
                     }
 
                     var liveSchedules = await repository.GetLiveSchedulesAsync();

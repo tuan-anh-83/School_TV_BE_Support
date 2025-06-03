@@ -106,6 +106,7 @@ namespace Services
 
                 var requestContent = new MultipartFormDataContent();
                 requestContent.Add(new StreamContent(stream), "file", file.FileName);
+                requestContent.Add(new StringContent("{\"downloadable\":true}", Encoding.UTF8, "application/json"), "meta");
 
                 var uploadUrl = $"https://api.cloudflare.com/client/v4/accounts/{_cloudflareSettings.AccountId}/stream";
                 var response = await httpClient.PostAsync(uploadUrl, requestContent);
@@ -120,7 +121,6 @@ namespace Services
                 videoHistory.CloudflareStreamId = uid;
                 videoHistory.URL = $"rtmps://live.cloudflare.com:443/live";
                 videoHistory.PlaybackUrl = $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{uid}/iframe";
-                videoHistory.MP4Url = $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{uid}/downloads/default.mp4";
 
                 double? duration = null;
                 for (int i = 0; i < 5; i++)

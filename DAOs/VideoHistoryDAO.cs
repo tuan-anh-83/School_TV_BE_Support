@@ -105,6 +105,26 @@ namespace DAOs
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public async Task<bool> UpdateMp4UrlAsync(int videoId, string mp4Url)
+        {
+            var video = await _context.VideoHistories
+                .Include(v => v.Schedules)
+                .AsTracking() // optional, default
+                .FirstOrDefaultAsync(v => v.VideoHistoryID == videoId);
+
+            if (video == null) return false;
+
+            var schedule = video.Schedules.Where(s => s.Status == "Ready").FirstOrDefault();
+
+            if (video.Type == "Pending" && schedule != null)
+            {
+                video.Type = "Ready";
+            }
+
+            video.MP4Url = mp4Url;
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         public async Task<bool> DeleteVideoAsync(int id)
         {
             var video = await _context.VideoHistories.FindAsync(id);
@@ -242,6 +262,14 @@ namespace DAOs
                 .Include(v => v.VideoViews)
                 .Include(v => v.Comments)
                 .Where(v => v.Program.SchoolChannelID == channelId)
+                .ToListAsync();
+        }
+
+        public async Task<List<VideoHistory>> GetUpcomingVideosWithoutDownloadUrlAsync()
+        {
+            DateTime now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
+            return await _context.VideoHistories.AsNoTracking()
+                .Where(v => v.Status && string.IsNullOrEmpty(v.MP4Url) && v.StreamAt > now)
                 .ToListAsync();
         }
     }

@@ -124,5 +124,15 @@ namespace Repos
         {
             return await VideoHistoryDAO.Instance.GetAllVideosByChannelAsync(channelId);
         }
+
+        public async Task<List<VideoHistory>> GetUpcomingVideosWithoutDownloadUrlAsync()
+        {
+            return await VideoHistoryDAO.Instance.GetUpcomingVideosWithoutDownloadUrlAsync();
+        }
+
+        public async Task<bool> UpdateMp4UrlAsync(int videoId, string mp4Url)
+        {
+            return await VideoHistoryDAO.Instance.UpdateMp4UrlAsync(videoId, mp4Url);
+        }
     }
 }
