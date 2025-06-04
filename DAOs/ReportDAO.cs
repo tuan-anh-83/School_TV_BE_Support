@@ -32,6 +32,7 @@ namespace DAOs
             return await _context.Reports.AsNoTracking()
                 .Include(r => r.Account)
                 .Include(r => r.VideoHistory)
+                .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync();
         }
 

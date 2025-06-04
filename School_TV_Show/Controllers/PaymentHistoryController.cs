@@ -32,8 +32,11 @@ namespace School_TV_Show.Controllers
                     ph.Payment.Order.Account.Username,
                     ph.Payment.Order.Account.Fullname,
                     RoleName = ph.Payment.Order.Account.Role?.RoleName
-                }
-            });
+                },
+                Package = ph.Payment?.Order.OrderDetails
+                    .Select(od => od.Package.Name)
+                    .FirstOrDefault()
+                });
             return Ok(result);
         }
 

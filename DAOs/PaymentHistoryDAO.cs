@@ -1,11 +1,6 @@
 ﻿using BOs.Data;
 using BOs.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAOs
 {
@@ -69,6 +64,10 @@ namespace DAOs
         {
             return await _context.PaymentHistories
                 .AsNoTracking()
+                .Include(ph => ph.Payment)
+                    .ThenInclude(p => p.Order)
+                        .ThenInclude(o => o.OrderDetails)
+                            .ThenInclude(od => od.Package)
                 .Include(ph => ph.Payment)
                     .ThenInclude(p => p.Order)
                         .ThenInclude(o => o.Account)
