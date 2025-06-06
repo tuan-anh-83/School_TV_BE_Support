@@ -9,6 +9,7 @@ using School_TV_Show.Helpers;
 using Services;
 using Services.Hubs;
 using System.Globalization;
+using System.IO;
 using System.Security.Claims;
 
 namespace School_TV_Show.Controllers
@@ -27,6 +28,7 @@ namespace School_TV_Show.Controllers
         private readonly IScheduleService _scheduleService;
         private readonly IProgramService _programService;
         private readonly IPackageService _packageService;
+        private readonly IAccountPackageService _accountPackageService;
         TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         public VideoHistoryController(
@@ -39,7 +41,8 @@ namespace School_TV_Show.Controllers
             IFollowRepo schoolChannelFollowRepository,
             IScheduleService scheduleService,
             IProgramService programService,
-            IPackageService packageService
+            IPackageService packageService,
+            IAccountPackageService accountPackageService
         )
         {
             _videoService = videoService;
@@ -52,6 +55,7 @@ namespace School_TV_Show.Controllers
             _scheduleService = scheduleService;
             _programService = programService;
             _packageService = packageService;
+            _accountPackageService = accountPackageService;
         }
 
         [HttpGet("all")]
@@ -256,6 +260,17 @@ namespace School_TV_Show.Controllers
                 };
 
                 await _scheduleService.CreateScheduleAsync(schedule);
+
+                // Update account package with minutes used
+                var accountPackage = await _packageService.GetCurrentPackageAndDurationByProgramIdAsync(programResult.ProgramID);
+                if (accountPackage != null && result.Duration.HasValue)
+                {
+                    accountPackage.MinutesUsed += result.Duration.Value / 60.0;
+                    accountPackage.RemainingMinutes = accountPackage.TotalMinutesAllowed - accountPackage.MinutesUsed;
+                    await _accountPackageService.UpdateAccountPackageAsync(accountPackage);
+
+                    _logger.LogInformation($"Updated account package - Minutes used: {accountPackage.MinutesUsed}, Remaining: {accountPackage.RemainingMinutes}");
+                }
             }
 
             return Ok(new
