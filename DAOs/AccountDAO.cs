@@ -1,12 +1,6 @@
-﻿using BCrypt.Net;
-using BOs.Data;
+﻿using BOs.Data;
 using BOs.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAOs
 {
@@ -14,6 +8,7 @@ namespace DAOs
     {
         private static AccountDAO instance = null;
         private readonly DataContext _context;
+        private readonly TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 
         private AccountDAO()
         {
@@ -32,7 +27,7 @@ namespace DAOs
             }
         }
 
-        
+
         public async Task<Account?> GetAccountByUsernameAsync(string username)
         {
             return await _context.Accounts
@@ -91,7 +86,7 @@ namespace DAOs
                     existingAccount.PhoneNumber = account.PhoneNumber;
                     existingAccount.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
                     existingAccount.Status = "Pending";
-                    existingAccount.UpdatedAt = DateTime.UtcNow;
+                    existingAccount.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
 
                     _context.Accounts.Update(existingAccount);
                     return await _context.SaveChangesAsync() > 0;
@@ -125,25 +120,25 @@ namespace DAOs
                 existingAccount.Username = account.Username;
                 hasChanges = true;
             }
-            
+
             if (!string.IsNullOrEmpty(account.Email) && !account.Email.Equals(existingAccount.Email))
             {
                 existingAccount.Email = account.Email;
                 hasChanges = true;
             }
-                
+
             if (!string.IsNullOrEmpty(account.Fullname) && !account.Fullname.Equals(existingAccount.Fullname))
             {
                 existingAccount.Fullname = account.Fullname;
                 hasChanges = true;
             }
-                
+
             if (account.Address != null && !account.Address.Equals(existingAccount.Address))
             {
                 existingAccount.Address = account.Address;
                 hasChanges = true;
             }
-                
+
             if (!string.IsNullOrEmpty(account.PhoneNumber) && !account.PhoneNumber.Equals(existingAccount.PhoneNumber))
             {
                 existingAccount.PhoneNumber = account.PhoneNumber;
@@ -181,7 +176,7 @@ namespace DAOs
                 existingAccount.Status = account.Status;
                 hasChanges = true;
             }
-            
+
             // Always update UpdatedAt when there are changes
             if (hasChanges)
             {
@@ -241,7 +236,7 @@ namespace DAOs
 
             // Cập nhật trạng thái và thời gian cập nhật
             account.Status = status;
-            account.UpdatedAt = DateTime.UtcNow;
+            account.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
 
             // Gọi hàm cập nhật thực tế
             return await UpdateAccountAsync(account);
@@ -254,7 +249,7 @@ namespace DAOs
                 AccountID = accountId,
                 Token = token,
                 Expiration = expiration,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
             };
 
             _context.PasswordResetTokens.Add(resetToken);
@@ -266,7 +261,7 @@ namespace DAOs
             var resetToken = await _context.PasswordResetTokens.AsNoTracking()
         .FirstOrDefaultAsync(t => t.AccountID == accountId && t.Token == token);
 
-            return resetToken != null && resetToken.Expiration >= DateTime.UtcNow;
+            return resetToken != null && resetToken.Expiration >= TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
         }
 
         public async Task InvalidatePasswordResetTokenAsync(int accountId, string token)
@@ -276,15 +271,28 @@ namespace DAOs
 
             if (resetToken != null)
             {
-                _context.PasswordResetTokens.Remove(resetToken);
+                var trackedEntity = _context.PasswordResetTokens.Local
+                    .FirstOrDefault(e => e.PasswordResetTokenID == resetToken.PasswordResetTokenID);
+
+                if (trackedEntity != null)
+                {
+                    _context.PasswordResetTokens.Remove(trackedEntity);
+                }
+                else
+                {
+                    _context.PasswordResetTokens.Attach(resetToken);
+                    _context.PasswordResetTokens.Remove(resetToken);
+                }
+
                 await _context.SaveChangesAsync();
             }
         }
+
         public async Task<List<Account>> GetAllPendingSchoolOwnerAsync()
         {
             return await _context.Accounts.AsNoTracking()
             .Include(a => a.Role)
-                .Where(a => a.RoleID == 2 && a.Status.ToLower() == "pending") 
+                .Where(a => a.RoleID == 2 && a.Status.ToLower() == "pending")
                 .ToListAsync();
         }
 
