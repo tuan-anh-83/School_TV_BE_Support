@@ -2,13 +2,11 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Repos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Services.ClouflareDTO;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -151,17 +149,74 @@ namespace Services
             stream.Type = "Recorded";
             stream.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
 
-            var videosUrl = $"https://api.cloudflare.com/client/v4/accounts/{_cloudflareSettings.AccountId}/stream/live_inputs/{stream.CloudflareStreamId}/videos";
-            var response = await _httpClient.GetAsync(videosUrl);
-            if (!response.IsSuccessStatusCode) return false;
+            var stopSuccess = await EndLiveStreamAsync(stream);
+            if (!stopSuccess)
+            {
+                _logger.LogWarning($"Không thể dừng live input {stream.CloudflareStreamId}");
+                return false;
+            }
 
-            var json = await response.Content.ReadAsStringAsync();
-            var videoDetails = JsonSerializer.Deserialize<CloudflareVideoListResponse>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            var recorded = videoDetails?.Result?.FirstOrDefault();
-            if (recorded == null) return false;
+            CloudflareVideoResult? recorded = null;
+            int tryCount = 0;
+
+            while (recorded == null && tryCount < 10)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(10));
+
+                var videosUrl = $"https://api.cloudflare.com/client/v4/accounts/{_cloudflareSettings.AccountId}/stream/live_inputs/{stream.CloudflareStreamId}/videos";
+                var response = await _httpClient.GetAsync(videosUrl);
+                if (!response.IsSuccessStatusCode)
+                {
+                    tryCount++;
+                    continue;
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var videoDetails = JsonSerializer.Deserialize<CloudflareVideoListResponse>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                recorded = videoDetails?.Result?.FirstOrDefault();
+
+                tryCount++;
+            }
+
+            if (recorded == null)
+            {
+                _logger.LogWarning($"Không tìm thấy video sau khi kết thúc stream Cloudflare.");
+                return false;
+            }
 
             stream.PlaybackUrl = $"https://customer-{_cloudflareSettings.StreamDomain}.cloudflarestream.com/{recorded.Uid}/iframe";
-            stream.Duration = recorded.Duration;
+
+            var videoReady = false;
+            int waitCount = 0;
+
+            while (!videoReady && waitCount < 10)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(10));
+
+                var videoStatusUrl = $"https://api.cloudflare.com/client/v4/accounts/{_cloudflareSettings.AccountId}/stream/{recorded.Uid}";
+                var statusResp = await _httpClient.GetAsync(videoStatusUrl);
+
+                if (statusResp.IsSuccessStatusCode)
+                {
+                    var statusJson = await statusResp.Content.ReadAsStringAsync();
+                    var metaParsed = JsonSerializer.Deserialize<CloudflareMetadataResponse>(statusJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    if (metaParsed?.Result?.Status?.State == "ready")
+                    {
+                        videoReady = true;
+                        stream.Duration = metaParsed.Result.Duration;
+                        break;
+                    }
+                }
+
+                waitCount++;
+            }
+
+            if (!videoReady)
+            {
+                _logger.LogWarning($"Video {recorded.Uid} chưa sẵn sàng.");
+                return false;
+            }
 
             var downloadUrl = $"https://api.cloudflare.com/client/v4/accounts/{_cloudflareSettings.AccountId}/stream/{recorded.Uid}/downloads";
             var startDownload = await _httpClient.PostAsync(downloadUrl, null);
@@ -172,6 +227,7 @@ namespace Services
                 while (retry < 5)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(15));
+
                     var statusResp = await _httpClient.GetAsync(downloadUrl);
                     var statusJson = await statusResp.Content.ReadAsStringAsync();
                     var parsed = JsonSerializer.Deserialize<CloudflareDownloadStatusResponse>(statusJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
@@ -181,26 +237,26 @@ namespace Services
                         stream.MP4Url = parsed.Result.Default.Url;
                         break;
                     }
+
                     retry++;
                 }
             }
 
             var updated = await _repository.UpdateVideoHistoryAsync(stream);
 
-            if(stream.ProgramID != null)
+            if (stream.ProgramID != null)
             {
                 var accountPackage = await _packageRepo.GetCurrentPackageAndDurationByProgramIdAsync(stream.ProgramID.Value);
-                if(accountPackage != null && stream.Duration.HasValue)
+                if (accountPackage != null && stream.Duration.HasValue)
                 {
-                    accountPackage.MinutesUsed += (recorded.Duration / 60.0);
+                    accountPackage.MinutesUsed += (stream.Duration.Value / 60.0);
                     accountPackage.RemainingMinutes = accountPackage.TotalMinutesAllowed - accountPackage.MinutesUsed;
                     await _accountPackageRepo.UpdateAccountPackageAsync(accountPackage);
 
-                    _logger.LogInformation($"Updated account package - Minutes used: {accountPackage.MinutesUsed}, Remaining: {accountPackage.RemainingMinutes}");
+                    _logger.LogInformation($"Cập nhật gói - Đã dùng: {accountPackage.MinutesUsed}, Còn lại: {accountPackage.RemainingMinutes}");
                 }
             }
 
-            await EndLiveStreamAsync(stream);
             return updated;
         }
 
@@ -208,7 +264,16 @@ namespace Services
         {
             var deleteUrl = $"https://api.cloudflare.com/client/v4/accounts/{_cloudflareSettings.AccountId}/stream/live_inputs/{stream.CloudflareStreamId}";
             var response = await _httpClient.DeleteAsync(deleteUrl);
-            return response.IsSuccessStatusCode;
+
+            if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.NotFound)
+            {
+                _logger.LogInformation($"Live input {stream.CloudflareStreamId} đã được xóa hoặc không còn tồn tại.");
+                return true;
+            }
+
+            var body = await response.Content.ReadAsStringAsync();
+            _logger.LogError($"Lỗi khi xóa live input {stream.CloudflareStreamId}: {response.StatusCode} - {body}");
+            return false;
         }
 
         public async Task<bool> IsStreamLiveAsync(string cloudflareStreamId)

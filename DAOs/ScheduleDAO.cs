@@ -53,7 +53,7 @@ namespace DAOs
         {
             return await _context.Schedules
                 .AsNoTracking()
-                .Where(s => s.ProgramID == programId && !s.LiveStreamEnded)
+                .Where(s => s.ProgramID == programId && !s.LiveStreamEnded && s.Status == "Ready")
                 .OrderByDescending(s => s.StartTime)
                 .FirstOrDefaultAsync();
         }

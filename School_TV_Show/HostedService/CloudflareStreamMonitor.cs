@@ -99,7 +99,7 @@ namespace School_TV_Show.HostedService
                     await MarkScheduleLateStartAsync(scope, localNow);
                     await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken); // Wating for checking past time
 
-                    await CheckAndMarkEndedEarlySchedulesAsync(scope, localNow);
+/*                    await CheckAndMarkEndedEarlySchedulesAsync(scope, localNow);*/
                 }
                 catch (Exception ex)
                 {
@@ -230,7 +230,6 @@ namespace School_TV_Show.HostedService
             var liveStreamService = scope.ServiceProvider.GetRequiredService<ILiveStreamService>();
             var liveStreamRepo = scope.ServiceProvider.GetRequiredService<ILiveStreamRepo>();
             var packageRepo = scope.ServiceProvider.GetRequiredService<IPackageRepo>();
-            var accountPackageRepo = scope.ServiceProvider.GetRequiredService<IAccountPackageRepo>();
 
             if (video.ProgramID == null) return;
 
@@ -247,19 +246,6 @@ namespace School_TV_Show.HostedService
                     video.UpdatedAt = now;
                     var updated = await liveStreamRepo.UpdateVideoHistoryAsync(video);
 
-                    if (video.ProgramID != null)
-                    {
-                        var accountPackage = await packageRepo.GetCurrentPackageAndDurationByProgramIdAsync(video.ProgramID.Value);
-                        if (accountPackage != null)
-                        {
-                            accountPackage.MinutesUsed += (video.Duration.Value / 60.0);
-                            accountPackage.RemainingMinutes = accountPackage.TotalMinutesAllowed - accountPackage.MinutesUsed;
-                            await accountPackageRepo.UpdateAccountPackageAsync(accountPackage);
-
-                            _logger.LogInformation($"Updated account package - Minutes used: {accountPackage.MinutesUsed}, Remaining: {accountPackage.RemainingMinutes}");
-                        }
-                    }
-
                     schedule.LiveStreamEnded = true;
                     schedule.Status = "EndedEarly";
                     schedule.VideoHistoryID = video.VideoHistoryID;
@@ -272,6 +258,7 @@ namespace School_TV_Show.HostedService
                     });
 
                     Console.WriteLine($"✅ Ended overdue schedule stream: ProgramID {schedule.ProgramID}");
+                    _logger.LogInformation($"✅ Ended overdue schedule stream: ProgramID {schedule.ProgramID}");
                 }
                 return;
             }
